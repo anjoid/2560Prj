@@ -356,7 +356,7 @@ void main(void)
     long int sate_frequence;//
     unsigned long TunerFreq;
     float symbol_rate;    
-            
+    unsigned char cmd;        
         
     LNB_frequence =10750;//11300;      
     sate_frequence =11880; //92.2
@@ -384,9 +384,10 @@ void main(void)
     LED_OFF;
     delay_ms(500); */
     
-    tuner(TunerFreq,symbol_rate);
-    putchar1('C');
-    while (1)
+    //tuner(TunerFreq,symbol_rate);
+    putchar1('C'); 
+    
+    while (getchar1())
           {
            // Place your code here     
             putchar1('D');
@@ -396,34 +397,34 @@ void main(void)
             LED_OFF;
             delay_ms(1000);
             
-            if(lockinfo>0)      //1st one
-                LED_ON;
-            delay_ms(200);
-            LED_OFF;
-            delay_ms(200);
-            
-            if(lockinfo>1)      //2nd two
-                LED_ON;
-            delay_ms(200);
-            LED_OFF;
-            delay_ms(200);
-            
-            if(lockinfo>3)       //third four
-                LED_ON;
-            delay_ms(200);
-            LED_OFF;
-            delay_ms(200);     
-            
-            if(lockinfo>5)        //4th 8
-                LED_ON;
-            delay_ms(200);
-            LED_OFF;
-            delay_ms(200);
-            
-            LED_ON;
-            delay_ms(1000);
-            LED_OFF;
-            delay_ms(1000);    
+//            if(lockinfo>0)      //1st one
+//                LED_ON;
+//            delay_ms(200);
+//            LED_OFF;
+//            delay_ms(200);
+//            
+//            if(lockinfo>1)      //2nd two
+//                LED_ON;
+//            delay_ms(200);
+//            LED_OFF;
+//            delay_ms(200);
+//            
+//            if(lockinfo>3)       //third four
+//                LED_ON;
+//            delay_ms(200);
+//            LED_OFF;
+//            delay_ms(200);     
+//            
+//            if(lockinfo>5)        //4th 8
+//                LED_ON;
+//            delay_ms(200);
+//            LED_OFF;
+//            delay_ms(200);
+//            
+//            LED_ON;
+//            delay_ms(1000);
+//            LED_OFF;
+//            delay_ms(1000);    
             
             putchar1('A');
           }

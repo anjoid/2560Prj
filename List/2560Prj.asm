@@ -1150,7 +1150,7 @@ _tbl10_G103:
 _tbl16_G103:
 	.DB  0x0,0x10,0x0,0x1,0x10,0x0,0x1,0x0
 
-_0x2F:
+_0x17:
 	.DB  0x0
 _0x20045:
 	.DB  0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0
@@ -1164,7 +1164,7 @@ _0x2040000:
 __GLOBAL_INI_TBL:
 	.DW  0x01
 	.DW  0x04
-	.DW  _0x2F*2
+	.DW  _0x17*2
 
 	.DW  0x01
 	.DW  __seed_G102
@@ -1808,12 +1808,15 @@ _main:
 ; 0000 0177     LED_ON;
 	CBI  0xB,7
 ; 0000 0178     delay_ms(200);
+	LDI  R30,LOW(200)
+	LDI  R31,HIGH(200)
 	CALL SUBOPT_0x1
 ; 0000 0179     LED_OFF;
+	SBI  0xB,7
 ; 0000 017A     delay_ms(500);
 	LDI  R30,LOW(500)
 	LDI  R31,HIGH(500)
-	CALL SUBOPT_0x2
+	CALL SUBOPT_0x1
 ; 0000 017B     putchar1('A');
 	LDI  R30,LOW(65)
 	ST   -Y,R30
@@ -1828,16 +1831,16 @@ _main:
 ; 0000 0180     LED_OFF;
 ; 0000 0181     delay_ms(500); */
 ; 0000 0182 
-; 0000 0183     tuner(TunerFreq,symbol_rate);
-	CALL SUBOPT_0x3
-	CALL SUBOPT_0x3
-	RCALL _tuner
+; 0000 0183     //tuner(TunerFreq,symbol_rate);
 ; 0000 0184     putchar1('C');
 	LDI  R30,LOW(67)
 	ST   -Y,R30
 	CALL _putchar1
-; 0000 0185     while (1)
+; 0000 0185     while (getchar1())
 _0xF:
+	CALL _getchar1
+	CPI  R30,0
+	BREQ _0x11
 ; 0000 0186           {
 ; 0000 0187            // Place your code here
 ; 0000 0188             putchar1('D');
@@ -1848,72 +1851,44 @@ _0xF:
 ; 0000 018A             LED_ON;
 	CBI  0xB,7
 ; 0000 018B             delay_ms(1000);
-	CALL SUBOPT_0x4
+	LDI  R30,LOW(1000)
+	LDI  R31,HIGH(1000)
+	CALL SUBOPT_0x1
 ; 0000 018C             LED_OFF;
 	SBI  0xB,7
 ; 0000 018D             delay_ms(1000);
-	CALL SUBOPT_0x4
+	LDI  R30,LOW(1000)
+	LDI  R31,HIGH(1000)
+	CALL SUBOPT_0x1
 ; 0000 018E 
-; 0000 018F             if(lockinfo>0)      //1st one
-	LDI  R30,LOW(0)
-	CP   R30,R4
-	BRSH _0x16
-; 0000 0190                 LED_ON;
-	CBI  0xB,7
-; 0000 0191             delay_ms(200);
-_0x16:
-	CALL SUBOPT_0x1
-; 0000 0192             LED_OFF;
-; 0000 0193             delay_ms(200);
-	CALL SUBOPT_0x5
-; 0000 0194 
-; 0000 0195             if(lockinfo>1)      //2nd two
-	LDI  R30,LOW(1)
-	CP   R30,R4
-	BRSH _0x1B
-; 0000 0196                 LED_ON;
-	CBI  0xB,7
-; 0000 0197             delay_ms(200);
-_0x1B:
-	CALL SUBOPT_0x1
-; 0000 0198             LED_OFF;
-; 0000 0199             delay_ms(200);
-	CALL SUBOPT_0x5
-; 0000 019A 
-; 0000 019B             if(lockinfo>3)       //third four
-	LDI  R30,LOW(3)
-	CP   R30,R4
-	BRSH _0x20
-; 0000 019C                 LED_ON;
-	CBI  0xB,7
-; 0000 019D             delay_ms(200);
-_0x20:
-	CALL SUBOPT_0x1
-; 0000 019E             LED_OFF;
-; 0000 019F             delay_ms(200);
-	CALL SUBOPT_0x5
-; 0000 01A0 
-; 0000 01A1             if(lockinfo>5)        //4th 8
-	LDI  R30,LOW(5)
-	CP   R30,R4
-	BRSH _0x25
-; 0000 01A2                 LED_ON;
-	CBI  0xB,7
-; 0000 01A3             delay_ms(200);
-_0x25:
-	CALL SUBOPT_0x1
-; 0000 01A4             LED_OFF;
-; 0000 01A5             delay_ms(200);
-	CALL SUBOPT_0x5
-; 0000 01A6 
-; 0000 01A7             LED_ON;
-	CBI  0xB,7
-; 0000 01A8             delay_ms(1000);
-	CALL SUBOPT_0x4
-; 0000 01A9             LED_OFF;
-	SBI  0xB,7
-; 0000 01AA             delay_ms(1000);
-	CALL SUBOPT_0x4
+; 0000 018F //            if(lockinfo>0)      //1st one
+; 0000 0190 //                LED_ON;
+; 0000 0191 //            delay_ms(200);
+; 0000 0192 //            LED_OFF;
+; 0000 0193 //            delay_ms(200);
+; 0000 0194 //
+; 0000 0195 //            if(lockinfo>1)      //2nd two
+; 0000 0196 //                LED_ON;
+; 0000 0197 //            delay_ms(200);
+; 0000 0198 //            LED_OFF;
+; 0000 0199 //            delay_ms(200);
+; 0000 019A //
+; 0000 019B //            if(lockinfo>3)       //third four
+; 0000 019C //                LED_ON;
+; 0000 019D //            delay_ms(200);
+; 0000 019E //            LED_OFF;
+; 0000 019F //            delay_ms(200);
+; 0000 01A0 //
+; 0000 01A1 //            if(lockinfo>5)        //4th 8
+; 0000 01A2 //                LED_ON;
+; 0000 01A3 //            delay_ms(200);
+; 0000 01A4 //            LED_OFF;
+; 0000 01A5 //            delay_ms(200);
+; 0000 01A6 //
+; 0000 01A7 //            LED_ON;
+; 0000 01A8 //            delay_ms(1000);
+; 0000 01A9 //            LED_OFF;
+; 0000 01AA //            delay_ms(1000);
 ; 0000 01AB 
 ; 0000 01AC             putchar1('A');
 	LDI  R30,LOW(65)
@@ -1921,9 +1896,11 @@ _0x25:
 	CALL _putchar1
 ; 0000 01AD           }
 	RJMP _0xF
+_0x11:
 ; 0000 01AE }
-_0x2E:
-	RJMP _0x2E
+	ADIW R28,16
+_0x16:
+	RJMP _0x16
 ;#include "include.h"
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
@@ -1968,17 +1945,10 @@ _0x2E:
 ; 0001 001F {
 
 	.CSEG
-_TunerRst:
 ; 0001 0020 	PORTE.2=0;
-	CBI  0xE,2
 ; 0001 0021 	delay_ms(50);
-	LDI  R30,LOW(50)
-	LDI  R31,HIGH(50)
-	CALL SUBOPT_0x2
 ; 0001 0022 	PORTE.2=1;
-	SBI  0xE,2
 ; 0001 0023 }
-	RET
 ;
 ;
 ;
@@ -1988,22 +1958,13 @@ _TunerRst:
 ;***********************************/
 ;void i2c_sta(void)
 ; 0001 002C {
-_i2c_sta:
 ; 0001 002D 	DDRE |= 0x30;      //PE5 PE4(SCL SDA) as output
-	IN   R30,0xD
-	ORI  R30,LOW(0x30)
-	OUT  0xD,R30
 ; 0001 002E 	SDAH;
-	SBI  0xE,4
 ; 0001 002F 	SCLH;
-	CALL SUBOPT_0x6
 ; 0001 0030 	delay_us(4);
 ; 0001 0031 	SDAL;
-	CBI  0xE,4
 ; 0001 0032 	delay_us(2);
-	__DELAY_USB 11
 ; 0001 0033 }
-	RET
 ;
 ;/***********************************
 ;I2C结束位  SDA SCL设为输出
@@ -2011,14 +1972,10 @@ _i2c_sta:
 ;***********************************/
 ;void i2c_stp(void)
 ; 0001 003A {
-_i2c_stp:
 ; 0001 003B 	SCLH;
-	CALL SUBOPT_0x7
 ; 0001 003C 	delay_us(2);
 ; 0001 003D 	SDAL;
-	CBI  0xE,4
 ; 0001 003E }
-	RET
 ;
 ;
 ;/*****************************
@@ -2028,52 +1985,31 @@ _i2c_stp:
 ;******************************/
 ;char SDA_in(void)
 ; 0001 0047 {
-_SDA_in:
 ; 0001 0048 
 ; 0001 0049 DDRE &=0xEF;       //SDA  input
-	CBI  0xD,4
 ; 0001 004A PORTE |= 0x10;       //SDA pull-up
-	SBI  0xE,4
 ; 0001 004B delay_us(6);
-	__DELAY_USB 32
 ; 0001 004C SCLH;
-	CALL SUBOPT_0x7
 ; 0001 004D delay_us(2);
 ; 0001 004E if(PINE.4==0)
-	SBIC 0xC,4
-	RJMP _0x20013
 ; 0001 004F   {
 ; 0001 0050 //         temp_para++;
 ; 0001 0051 //         //printf("xiang ying: temp_para = %d\n",temp_para);
 ; 0001 0052   delay_us(2);
-	__DELAY_USB 11
 ; 0001 0053   SCLL;
-	CBI  0xE,5
 ; 0001 0054   DDRE |=0x10;          //SDA output
-	SBI  0xD,4
 ; 0001 0055   PORTE.4=1;            //SDA high
-	SBI  0xE,4
 ; 0001 0056    putchar1('&');
-	LDI  R30,LOW(38)
-	ST   -Y,R30
-	RCALL _putchar1
 ; 0001 0057   return 1;
-	LDI  R30,LOW(1)
-	RET
 ; 0001 0058   }
 ; 0001 0059 else
-_0x20013:
 ; 0001 005A 	{
 ; 0001 005B 	 //temp_para++;
 ; 0001 005C 	 //Tx0('X');
 ; 0001 005D 	 DDRE |=0x10;             //SDA output
-	SBI  0xD,4
 ; 0001 005E 	 return 0;
-	LDI  R30,LOW(0)
-	RET
 ; 0001 005F 	}
 ; 0001 0060 }
-	RET
 ;
 ;
 ;/**************************************
@@ -2081,74 +2017,39 @@ _0x20013:
 ;***************************************/
 ;char i2c_send(unsigned char data)
 ; 0001 0067 {
-_i2c_send:
 ; 0001 0068 	char i;
 ; 0001 0069 
 ; 0001 006A 	for(i=0;i<8;i++)
-	ST   -Y,R17
 ;	data -> Y+1
 ;	i -> R17
-	LDI  R17,LOW(0)
-_0x2001A:
-	CPI  R17,8
-	BRSH _0x2001B
 ; 0001 006B 	{
 ; 0001 006C         	SCLL;
-	CALL SUBOPT_0x8
 ; 0001 006D         	delay_us(4);
 ; 0001 006E         	if(data & 0x80)
-	LDD  R30,Y+1
-	ANDI R30,LOW(0x80)
-	BREQ _0x2001E
 ; 0001 006F         		SDAH;
-	SBI  0xE,4
 ; 0001 0070         	else
-	RJMP _0x20021
-_0x2001E:
 ; 0001 0071         		SDAL;
-	CBI  0xE,4
 ; 0001 0072         	data=(data<<1);
-_0x20021:
-	LDD  R30,Y+1
-	LSL  R30
-	STD  Y+1,R30
 ; 0001 0073 
 ; 0001 0074 
 ; 0001 0075         	delay_us(2);
-	__DELAY_USB 11
 ; 0001 0076         	SCLH;
-	CALL SUBOPT_0x6
 ; 0001 0077         	delay_us(4);
 ; 0001 0078 	}
-	SUBI R17,-1
-	RJMP _0x2001A
-_0x2001B:
 ; 0001 0079 	SCLL;
-	CBI  0xE,5
 ; 0001 007A 
 ; 0001 007B 	if(SDA_in()==1)
-	RCALL _SDA_in
-	CPI  R30,LOW(0x1)
-	BRNE _0x20028
 ; 0001 007C 		{
 ; 0001 007D 		delay_us(2);
-	__DELAY_USB 11
 ; 0001 007E 		//Tx0('P');
 ; 0001 007F                 lockinfo = 1;
-	LDI  R30,LOW(1)
-	MOV  R4,R30
 ; 0001 0080 		return 1;
-	RJMP _0x20A0001
 ; 0001 0081 		}
 ; 0001 0082 	else
-_0x20028:
 ; 0001 0083 		{
 ; 0001 0084 		delay_us(2);
-	__DELAY_USB 11
 ; 0001 0085 		lockinfo = 0;
-	CLR  R4
 ; 0001 0086 		return 0;
-	RJMP _0x20A0003
 ; 0001 0087 		}
 ; 0001 0088 
 ; 0001 0089 }
@@ -2157,63 +2058,33 @@ _0x20028:
 ;****************************************/
 ;unsigned char i2c_byte_read(void)
 ; 0001 008E {
-_i2c_byte_read:
 ; 0001 008F         unsigned char i,data;
 ; 0001 0090         data=0;
-	ST   -Y,R17
-	ST   -Y,R16
 ;	i -> R17
 ;	data -> R16
-	LDI  R16,LOW(0)
 ; 0001 0091         DDRE &=0xEF;       //SDA  input
-	CBI  0xD,4
 ; 0001 0092         PORTE |= 0x10;       //SDA pull-up
-	SBI  0xE,4
 ; 0001 0093         SCLL;
-	CBI  0xE,5
 ; 0001 0094         delay_us(3);
-	__DELAY_USB 16
 ; 0001 0095         for(i=0;i<8;i++)
-	LDI  R17,LOW(0)
-_0x2002D:
-	CPI  R17,8
-	BRSH _0x2002E
 ; 0001 0096         {
 ; 0001 0097                 SCLH;
-	CALL SUBOPT_0x7
 ; 0001 0098                 delay_us(2);
 ; 0001 0099                 data=data<<1;
-	LSL  R16
 ; 0001 009A                 data=(data |(PINE & 0x10));
-	IN   R30,0xC
-	ANDI R30,LOW(0x10)
-	OR   R16,R30
 ; 0001 009B                 delay_us(2);
-	__DELAY_USB 11
 ; 0001 009C 
 ; 0001 009D                 SCLL;
-	CALL SUBOPT_0x8
 ; 0001 009E                 delay_us(4);
 ; 0001 009F         }
-	SUBI R17,-1
-	RJMP _0x2002D
-_0x2002E:
 ; 0001 00A0         //data=(data |((PINE & 0x10)?1:0));
 ; 0001 00A1         DDRE.4=1;
-	SBI  0xD,4
 ; 0001 00A2         SDAL;
-	CBI  0xE,4
 ; 0001 00A3         SCLH;
-	CALL SUBOPT_0x6
 ; 0001 00A4         delay_us(4);
 ; 0001 00A5         SCLL;
-	CALL SUBOPT_0x8
 ; 0001 00A6         delay_us(4);
 ; 0001 00A7         return data;
-	MOV  R30,R16
-	LD   R16,Y+
-	LD   R17,Y+
-	RET
 ; 0001 00A8 
 ; 0001 00A9 }
 ;
@@ -2226,61 +2097,31 @@ _0x2002E:
 ;*******************************************************/
 ;char i2c_rd(unsigned char addr,unsigned char *ddata,unsigned char counter)
 ; 0001 00B3 {
-_i2c_rd:
 ; 0001 00B4  unsigned char i;
 ; 0001 00B5  unsigned char *pdata;
 ; 0001 00B6  i=counter;
-	CALL __SAVELOCR4
 ;	addr -> Y+7
 ;	*ddata -> Y+5
 ;	counter -> Y+4
 ;	i -> R17
 ;	*pdata -> R18,R19
-	LDD  R17,Y+4
 ; 0001 00B7  pdata=ddata;
-	__GETWRS 18,19,5
 ; 0001 00B8  i2c_sta();
-	RCALL _i2c_sta
 ; 0001 00B9  if(i2c_send(addr|0x01)==1)
-	LDD  R30,Y+7
-	ORI  R30,1
-	ST   -Y,R30
-	RCALL _i2c_send
-	CPI  R30,LOW(0x1)
-	BRNE _0x2003B
 ; 0001 00BA    {
 ; 0001 00BB          while(i)
-_0x2003C:
-	CPI  R17,0
-	BREQ _0x2003E
 ; 0001 00BC         	{
 ; 0001 00BD         		*pdata=i2c_byte_read();
-	RCALL _i2c_byte_read
-	MOVW R26,R18
-	ST   X,R30
 ; 0001 00BE         		pdata++;
-	__ADDWRN 18,19,1
 ; 0001 00BF         		i--;
-	SUBI R17,1
 ; 0001 00C0         	}
-	RJMP _0x2003C
-_0x2003E:
 ; 0001 00C1          i2c_stp();
-	RCALL _i2c_stp
 ; 0001 00C2          return 1;
-	LDI  R30,LOW(1)
-	RJMP _0x20A0008
 ; 0001 00C3     }
 ; 0001 00C4  else
-_0x2003B:
 ; 0001 00C5         return 0;
-	LDI  R30,LOW(0)
 ; 0001 00C6 
 ; 0001 00C7 }
-_0x20A0008:
-	CALL __LOADLOCR4
-	ADIW R28,8
-	RET
 ;/**********************************************
 ;发送一组字节到从机
 ;pointer to the first byte,number to be written
@@ -2288,54 +2129,20 @@ _0x20A0008:
 ;**********************************************/
 ;char i2c_tran(char *data,char num)
 ; 0001 00CE {
-_i2c_tran:
 ; 0001 00CF 	char i;
 ; 0001 00D0 	i2c_sta();
-	ST   -Y,R17
 ;	*data -> Y+2
 ;	num -> Y+1
 ;	i -> R17
-	RCALL _i2c_sta
 ; 0001 00D1 	for(i=0;i<num;i++)
-	LDI  R17,LOW(0)
-_0x20041:
-	LDD  R30,Y+1
-	CP   R17,R30
-	BRSH _0x20042
 ; 0001 00D2 	{
 ; 0001 00D3         	if(i2c_send(*data))
-	LDD  R26,Y+2
-	LDD  R27,Y+2+1
-	LD   R30,X
-	ST   -Y,R30
-	RCALL _i2c_send
-	CPI  R30,0
-	BREQ _0x20043
 ; 0001 00D4         		data++;
-	LDD  R30,Y+2
-	LDD  R31,Y+2+1
-	ADIW R30,1
-	STD  Y+2,R30
-	STD  Y+2+1,R31
 ; 0001 00D5         	else
-	RJMP _0x20044
-_0x20043:
 ; 0001 00D6         		return 0;
-	LDI  R30,LOW(0)
-	RJMP _0x20A0007
 ; 0001 00D7 	}
-_0x20044:
-	SUBI R17,-1
-	RJMP _0x20041
-_0x20042:
 ; 0001 00D8 	i2c_stp();
-	RCALL _i2c_stp
 ; 0001 00D9 	return 1;
-	LDI  R30,LOW(1)
-_0x20A0007:
-	LDD  R17,Y+0
-	ADIW R28,4
-	RET
 ; 0001 00DA 
 ; 0001 00DB }
 ;
@@ -2346,19 +2153,11 @@ _0x20A0007:
 ;*******************************/
 ;void EnableTunerOperation(void)
 ; 0001 00E3 {
-_EnableTunerOperation:
 ; 0001 00E4     unsigned char byte[3];
 ; 0001 00E5      byte[0]=0xD0;
-	SBIW R28,3
 ;	byte -> Y+0
-	LDI  R30,LOW(208)
-	ST   Y,R30
 ; 0001 00E6      byte[1]=0x01;
-	LDI  R30,LOW(1)
-	STD  Y+1,R30
 ; 0001 00E7      byte[2]=0xC0;
-	LDI  R30,LOW(192)
-	RJMP _0x20A0006
 ; 0001 00E8      i2c_tran(byte,3);
 ; 0001 00E9      ////printf("Enable Tuner Operation\n");
 ; 0001 00EA }
@@ -2368,34 +2167,20 @@ _EnableTunerOperation:
 ;*******************************/
 ;void DisableTunerOperation(void)
 ; 0001 00F0 {
-_DisableTunerOperation:
 ; 0001 00F1     unsigned char byte[3];
 ; 0001 00F2     byte[0]=0xD0;
-	SBIW R28,3
 ;	byte -> Y+0
-	LDI  R30,LOW(208)
-	ST   Y,R30
 ; 0001 00F3     byte[1]=0x01;
-	LDI  R30,LOW(1)
-	STD  Y+1,R30
 ; 0001 00F4     byte[2]=0x40;
-	LDI  R30,LOW(64)
-_0x20A0006:
-	STD  Y+2,R30
 ; 0001 00F5     i2c_tran(byte,3);
-	MOVW R30,R28
-	CALL SUBOPT_0x9
 ; 0001 00F6     ////printf("Disable Tuner Operation\n");
 ; 0001 00F7 }
-	ADIW R28,3
-	RET
 ;
 ;/******************************************************
 ;计算频率 将之转换为tuner初始化需要的字节数据,并写入芯片
 ;*******************************************************/
 ;unsigned char TFC(unsigned long _TunerFrequency) //TunerFrequencyCalculate  KHZ
 ; 0001 00FD {
-_TFC:
 ; 0001 00FE 
 ; 0001 00FF 	unsigned long long_tmp, TunerFrequency  ;
 ; 0001 0100 	unsigned int i;
@@ -2404,14 +2189,6 @@ _TFC:
 ; 0001 0103         //printf("TunerFreq %ld.\n",_TunerFrequency);
 ; 0001 0104 
 ; 0001 0105 	B[0] = 0xc0;
-	SBIW R28,24
-	LDI  R24,10
-	LDI  R26,LOW(6)
-	LDI  R27,HIGH(6)
-	LDI  R30,LOW(_0x20045*2)
-	LDI  R31,HIGH(_0x20045*2)
-	CALL __INITLOCB
-	CALL __SAVELOCR6
 ;	_TunerFrequency -> Y+30
 ;	long_tmp -> Y+26
 ;	TunerFrequency -> Y+22
@@ -2423,287 +2200,91 @@ _TFC:
 ;	pd3 -> Y+10
 ;	pd4 -> Y+8
 ;	pd5 -> Y+6
-	LDI  R30,LOW(192)
-	STD  Y+17,R30
 ; 0001 0106 	if ((_TunerFrequency>=900000)&&(_TunerFrequency<1170000)) 	//
-	CALL SUBOPT_0xA
-	__CPD2N 0xDBBA0
-	BRLO _0x20047
-	CALL SUBOPT_0xA
-	__CPD2N 0x11DA50
-	BRLO _0x20048
-_0x20047:
-	RJMP _0x20046
-_0x20048:
 ; 0001 0107 	{
 ; 0001 0108 		B[4]=0x0e;
-	LDI  R30,LOW(14)
-	STD  Y+21,R30
 ; 0001 0109 		for (i=0; i<3; i++)
-	__GETWRN 16,17,0
-_0x2004A:
-	__CPWRN 16,17,3
-	BRSH _0x2004B
 ; 0001 010A 		{
 ; 0001 010B 	        if (_TunerFrequency < LVCO_FREQS[i][1]) break;
-	MOVW R30,R16
-	CALL __LSLW3
-	SUBI R30,LOW(-_LVCO_FREQS*2)
-	SBCI R31,HIGH(-_LVCO_FREQS*2)
-	CALL SUBOPT_0xB
-	BRLO _0x2004B
 ; 0001 010C 		}
-	__ADDWRN 16,17,1
-	RJMP _0x2004A
-_0x2004B:
 ; 0001 010D 		i=i+0x05;
-	__ADDWRN 16,17,5
 ; 0001 010E 		i=i<<5;
-	RJMP _0x20070
 ; 0001 010F     		B[4]= B[4]+i;
 ; 0001 0110 	}
 ; 0001 0111 	else													//
-_0x20046:
 ; 0001 0112 	{
 ; 0001 0113 		B[4]=0x0c;
-	LDI  R30,LOW(12)
-	STD  Y+21,R30
 ; 0001 0114 		for (i=0; i<7; i++)
-	__GETWRN 16,17,0
-_0x2004F:
-	__CPWRN 16,17,7
-	BRSH _0x20050
 ; 0001 0115 		{
 ; 0001 0116 	        if (_TunerFrequency < HVCO_FREQS[i][1]) break;
-	MOVW R30,R16
-	CALL __LSLW3
-	SUBI R30,LOW(-_HVCO_FREQS*2)
-	SBCI R31,HIGH(-_HVCO_FREQS*2)
-	CALL SUBOPT_0xB
-	BRLO _0x20050
 ; 0001 0117 		}
-	__ADDWRN 16,17,1
-	RJMP _0x2004F
-_0x20050:
 ; 0001 0118 		i=i+0x01;
-	__ADDWRN 16,17,1
 ; 0001 0119 		i=i<<5;
-_0x20070:
-	MOVW R26,R16
-	LDI  R30,LOW(5)
-	CALL __LSLW12
-	MOVW R16,R30
 ; 0001 011A 		B[4]= B[4]+i;
-	MOV  R30,R16
-	LDD  R26,Y+21
-	ADD  R30,R26
-	STD  Y+21,R30
 ; 0001 011B 	}
 ; 0001 011C 	TunerFrequency = _TunerFrequency/500;
-	CALL SUBOPT_0xA
-	__GETD1N 0x1F4
-	CALL __DIVD21U
-	__PUTD1S 22
 ; 0001 011D 	long_tmp = TunerFrequency/32;
-	__GETD2S 22
-	__GETD1N 0x20
-	CALL __DIVD21U
-	__PUTD1S 26
 ; 0001 011E 	i = TunerFrequency%32;
-	__GETD1S 22
-	__ANDD1N 0x1F
-	MOVW R16,R30
 ; 0001 011F  	B[1] = (int)((long_tmp>>3)&0x000000ff);
-	__GETD2S 26
-	LDI  R30,LOW(3)
-	CALL __LSRD12
-	STD  Y+18,R30
 ; 0001 0120 	B[2] = (int)((long_tmp<<5)&0x000000ff);
-	LDD  R30,Y+26
-	SWAP R30
-	ANDI R30,0xF0
-	LSL  R30
-	STD  Y+19,R30
 ; 0001 0121 	B[2] = (int)(B[2] + i);
-	MOV  R30,R16
-	LDD  R26,Y+19
-	ADD  R30,R26
-	STD  Y+19,R30
 ; 0001 0122 	i=0;
-	__GETWRN 16,17,0
 ; 0001 0123 	////printf("TFC byte1~5:0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
 ; 0001 0124     do
-_0x20053:
 ; 0001 0125       {
 ; 0001 0126 //             temp_para = 0;
 ; 0001 0127 // 	    //printf("the cation of i2c acknowlede in function TFC\n");
 ; 0001 0128 	    temp[0] = B[0];
-	LDD  R30,Y+17
-	STD  Y+12,R30
 ; 0001 0129 	    temp[1] = B[1];
-	LDD  R30,Y+18
-	STD  Y+13,R30
 ; 0001 012A 	    temp[2] = B[2];
-	LDD  R30,Y+19
-	STD  Y+14,R30
 ; 0001 012B 	    temp[4] = B[4];
-	LDD  R30,Y+21
-	STD  Y+16,R30
 ; 0001 012C 
 ; 0001 012D             temp[3] = 0xe1;
-	LDI  R30,LOW(225)
-	STD  Y+15,R30
 ; 0001 012E             temp[4] = B[4] & 0xf3;
-	LDD  R30,Y+21
-	ANDI R30,LOW(0xF3)
-	STD  Y+16,R30
 ; 0001 012F //             //printf("B1. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
 ; 0001 0130              ////printf("temp1. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",temp[0],temp[1],temp[2],temp[3],temp[4]);
 ; 0001 0131 
 ; 0001 0132             EnableTunerOperation();
-	RCALL _EnableTunerOperation
 ; 0001 0133             i2c_tran(temp,5);                   //write byte1 byte2 byte3 byte4 byte5
-	MOVW R30,R28
-	ADIW R30,12
-	ST   -Y,R31
-	ST   -Y,R30
-	CALL SUBOPT_0xC
 ; 0001 0134             //DisableTunerOperation();
 ; 0001 0135 
 ; 0001 0136             temp[1] = temp[3] | 0x04;
-	LDD  R30,Y+15
-	ORI  R30,4
-	STD  Y+13,R30
 ; 0001 0137             // //printf("temp2. byte1,4  0x%x,0x%x\n",temp[0],temp[1]);
 ; 0001 0138             //EnableTunerOperation();
 ; 0001 0139             i2c_tran(temp,2);           //write byte1 byte4
-	MOVW R30,R28
-	ADIW R30,12
-	ST   -Y,R31
-	ST   -Y,R30
-	CALL SUBOPT_0xD
 ; 0001 013A             //DisableTunerOperation();
 ; 0001 013B             delay_ms(10);
-	LDI  R30,LOW(10)
-	LDI  R31,HIGH(10)
-	CALL SUBOPT_0x2
 ; 0001 013C 
 ; 0001 013D             B[3] = 0xfd;
-	LDI  R30,LOW(253)
-	STD  Y+20,R30
 ; 0001 013E             ddata =  (30000/1000)/2 - 2;
-	__GETWRN 18,19,13
 ; 0001 013F             pd2 = (ddata>>1)&0x04	;
-	MOVW R30,R18
-	LSR  R31
-	ROR  R30
-	ANDI R30,LOW(0x4)
-	ANDI R31,HIGH(0x4)
-	MOVW R20,R30
 ; 0001 0140             pd3 = (ddata<<1)&0x08	;
-	MOVW R30,R18
-	LSL  R30
-	ROL  R31
-	ANDI R30,LOW(0x8)
-	ANDI R31,HIGH(0x8)
-	STD  Y+10,R30
-	STD  Y+10+1,R31
 ; 0001 0141             pd4 = (ddata<<2)&0x08	;
-	MOVW R30,R18
-	CALL __LSLW2
-	ANDI R30,LOW(0x8)
-	ANDI R31,HIGH(0x8)
-	STD  Y+8,R30
-	STD  Y+8+1,R31
 ; 0001 0142             pd5 = (ddata<<4)&0x10	;
-	MOVW R30,R18
-	CALL __LSLW4
-	ANDI R30,LOW(0x10)
-	ANDI R31,HIGH(0x10)
-	STD  Y+6,R30
-	STD  Y+6+1,R31
 ; 0001 0143             B[3] &= 0xE7	;
-	MOVW R26,R28
-	ADIW R26,20
-	LD   R30,X
-	ANDI R30,LOW(0xE7)
-	ST   X,R30
 ; 0001 0144             B[4] &= 0xF3	;
-	MOVW R26,R28
-	ADIW R26,21
-	LD   R30,X
-	ANDI R30,LOW(0xF3)
-	ST   X,R30
 ; 0001 0145             B[3] |= (pd5|pd4)	;
-	MOVW R30,R28
-	ADIW R30,20
-	MOVW R22,R30
-	LD   R0,Z
-	LDD  R30,Y+8
-	LDD  R26,Y+6
-	OR   R30,R26
-	OR   R30,R0
-	MOVW R26,R22
-	ST   X,R30
 ; 0001 0146             B[4] |= (pd3|pd2)	;
-	MOVW R30,R28
-	ADIW R30,21
-	MOVW R22,R30
-	LD   R0,Z
-	MOV  R30,R20
-	LDD  R26,Y+10
-	OR   R30,R26
-	OR   R30,R0
-	MOVW R26,R22
-	ST   X,R30
 ; 0001 0147 
 ; 0001 0148 //             //printf("B2. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
 ; 0001 0149 
 ; 0001 014A             temp[1] = B[3] | 0x04;
-	LDD  R30,Y+20
-	ORI  R30,4
-	STD  Y+13,R30
 ; 0001 014B             temp[2] = B[4];
-	LDD  R30,Y+21
-	STD  Y+14,R30
 ; 0001 014C             // //printf("temp3. byte1,4,5  0x%x,0x%x,0x%x\n",temp[0],temp[1],temp[2]);
 ; 0001 014D             //EnableTunerOperation();
 ; 0001 014E             i2c_tran(temp,3);                   //write byte1 byte4 byte5
-	MOVW R30,R28
-	ADIW R30,12
-	CALL SUBOPT_0x9
 ; 0001 014F             DisableTunerOperation();
-	RCALL _DisableTunerOperation
 ; 0001 0150 
 ; 0001 0151             delay_ms(1);
-	LDI  R30,LOW(1)
-	LDI  R31,HIGH(1)
-	CALL SUBOPT_0x2
 ; 0001 0152             i++;
-	__ADDWRN 16,17,1
 ; 0001 0153             if(pll_lk())
-	RCALL _pll_lk
-	CPI  R30,0
-	BREQ _0x20055
 ; 0001 0154             {
 ; 0001 0155                 //printf("TunerFrequency Calculate & set Success! \n");
 ; 0001 0156                 return 1;
-	LDI  R30,LOW(1)
-	RJMP _0x20A0005
 ; 0001 0157             }
 ; 0001 0158         }while(i < 4);
-_0x20055:
-	__CPWRN 16,17,4
-	BRSH _0x20054
-	RJMP _0x20053
-_0x20054:
 ; 0001 0159         //printf("TunerFrequency Calculate & set Failed!\n");
 ; 0001 015A         return 0;
-	LDI  R30,LOW(0)
-_0x20A0005:
-	CALL __LOADLOCR6
-	ADIW R28,34
-	RET
 ; 0001 015B }
 ;
 ;
@@ -2712,7 +2293,6 @@ _0x20A0005:
 ;***************************/
 ;void STV0288Init(void)
 ; 0001 0162 {
-_STV0288Init:
 ; 0001 0163  unsigned char byte[10];  //i = 0;
 ; 0001 0164  unsigned char *pointer;
 ; 0001 0165 
@@ -2720,17 +2300,9 @@ _STV0288Init:
 ; 0001 0167         // //printf("the cation of i2c acknowlede in function STV0288Init\n");
 ; 0001 0168 
 ; 0001 0169         byte[0]=0xD0;
-	SBIW R28,10
-	ST   -Y,R17
-	ST   -Y,R16
 ;	byte -> Y+2
 ;	*pointer -> R16,R17
-	LDI  R30,LOW(208)
-	STD  Y+2,R30
 ; 0001 016A         pointer= &byte[0];
-	MOVW R30,R28
-	ADIW R30,2
-	MOVW R16,R30
 ; 0001 016B 
 ; 0001 016C         /********************************
 ; 0001 016D         set clock
@@ -2738,20 +2310,13 @@ _STV0288Init:
 ; 0001 016F         clock inputfrom CLKI,Fmclk=4M*PLL_DIV/4=100M
 ; 0001 0170         ********************************/
 ; 0001 0171         byte[1]= 0x40;
-	LDI  R30,LOW(64)
-	STD  Y+3,R30
 ; 0001 0172         byte[2]= 0x64;             //PLLCTRL
-	LDI  R30,LOW(100)
-	STD  Y+4,R30
 ; 0001 0173         byte[3]= 0x04;             //SYNTCTRL
-	LDI  R30,LOW(4)
-	CALL SUBOPT_0xE
 ; 0001 0174         i2c_tran(pointer,4);
 ; 0001 0175 
 ; 0001 0176 
 ; 0001 0177 
 ; 0001 0178         byte[1]=0x02;                 //ACR
-	CALL SUBOPT_0xF
 ; 0001 0179         byte[2]=0x20;
 ; 0001 017A         i2c_tran(pointer,3);
 ; 0001 017B 
@@ -2762,11 +2327,7 @@ _STV0288Init:
 ; 0001 0180         set register about AGC
 ; 0001 0181         **********************/
 ; 0001 0182         byte[1]=0x0F;
-	LDI  R30,LOW(15)
-	STD  Y+3,R30
 ; 0001 0183         byte[2]=0x54;               //AGC1REF
-	LDI  R30,LOW(84)
-	CALL SUBOPT_0x10
 ; 0001 0184         i2c_tran(pointer,3);
 ; 0001 0185         ////printf("AGC1REF*");
 ; 0001 0186         /*******************************
@@ -2774,21 +2335,12 @@ _STV0288Init:
 ; 0001 0188         ********************************/
 ; 0001 0189 
 ; 0001 018A         byte[1]=0x11;
-	LDI  R30,LOW(17)
-	STD  Y+3,R30
 ; 0001 018B         byte[2]=0x7a;                 //RTC
-	LDI  R30,LOW(122)
-	CALL SUBOPT_0x10
 ; 0001 018C         i2c_tran(pointer,3);
 ; 0001 018D         ////printf("RTC*");
 ; 0001 018E         byte[1]=0x22;
-	LDI  R30,LOW(34)
-	STD  Y+3,R30
 ; 0001 018F         byte[2]=0x00;               //RTFM
-	LDI  R30,LOW(0)
-	STD  Y+4,R30
 ; 0001 0190         byte[3]=0x00;               //RTFL
-	CALL SUBOPT_0xE
 ; 0001 0191         i2c_tran(pointer,4);
 ; 0001 0192         ////printf("RTF*");
 ; 0001 0193 
@@ -2797,54 +2349,28 @@ _STV0288Init:
 ; 0001 0196         **********************************************/
 ; 0001 0197 
 ; 0001 0198         byte[1]=0x1b;
-	LDI  R30,LOW(27)
-	STD  Y+3,R30
 ; 0001 0199         byte[2]=0x8f;                    //DACR1
-	LDI  R30,LOW(143)
-	STD  Y+4,R30
 ; 0001 019A         byte[3]=0xf0;               //DACR2
-	LDI  R30,LOW(240)
-	CALL SUBOPT_0xE
 ; 0001 019B         i2c_tran(pointer,4);
 ; 0001 019C         ////printf("DACR*");
 ; 0001 019D         /*******************************
 ; 0001 019E         set register about carrier loop
 ; 0001 019F         ********************************/
 ; 0001 01A0         byte[1]=0x15;
-	LDI  R30,LOW(21)
-	STD  Y+3,R30
 ; 0001 01A1         byte[2]=0xf7;                   //CFD
-	LDI  R30,LOW(247)
-	STD  Y+4,R30
 ; 0001 01A2         byte[3]=0x88;                 //ACLC
-	LDI  R30,LOW(136)
-	STD  Y+5,R30
 ; 0001 01A3         byte[4]=0x58;                 //BCLC
-	LDI  R30,LOW(88)
-	CALL SUBOPT_0x11
 ; 0001 01A4         i2c_tran(pointer,5);
 ; 0001 01A5 
 ; 0001 01A6 
 ; 0001 01A7         byte[1]=0x19;
-	LDI  R30,LOW(25)
-	STD  Y+3,R30
 ; 0001 01A8         byte[2]=0xa6;                   //LDT
-	LDI  R30,LOW(166)
-	STD  Y+4,R30
 ; 0001 01A9         byte[3]=0x88;                 //LDT2
-	LDI  R30,LOW(136)
-	CALL SUBOPT_0xE
 ; 0001 01AA         i2c_tran(pointer,4);
 ; 0001 01AB 
 ; 0001 01AC         byte[1]=0x2B;
-	LDI  R30,LOW(43)
-	STD  Y+3,R30
 ; 0001 01AD         byte[2]=0xFF;                   //CFRM
-	LDI  R30,LOW(255)
-	STD  Y+4,R30
 ; 0001 01AE         byte[3]=0xF7;                 //CFRL
-	LDI  R30,LOW(247)
-	CALL SUBOPT_0xE
 ; 0001 01AF         i2c_tran(pointer,4);
 ; 0001 01B0 
 ; 0001 01B1 
@@ -2852,17 +2378,9 @@ _STV0288Init:
 ; 0001 01B3         set register about FEC and SYNC
 ; 0001 01B4         ********************************/
 ; 0001 01B5         byte[1]=0x37;
-	LDI  R30,LOW(55)
-	STD  Y+3,R30
 ; 0001 01B6         byte[2]=0x2f;                   //PR
-	LDI  R30,LOW(47)
-	STD  Y+4,R30
 ; 0001 01B7         byte[3]=0x16;                 //VSEARCH
-	LDI  R30,LOW(22)
-	STD  Y+5,R30
 ; 0001 01B8         byte[4]=0xbd;                 //RS
-	LDI  R30,LOW(189)
-	CALL SUBOPT_0x11
 ; 0001 01B9         i2c_tran(pointer,5);
 ; 0001 01BA 
 ; 0001 01BB         // byte[1]=0x3B;
@@ -2872,15 +2390,10 @@ _STV0288Init:
 ; 0001 01BF         // i2c_tran(pointer,5);
 ; 0001 01C0 
 ; 0001 01C1         byte[1]=0x3c;
-	LDI  R30,LOW(60)
-	STD  Y+3,R30
 ; 0001 01C2         byte[2]=0x12;                 //VITPROG
-	LDI  R30,LOW(18)
-	CALL SUBOPT_0x10
 ; 0001 01C3         i2c_tran(pointer,3);
 ; 0001 01C4 
 ; 0001 01C5         byte[1]=0x02;         //ACR
-	CALL SUBOPT_0xF
 ; 0001 01C6         byte[2]=0x20;
 ; 0001 01C7         i2c_tran(pointer,3);
 ; 0001 01C8 
@@ -2890,51 +2403,22 @@ _STV0288Init:
 ; 0001 01CC         clock inputfrom CLKI,Fmclk=4M*PLL_DIV/4=100M
 ; 0001 01CD         ********************************/
 ; 0001 01CE         byte[1]= 0x40;
-	LDI  R30,LOW(64)
-	STD  Y+3,R30
 ; 0001 01CF         byte[2]= 0x63;             //PLLCTRL
-	LDI  R30,LOW(99)
-	STD  Y+4,R30
 ; 0001 01D0         byte[3]= 0x04;             //SYNTCTRL
-	LDI  R30,LOW(4)
-	STD  Y+5,R30
 ; 0001 01D1         byte[4]= 0x20;             //TSTTNR1
-	LDI  R30,LOW(32)
-	CALL SUBOPT_0x11
 ; 0001 01D2         i2c_tran(pointer,5);
 ; 0001 01D3 
 ; 0001 01D4 
 ; 0001 01D5         byte[1]=0xB2;
-	LDI  R30,LOW(178)
-	STD  Y+3,R30
 ; 0001 01D6         byte[2]=0x10;                   //AGCCFG
-	LDI  R30,LOW(16)
-	STD  Y+4,R30
 ; 0001 01D7         byte[3]=0x82;                 //DIRCLKCFG
-	LDI  R30,LOW(130)
-	STD  Y+5,R30
 ; 0001 01D8         byte[4]=0x80;                 //AUXCKCFG
-	LDI  R30,LOW(128)
-	STD  Y+6,R30
 ; 0001 01D9         byte[5]=0x82;                 //STDBYCFG
-	LDI  R30,LOW(130)
-	STD  Y+7,R30
 ; 0001 01DA         byte[6]=0x82;                 //CS0CFG
-	STD  Y+8,R30
 ; 0001 01DB         byte[7]=0x82;                 //CS1CFG
-	STD  Y+9,R30
 ; 0001 01DC         i2c_tran(pointer,8);
-	ST   -Y,R17
-	ST   -Y,R16
-	LDI  R30,LOW(8)
-	ST   -Y,R30
-	RCALL _i2c_tran
 ; 0001 01DD         //printf("STV0288 Init Done\n");
 ; 0001 01DE }
-	LDD  R17,Y+1
-	LDD  R16,Y+0
-	ADIW R28,12
-	RET
 ;
 ;
 ;/**********************************
@@ -2942,27 +2426,18 @@ _STV0288Init:
 ;**********************************/
 ;void SetSymbolRate(float sym_rate)
 ; 0001 01E5 {
-_SetSymbolRate:
 ; 0001 01E6         char byte[8];
 ; 0001 01E7         char *pointer;
 ; 0001 01E8         long int ksy_rate;
 ; 0001 01E9         pointer = &byte[0];
-	SBIW R28,12
-	ST   -Y,R17
-	ST   -Y,R16
 ;	sym_rate -> Y+14
 ;	byte -> Y+6
 ;	*pointer -> R16,R17
 ;	ksy_rate -> Y+2
-	MOVW R30,R28
-	ADIW R30,6
-	MOVW R16,R30
 ; 0001 01EA        // temp_para = 0;
 ; 0001 01EB //         //printf("the cation of i2c acknowlede in function SetSymbolRate\n");
 ; 0001 01EC 
 ; 0001 01ED         byte[0]=0xD0;
-	LDI  R30,LOW(208)
-	STD  Y+6,R30
 ; 0001 01EE 
 ; 0001 01EF         /********************************
 ; 0001 01F0         set clock
@@ -2970,88 +2445,33 @@ _SetSymbolRate:
 ; 0001 01F2         clock inputfrom CLKI,Fmclk=4M*PLL_DIV/4=100M
 ; 0001 01F3         ********************************/
 ; 0001 01F4         byte[1]= 0x40;
-	LDI  R30,LOW(64)
-	STD  Y+7,R30
 ; 0001 01F5         byte[2]= 0x64;             //PLLCTRL
-	LDI  R30,LOW(100)
-	STD  Y+8,R30
 ; 0001 01F6         byte[3]= 0x04;             //SYNTCTRL
-	LDI  R30,LOW(4)
-	STD  Y+9,R30
 ; 0001 01F7         i2c_tran(pointer,4);
-	ST   -Y,R17
-	ST   -Y,R16
-	ST   -Y,R30
-	RCALL _i2c_tran
 ; 0001 01F8 
 ; 0001 01F9 
 ; 0001 01FA 
 ; 0001 01FB         byte[1]=0x02;                 //ACR
-	LDI  R30,LOW(2)
-	STD  Y+7,R30
 ; 0001 01FC         byte[2]=0x20;
-	LDI  R30,LOW(32)
-	STD  Y+8,R30
 ; 0001 01FD         i2c_tran(pointer,3);
-	ST   -Y,R17
-	ST   -Y,R16
-	LDI  R30,LOW(3)
-	ST   -Y,R30
-	RCALL _i2c_tran
 ; 0001 01FE 
 ; 0001 01FF         /*****************************
 ; 0001 0200         set symbol rate
 ; 0001 0201         //SFRH,SFRM,SFRL = 27.5/100*2e20 =0x46666   27.49996
 ; 0001 0202         *****************************/
 ; 0001 0203         ksy_rate =(sym_rate*1048576/100000);
-	__GETD2S 14
-	__GETD1N 0x49800000
-	CALL __MULF12
-	MOVW R26,R30
-	MOVW R24,R22
-	__GETD1N 0x47C35000
-	CALL __DIVF21
-	MOVW R26,R28
-	ADIW R26,2
-	CALL __CFD1
-	CALL __PUTDP1
 ; 0001 0204         byte[1]=0x28;
-	LDI  R30,LOW(40)
-	STD  Y+7,R30
 ; 0001 0205 
 ; 0001 0206         byte[2]=(ksy_rate >> 12)& 0xFF;
-	__GETD2S 2
-	LDI  R30,LOW(12)
-	CALL __ASRD12
-	STD  Y+8,R30
 ; 0001 0207         byte[3]=(ksy_rate >> 4)& 0xFF;
-	LDI  R30,LOW(4)
-	CALL __ASRD12
-	STD  Y+9,R30
 ; 0001 0208         byte[4]=(ksy_rate << 4)& 0xFF;
-	LDD  R30,Y+2
-	SWAP R30
-	ANDI R30,0xF0
-	STD  Y+10,R30
 ; 0001 0209 
 ; 0001 020A         //printf("symbol %f, 0x%x 0x%x 0x%x\n",sym_rate,byte[2],byte[3],byte[4] );
 ; 0001 020B         byte[5]=0;     //CFRM  载波频率
-	LDI  R30,LOW(0)
-	STD  Y+11,R30
 ; 0001 020C         byte[6]=0;     //CFRL
-	STD  Y+12,R30
 ; 0001 020D         i2c_tran(pointer,7);
-	ST   -Y,R17
-	ST   -Y,R16
-	LDI  R30,LOW(7)
-	ST   -Y,R30
-	RCALL _i2c_tran
 ; 0001 020E         //printf("SetSymbolRate Done\n");
 ; 0001 020F }
-	LDD  R17,Y+1
-	LDD  R16,Y+0
-	ADIW R28,18
-	RET
 ;
 ;
 ;
@@ -3064,81 +2484,36 @@ _SetSymbolRate:
 ;****************************************************************/
 ;unsigned char tuner(unsigned long F,float S)
 ; 0001 021B {
-_tuner:
 ; 0001 021C 
 ; 0001 021D         char i;
 ; 0001 021E         TunerRst();
-	ST   -Y,R17
 ;	F -> Y+5
 ;	S -> Y+1
 ;	i -> R17
-	RCALL _TunerRst
 ; 0001 021F         delay_ms(50);
-	LDI  R30,LOW(50)
-	LDI  R31,HIGH(50)
-	CALL SUBOPT_0x2
 ; 0001 0220 
 ; 0001 0221 
 ; 0001 0222         putchar1('1');
-	LDI  R30,LOW(49)
-	ST   -Y,R30
-	RCALL _putchar1
 ; 0001 0223         TFC(F);
-	__GETD1S 5
-	CALL __PUTPARD1
-	RCALL _TFC
 ; 0001 0224         putchar1('2');
-	LDI  R30,LOW(50)
-	ST   -Y,R30
-	RCALL _putchar1
 ; 0001 0225         STV0288Init();
-	RCALL _STV0288Init
 ; 0001 0226         putchar1('3');
-	LDI  R30,LOW(51)
-	ST   -Y,R30
-	RCALL _putchar1
 ; 0001 0227         SetSymbolRate(S);
-	__GETD1S 1
-	CALL __PUTPARD1
-	RCALL _SetSymbolRate
 ; 0001 0228         putchar1('4');
-	LDI  R30,LOW(52)
-	ST   -Y,R30
-	RCALL _putchar1
 ; 0001 0229         i = 0;
-	LDI  R17,LOW(0)
 ; 0001 022A         while(i<4)
-_0x20056:
-	CPI  R17,4
-	BRSH _0x20058
 ; 0001 022B         {
 ; 0001 022C             i++;
-	SUBI R17,-1
 ; 0001 022D             delay_us(900);
-	__DELAY_USW 3600
 ; 0001 022E             if(locked())
-	RCALL _locked
-	CPI  R30,0
-	BREQ _0x20059
 ; 0001 022F             {
 ; 0001 0230                //printf("locked\n");
 ; 0001 0231                lockinfo = 8;
-	LDI  R30,LOW(8)
-	MOV  R4,R30
 ; 0001 0232                return 1;
-	LDI  R30,LOW(1)
-	LDD  R17,Y+0
-	RJMP _0x20A0004
 ; 0001 0233             }
 ; 0001 0234         }
-_0x20059:
-	RJMP _0x20056
-_0x20058:
 ; 0001 0235         //printf("not locked\n");
 ; 0001 0236         return 0;
-	LDI  R30,LOW(0)
-	LDD  R17,Y+0
-	RJMP _0x20A0004
 ; 0001 0237 
 ; 0001 0238 }
 ;
@@ -3148,164 +2523,76 @@ _0x20058:
 ;*/
 ;void getstus(char *p)
 ; 0001 023F   {
-_getstus:
 ; 0001 0240         char data[3];
 ; 0001 0241         char *pdata;
 ; 0001 0242         char i,j;
 ; 0001 0243         i = 1;
-	SBIW R28,3
-	CALL __SAVELOCR4
 ;	*p -> Y+7
 ;	data -> Y+4
 ;	*pdata -> R16,R17
 ;	i -> R19
 ;	j -> R18
-	LDI  R19,LOW(1)
 ; 0001 0244         j = 0;
-	LDI  R18,LOW(0)
 ; 0001 0245         putchar1('5');
-	LDI  R30,LOW(53)
-	ST   -Y,R30
-	RCALL _putchar1
 ; 0001 0246         do
-_0x2005B:
 ; 0001 0247           {
 ; 0001 0248                  pdata = &data[0];
-	MOVW R30,R28
-	ADIW R30,4
-	MOVW R16,R30
 ; 0001 0249                  data[0]= 0xD0;
-	LDI  R30,LOW(208)
-	STD  Y+4,R30
 ; 0001 024A                  data[1]= 0x24;
-	LDI  R30,LOW(36)
-	STD  Y+5,R30
 ; 0001 024B                  if (i2c_tran(pdata,2))
-	ST   -Y,R17
-	ST   -Y,R16
-	CALL SUBOPT_0xD
-	CPI  R30,0
-	BREQ _0x2005D
 ; 0001 024C                    {
 ; 0001 024D                      putchar1('b');
-	LDI  R30,LOW(98)
-	ST   -Y,R30
-	RCALL _putchar1
 ; 0001 024E                       if(i2c_rd(data[0],pdata,2))
-	CALL SUBOPT_0x12
-	BREQ _0x2005E
 ; 0001 024F                       {
 ; 0001 0250                                p[j] = data[0];
-	CALL SUBOPT_0x13
 ; 0001 0251                                //////printf("R 24-0x%x    ",data[0]);
 ; 0001 0252                                j = 1;
-	LDI  R18,LOW(1)
 ; 0001 0253 
 ; 0001 0254                                 i=0;
-	LDI  R19,LOW(0)
 ; 0001 0255 
 ; 0001 0256                       }
 ; 0001 0257                    }
-_0x2005E:
 ; 0001 0258             }
-_0x2005D:
 ; 0001 0259        while(i) ;
-	CPI  R19,0
-	BRNE _0x2005B
 ; 0001 025A        putchar1('6');
-	LDI  R30,LOW(54)
-	ST   -Y,R30
-	RCALL _putchar1
 ; 0001 025B        i=1;
-	LDI  R19,LOW(1)
 ; 0001 025C        do
-_0x20060:
 ; 0001 025D           {
 ; 0001 025E                  pdata = &data[0];
-	MOVW R30,R28
-	ADIW R30,4
-	MOVW R16,R30
 ; 0001 025F                  data[0]= 0xD0;
-	LDI  R30,LOW(208)
-	STD  Y+4,R30
 ; 0001 0260                  data[1]= 0x1E;
-	LDI  R30,LOW(30)
-	STD  Y+5,R30
 ; 0001 0261                  if (i2c_tran(pdata,2))
-	ST   -Y,R17
-	ST   -Y,R16
-	CALL SUBOPT_0xD
-	CPI  R30,0
-	BREQ _0x20062
 ; 0001 0262                    {
 ; 0001 0263                          if(i2c_rd(data[0],pdata,2))
-	CALL SUBOPT_0x12
-	BREQ _0x20063
 ; 0001 0264                          {
 ; 0001 0265                               p[j] = data[0];
-	CALL SUBOPT_0x13
 ; 0001 0266                               //////printf("R 1E-0x%x\n",data[0]);
 ; 0001 0267                               i=0;
-	LDI  R19,LOW(0)
 ; 0001 0268                          }
 ; 0001 0269                    }
-_0x20063:
 ; 0001 026A           }
-_0x20062:
 ; 0001 026B        while(i) ;
-	CPI  R19,0
-	BRNE _0x20060
 ; 0001 026C       putchar1('7');
-	LDI  R30,LOW(55)
-	ST   -Y,R30
-	RCALL _putchar1
 ; 0001 026D   }
-	CALL __LOADLOCR4
-_0x20A0004:
-	ADIW R28,9
-	RET
 ;
 ;
 ;char locked(void)
 ; 0001 0271 {
-_locked:
 ; 0001 0272     char t[2];
 ; 0001 0273     getstus(t);
-	SBIW R28,2
 ;	t -> Y+0
-	MOVW R30,R28
-	ST   -Y,R31
-	ST   -Y,R30
-	RCALL _getstus
 ; 0001 0274 
 ; 0001 0275 
 ; 0001 0276     if(((t[0] & 0x80) == 0x80) && ((t[1] & 0x80) == 0x80))
-	LD   R30,Y
-	ANDI R30,LOW(0x80)
-	CPI  R30,LOW(0x80)
-	BRNE _0x20065
-	LDD  R30,Y+1
-	ANDI R30,LOW(0x80)
-	CPI  R30,LOW(0x80)
-	BREQ _0x20066
-_0x20065:
-	RJMP _0x20064
-_0x20066:
 ; 0001 0277     {
 ; 0001 0278         //LED_ON;
 ; 0001 0279         return 1;
-	LDI  R30,LOW(1)
-	RJMP _0x20A0002
 ; 0001 027A     }
 ; 0001 027B     else
-_0x20064:
 ; 0001 027C     {
 ; 0001 027D        STV0288Init();
-	RCALL _STV0288Init
 ; 0001 027E        //LED_OFF;
 ; 0001 027F        return 0;
-	LDI  R30,LOW(0)
-	RJMP _0x20A0002
 ; 0001 0280     }
 ; 0001 0281 
 ; 0001 0282  }
@@ -3332,73 +2619,30 @@ _0x20064:
 ;
 ;unsigned char pll_lk(void)
 ; 0001 0296   {
-_pll_lk:
 ; 0001 0297       unsigned char byte[1] = {0xc0},i = 0;
 ; 0001 0298       EnableTunerOperation();
-	SBIW R28,1
-	LDI  R30,LOW(192)
-	ST   Y,R30
-	ST   -Y,R17
 ;	byte -> Y+1
 ;	i -> R17
-	LDI  R17,0
-	RCALL _EnableTunerOperation
 ; 0001 0299       do
-_0x2006B:
 ; 0001 029A       {
 ; 0001 029B           i2c_rd(byte[0],byte,1);
-	LDD  R30,Y+1
-	ST   -Y,R30
-	MOVW R30,R28
-	ADIW R30,2
-	ST   -Y,R31
-	ST   -Y,R30
-	LDI  R30,LOW(1)
-	ST   -Y,R30
-	RCALL _i2c_rd
 ; 0001 029C           i++;
-	SUBI R17,-1
 ; 0001 029D           if((byte[0] & 0x40) != 0)
-	LDD  R30,Y+1
-	ANDI R30,LOW(0x40)
-	BREQ _0x2006D
 ; 0001 029E           {
 ; 0001 029F               ////printf("pll locked:0x%x\n",byte[0]);
 ; 0001 02A0               lockinfo = 4;
-	LDI  R30,LOW(4)
-	MOV  R4,R30
 ; 0001 02A1               DisableTunerOperation();
-	RCALL _DisableTunerOperation
 ; 0001 02A2               return 1;
-	LDI  R30,LOW(1)
-	RJMP _0x20A0001
 ; 0001 02A3           }
 ; 0001 02A4           else
-_0x2006D:
 ; 0001 02A5           {
 ; 0001 02A6              if(byte[0]>0)
-	LDD  R26,Y+1
-	CPI  R26,LOW(0x1)
-	BRLO _0x2006F
 ; 0001 02A7                    lockinfo = 2;
-	LDI  R30,LOW(2)
-	MOV  R4,R30
 ; 0001 02A8              ////printf("pll no locked:0x%x\n",byte[0]);
 ; 0001 02A9           }
-_0x2006F:
 ; 0001 02AA       }while(i < 3);
-	CPI  R17,3
-	BRLO _0x2006B
 ; 0001 02AB       DisableTunerOperation();
-	RCALL _DisableTunerOperation
 ; 0001 02AC       return 0;
-_0x20A0003:
-	LDI  R30,LOW(0)
-_0x20A0001:
-	LDD  R17,Y+0
-_0x20A0002:
-	ADIW R28,2
-	RET
 ; 0001 02AD }
 ;
 ;#include "include.h"
@@ -3470,17 +2714,38 @@ _0x20A0002:
 ;#pragma used+
 ;char getchar1(void)
 ; 0002 0036 {
+_getchar1:
 ; 0002 0037 char status,data;
 ; 0002 0038 while (1)
+	ST   -Y,R17
+	ST   -Y,R16
 ;	status -> R17
 ;	data -> R16
+_0x4000D:
 ; 0002 0039       {
 ; 0002 003A       while (((status=UCSR1A) & RX_COMPLETE)==0);
+_0x40010:
+	LDS  R30,200
+	MOV  R17,R30
+	ANDI R30,LOW(0x80)
+	BREQ _0x40010
 ; 0002 003B       data=UDR1;
+	LDS  R16,206
 ; 0002 003C       if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
+	MOV  R30,R17
+	ANDI R30,LOW(0x1C)
+	BRNE _0x40013
 ; 0002 003D          return data;
+	MOV  R30,R16
+	RJMP _0x20A0001
 ; 0002 003E       }
+_0x40013:
+	RJMP _0x4000D
 ; 0002 003F }
+_0x20A0001:
+	LD   R16,Y+
+	LD   R17,Y+
+	RET
 ;#pragma used-
 ;
 ;// Write a character to the USART1 Transmitter
@@ -3581,151 +2846,11 @@ SUBOPT_0x0:
 	ST   -Y,R30
 	JMP  _delay_ms
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:17 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:3 WORDS
 SUBOPT_0x1:
-	LDI  R30,LOW(200)
-	LDI  R31,HIGH(200)
-	ST   -Y,R31
-	ST   -Y,R30
-	CALL _delay_ms
-	SBI  0xB,7
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 13 TIMES, CODE SIZE REDUCTION:21 WORDS
-SUBOPT_0x2:
 	ST   -Y,R31
 	ST   -Y,R30
 	JMP  _delay_ms
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x3:
-	__GETD1S 4
-	CALL __PUTPARD1
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:3 WORDS
-SUBOPT_0x4:
-	LDI  R30,LOW(1000)
-	LDI  R31,HIGH(1000)
-	RJMP SUBOPT_0x2
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:3 WORDS
-SUBOPT_0x5:
-	LDI  R30,LOW(200)
-	LDI  R31,HIGH(200)
-	RJMP SUBOPT_0x2
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x6:
-	SBI  0xE,5
-	__DELAY_USB 21
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x7:
-	SBI  0xE,5
-	__DELAY_USB 11
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x8:
-	CBI  0xE,5
-	__DELAY_USB 21
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x9:
-	ST   -Y,R31
-	ST   -Y,R30
-	LDI  R30,LOW(3)
-	ST   -Y,R30
-	JMP  _i2c_tran
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:5 WORDS
-SUBOPT_0xA:
-	__GETD2S 30
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:2 WORDS
-SUBOPT_0xB:
-	ADIW R30,4
-	CALL __GETD1PF
-	RCALL SUBOPT_0xA
-	CALL __CPD21
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:3 WORDS
-SUBOPT_0xC:
-	LDI  R30,LOW(5)
-	ST   -Y,R30
-	JMP  _i2c_tran
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0xD:
-	LDI  R30,LOW(2)
-	ST   -Y,R30
-	JMP  _i2c_tran
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 5 TIMES, CODE SIZE REDUCTION:17 WORDS
-SUBOPT_0xE:
-	STD  Y+5,R30
-	ST   -Y,R17
-	ST   -Y,R16
-	LDI  R30,LOW(4)
-	ST   -Y,R30
-	JMP  _i2c_tran
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:5 WORDS
-SUBOPT_0xF:
-	LDI  R30,LOW(2)
-	STD  Y+3,R30
-	LDI  R30,LOW(32)
-	STD  Y+4,R30
-	ST   -Y,R17
-	ST   -Y,R16
-	LDI  R30,LOW(3)
-	ST   -Y,R30
-	JMP  _i2c_tran
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:7 WORDS
-SUBOPT_0x10:
-	STD  Y+4,R30
-	ST   -Y,R17
-	ST   -Y,R16
-	LDI  R30,LOW(3)
-	ST   -Y,R30
-	JMP  _i2c_tran
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:3 WORDS
-SUBOPT_0x11:
-	STD  Y+6,R30
-	ST   -Y,R17
-	ST   -Y,R16
-	RJMP SUBOPT_0xC
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:4 WORDS
-SUBOPT_0x12:
-	LDD  R30,Y+4
-	ST   -Y,R30
-	ST   -Y,R17
-	ST   -Y,R16
-	LDI  R30,LOW(2)
-	ST   -Y,R30
-	CALL _i2c_rd
-	CPI  R30,0
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:5 WORDS
-SUBOPT_0x13:
-	MOV  R30,R18
-	LDD  R26,Y+7
-	LDD  R27,Y+7+1
-	LDI  R31,0
-	ADD  R30,R26
-	ADC  R31,R27
-	LDD  R26,Y+4
-	STD  Z+0,R26
-	RET
 
 
 	.CSEG
@@ -3742,398 +2867,11 @@ __delay_ms0:
 __delay_ms1:
 	ret
 
-__ROUND_REPACK:
-	TST  R21
-	BRPL __REPACK
-	CPI  R21,0x80
-	BRNE __ROUND_REPACK0
-	SBRS R30,0
-	RJMP __REPACK
-__ROUND_REPACK0:
-	ADIW R30,1
-	ADC  R22,R25
-	ADC  R23,R25
-	BRVS __REPACK1
-
-__REPACK:
-	LDI  R21,0x80
-	EOR  R21,R23
-	BRNE __REPACK0
-	PUSH R21
-	RJMP __ZERORES
-__REPACK0:
-	CPI  R21,0xFF
-	BREQ __REPACK1
-	LSL  R22
-	LSL  R0
-	ROR  R21
-	ROR  R22
-	MOV  R23,R21
-	RET
-__REPACK1:
-	PUSH R21
-	TST  R0
-	BRMI __REPACK2
-	RJMP __MAXRES
-__REPACK2:
-	RJMP __MINRES
-
-__UNPACK:
-	LDI  R21,0x80
-	MOV  R1,R25
-	AND  R1,R21
-	LSL  R24
-	ROL  R25
-	EOR  R25,R21
-	LSL  R21
-	ROR  R24
-
-__UNPACK1:
-	LDI  R21,0x80
-	MOV  R0,R23
-	AND  R0,R21
-	LSL  R22
-	ROL  R23
-	EOR  R23,R21
-	LSL  R21
-	ROR  R22
-	RET
-
-__CFD1U:
-	SET
-	RJMP __CFD1U0
-__CFD1:
-	CLT
-__CFD1U0:
-	PUSH R21
-	RCALL __UNPACK1
-	CPI  R23,0x80
-	BRLO __CFD10
-	CPI  R23,0xFF
-	BRCC __CFD10
-	RJMP __ZERORES
-__CFD10:
-	LDI  R21,22
-	SUB  R21,R23
-	BRPL __CFD11
-	NEG  R21
-	CPI  R21,8
-	BRTC __CFD19
-	CPI  R21,9
-__CFD19:
-	BRLO __CFD17
-	SER  R30
-	SER  R31
-	SER  R22
-	LDI  R23,0x7F
-	BLD  R23,7
-	RJMP __CFD15
-__CFD17:
-	CLR  R23
-	TST  R21
-	BREQ __CFD15
-__CFD18:
-	LSL  R30
-	ROL  R31
-	ROL  R22
-	ROL  R23
-	DEC  R21
-	BRNE __CFD18
-	RJMP __CFD15
-__CFD11:
-	CLR  R23
-__CFD12:
-	CPI  R21,8
-	BRLO __CFD13
-	MOV  R30,R31
-	MOV  R31,R22
-	MOV  R22,R23
-	SUBI R21,8
-	RJMP __CFD12
-__CFD13:
-	TST  R21
-	BREQ __CFD15
-__CFD14:
-	LSR  R23
-	ROR  R22
-	ROR  R31
-	ROR  R30
-	DEC  R21
-	BRNE __CFD14
-__CFD15:
-	TST  R0
-	BRPL __CFD16
-	RCALL __ANEGD1
-__CFD16:
-	POP  R21
-	RET
-
-__ZERORES:
-	CLR  R30
-	CLR  R31
-	CLR  R22
-	CLR  R23
-	POP  R21
-	RET
-
-__MINRES:
-	SER  R30
-	SER  R31
-	LDI  R22,0x7F
-	SER  R23
-	POP  R21
-	RET
-
-__MAXRES:
-	SER  R30
-	SER  R31
-	LDI  R22,0x7F
-	LDI  R23,0x7F
-	POP  R21
-	RET
-
-__MULF12:
-	PUSH R21
-	RCALL __UNPACK
-	CPI  R23,0x80
-	BREQ __ZERORES
-	CPI  R25,0x80
-	BREQ __ZERORES
-	EOR  R0,R1
-	SEC
-	ADC  R23,R25
-	BRVC __MULF124
-	BRLT __ZERORES
-__MULF125:
-	TST  R0
-	BRMI __MINRES
-	RJMP __MAXRES
-__MULF124:
-	PUSH R0
-	PUSH R17
-	PUSH R18
-	PUSH R19
-	PUSH R20
-	CLR  R17
-	CLR  R18
-	CLR  R25
-	MUL  R22,R24
-	MOVW R20,R0
-	MUL  R24,R31
-	MOV  R19,R0
-	ADD  R20,R1
-	ADC  R21,R25
-	MUL  R22,R27
-	ADD  R19,R0
-	ADC  R20,R1
-	ADC  R21,R25
-	MUL  R24,R30
-	RCALL __MULF126
-	MUL  R27,R31
-	RCALL __MULF126
-	MUL  R22,R26
-	RCALL __MULF126
-	MUL  R27,R30
-	RCALL __MULF127
-	MUL  R26,R31
-	RCALL __MULF127
-	MUL  R26,R30
-	ADD  R17,R1
-	ADC  R18,R25
-	ADC  R19,R25
-	ADC  R20,R25
-	ADC  R21,R25
-	MOV  R30,R19
-	MOV  R31,R20
-	MOV  R22,R21
-	MOV  R21,R18
-	POP  R20
-	POP  R19
-	POP  R18
-	POP  R17
-	POP  R0
-	TST  R22
-	BRMI __MULF122
-	LSL  R21
-	ROL  R30
-	ROL  R31
-	ROL  R22
-	RJMP __MULF123
-__MULF122:
-	INC  R23
-	BRVS __MULF125
-__MULF123:
-	RCALL __ROUND_REPACK
-	POP  R21
-	RET
-
-__MULF127:
-	ADD  R17,R0
-	ADC  R18,R1
-	ADC  R19,R25
-	RJMP __MULF128
-__MULF126:
-	ADD  R18,R0
-	ADC  R19,R1
-__MULF128:
-	ADC  R20,R25
-	ADC  R21,R25
-	RET
-
-__DIVF21:
-	PUSH R21
-	RCALL __UNPACK
-	CPI  R23,0x80
-	BRNE __DIVF210
-	TST  R1
-__DIVF211:
-	BRPL __DIVF219
-	RJMP __MINRES
-__DIVF219:
-	RJMP __MAXRES
-__DIVF210:
-	CPI  R25,0x80
-	BRNE __DIVF218
-__DIVF217:
-	RJMP __ZERORES
-__DIVF218:
-	EOR  R0,R1
-	SEC
-	SBC  R25,R23
-	BRVC __DIVF216
-	BRLT __DIVF217
-	TST  R0
-	RJMP __DIVF211
-__DIVF216:
-	MOV  R23,R25
-	PUSH R17
-	PUSH R18
-	PUSH R19
-	PUSH R20
-	CLR  R1
-	CLR  R17
-	CLR  R18
-	CLR  R19
-	CLR  R20
-	CLR  R21
-	LDI  R25,32
-__DIVF212:
-	CP   R26,R30
-	CPC  R27,R31
-	CPC  R24,R22
-	CPC  R20,R17
-	BRLO __DIVF213
-	SUB  R26,R30
-	SBC  R27,R31
-	SBC  R24,R22
-	SBC  R20,R17
-	SEC
-	RJMP __DIVF214
-__DIVF213:
-	CLC
-__DIVF214:
-	ROL  R21
-	ROL  R18
-	ROL  R19
-	ROL  R1
-	ROL  R26
-	ROL  R27
-	ROL  R24
-	ROL  R20
-	DEC  R25
-	BRNE __DIVF212
-	MOVW R30,R18
-	MOV  R22,R1
-	POP  R20
-	POP  R19
-	POP  R18
-	POP  R17
-	TST  R22
-	BRMI __DIVF215
-	LSL  R21
-	ROL  R30
-	ROL  R31
-	ROL  R22
-	DEC  R23
-	BRVS __DIVF217
-__DIVF215:
-	RCALL __ROUND_REPACK
-	POP  R21
-	RET
-
 __SUBD12:
 	SUB  R30,R26
 	SBC  R31,R27
 	SBC  R22,R24
 	SBC  R23,R25
-	RET
-
-__ANEGD1:
-	COM  R31
-	COM  R22
-	COM  R23
-	NEG  R30
-	SBCI R31,-1
-	SBCI R22,-1
-	SBCI R23,-1
-	RET
-
-__LSLW12:
-	TST  R30
-	MOV  R0,R30
-	MOVW R30,R26
-	BREQ __LSLW12R
-__LSLW12L:
-	LSL  R30
-	ROL  R31
-	DEC  R0
-	BRNE __LSLW12L
-__LSLW12R:
-	RET
-
-__ASRD12:
-	TST  R30
-	MOV  R0,R30
-	MOVW R30,R26
-	MOVW R22,R24
-	BREQ __ASRD12R
-__ASRD12L:
-	ASR  R23
-	ROR  R22
-	ROR  R31
-	ROR  R30
-	DEC  R0
-	BRNE __ASRD12L
-__ASRD12R:
-	RET
-
-__LSRD12:
-	TST  R30
-	MOV  R0,R30
-	MOVW R30,R26
-	MOVW R22,R24
-	BREQ __LSRD12R
-__LSRD12L:
-	LSR  R23
-	ROR  R22
-	ROR  R31
-	ROR  R30
-	DEC  R0
-	BRNE __LSRD12L
-__LSRD12R:
-	RET
-
-__LSLW4:
-	LSL  R30
-	ROL  R31
-__LSLW3:
-	LSL  R30
-	ROL  R31
-__LSLW2:
-	LSL  R30
-	ROL  R31
-	LSL  R30
-	ROL  R31
 	RET
 
 __MULD12U:
@@ -4170,63 +2908,6 @@ __MULD12U:
 	ADC  R23,R24
 	RET
 
-__DIVD21U:
-	PUSH R19
-	PUSH R20
-	PUSH R21
-	CLR  R0
-	CLR  R1
-	CLR  R20
-	CLR  R21
-	LDI  R19,32
-__DIVD21U1:
-	LSL  R26
-	ROL  R27
-	ROL  R24
-	ROL  R25
-	ROL  R0
-	ROL  R1
-	ROL  R20
-	ROL  R21
-	SUB  R0,R30
-	SBC  R1,R31
-	SBC  R20,R22
-	SBC  R21,R23
-	BRCC __DIVD21U2
-	ADD  R0,R30
-	ADC  R1,R31
-	ADC  R20,R22
-	ADC  R21,R23
-	RJMP __DIVD21U3
-__DIVD21U2:
-	SBR  R26,1
-__DIVD21U3:
-	DEC  R19
-	BRNE __DIVD21U1
-	MOVW R30,R26
-	MOVW R22,R24
-	MOVW R26,R0
-	MOVW R24,R20
-	POP  R21
-	POP  R20
-	POP  R19
-	RET
-
-__PUTDP1:
-	ST   X+,R30
-	ST   X+,R31
-	ST   X+,R22
-	ST   X,R23
-	RET
-
-__GETD1PF:
-	LPM  R0,Z+
-	LPM  R1,Z+
-	LPM  R22,Z+
-	LPM  R23,Z
-	MOVW R30,R0
-	RET
-
 __PUTD1S0:
 	ST   Y,R30
 	STD  Y+1,R31
@@ -4239,50 +2920,6 @@ __PUTPARD1:
 	ST   -Y,R22
 	ST   -Y,R31
 	ST   -Y,R30
-	RET
-
-__CPD21:
-	CP   R26,R30
-	CPC  R27,R31
-	CPC  R24,R22
-	CPC  R25,R23
-	RET
-
-__SAVELOCR6:
-	ST   -Y,R21
-__SAVELOCR5:
-	ST   -Y,R20
-__SAVELOCR4:
-	ST   -Y,R19
-__SAVELOCR3:
-	ST   -Y,R18
-__SAVELOCR2:
-	ST   -Y,R17
-	ST   -Y,R16
-	RET
-
-__LOADLOCR6:
-	LDD  R21,Y+5
-__LOADLOCR5:
-	LDD  R20,Y+4
-__LOADLOCR4:
-	LDD  R19,Y+3
-__LOADLOCR3:
-	LDD  R18,Y+2
-__LOADLOCR2:
-	LDD  R17,Y+1
-	LD   R16,Y
-	RET
-
-__INITLOCB:
-__INITLOCW:
-	ADD  R26,R28
-	ADC  R27,R29
-__INITLOC0:
-	LPM  R0,Z+
-	ST   X+,R0
-	DEC  R24
-	BRNE __INITLOC0
 	RET
 
 ;END OF CODE MARKER
