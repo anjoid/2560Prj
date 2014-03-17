@@ -1,9 +1,6 @@
 #include "include.h"
 
-#define SCLH PORTE.5=1
-#define SCLL PORTE.5=0
-#define SDAH PORTE.4=1
-#define SDAL PORTE.4=0
+
 
       
 extern unsigned char lockinfo;

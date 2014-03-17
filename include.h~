@@ -69,7 +69,10 @@ IO Operating
 #define LED_ON PORTD.7=0;      
 #define LED_OFF PORTD.7=1;
                 
-
+#define SCLH PORTE.5=1
+#define SCLL PORTE.5=0
+#define SDAH PORTE.4=1
+#define SDAL PORTE.4=0
  
 
 
@@ -99,7 +102,8 @@ void STV0288Init(void);
 unsigned char tuner(unsigned long F,float S); 
 void SetSymbolRate(float sym_rate);    
 char Get0288Register(char addr);
-              
+char getchar1(void);
+void putchar1(char c);              
 
 
                         

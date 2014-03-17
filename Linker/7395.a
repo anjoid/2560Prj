@@ -24,10 +24,7 @@
 ;PCODE: $0000000B VOL: 0
 ;PCODE: $0000000C VOL: 0
 ;
-;#define SCLH PORTE.5=1
-;#define SCLL PORTE.5=0
-;#define SDAH PORTE.4=1
-;#define SDAL PORTE.4=0
+;
 ;
 ;
 ;extern unsigned char lockinfo;
@@ -52,22 +49,22 @@
 ;
 ;
 ;void TunerRst(void)
-; 0001 001F {
+; 0001 001C {
 
 	.CSEG
 ;PCODE: $0000000D VOL: 0
 ;PCODE: $0000000E VOL: 0
-; 0001 0020 	PORTE.2=0;
+; 0001 001D 	PORTE.2=0;
 ;PCODE: $0000000F VOL: 0
 ;PCODE: $00000010 VOL: 0
-; 0001 0021 	delay_ms(50);
+; 0001 001E 	delay_ms(50);
 ;PCODE: $00000011 VOL: 0
 ;PCODE: $00000012 VOL: 0
 ;PCODE: $00000013 VOL: 0
-; 0001 0022 	PORTE.2=1;
+; 0001 001F 	PORTE.2=1;
 ;PCODE: $00000014 VOL: 0
 ;PCODE: $00000015 VOL: 0
-; 0001 0023 }
+; 0001 0020 }
 ;PCODE: $00000016 VOL: 0
 ;PCODE: $00000017 VOL: 0
 ;
@@ -78,27 +75,27 @@
 ;SDA在SCL为高时从高变为低
 ;***********************************/
 ;void i2c_sta(void)
-; 0001 002C {
+; 0001 0029 {
 ;PCODE: $00000018 VOL: 0
 ;PCODE: $00000019 VOL: 0
-; 0001 002D 	DDRE |= 0x30;      //PE5 PE4(SCL SDA) as output
+; 0001 002A 	DDRE |= 0x30;      //PE5 PE4(SCL SDA) as output
 ;PCODE: $0000001A VOL: 0
 ;PCODE: $0000001B VOL: 0
 ;PCODE: $0000001C VOL: 0
-; 0001 002E 	SDAH;
+; 0001 002B 	SDAH;
 ;PCODE: $0000001D VOL: 0
 ;PCODE: $0000001E VOL: 0
-; 0001 002F 	SCLH;
+; 0001 002C 	SCLH;
 ;PCODE: $0000001F VOL: 0
 ;PCODE: $00000020 VOL: 0
-; 0001 0030 	delay_us(4);
+; 0001 002D 	delay_us(4);
 ;PCODE: $00000021 VOL: 0
-; 0001 0031 	SDAL;
+; 0001 002E 	SDAL;
 ;PCODE: $00000022 VOL: 0
 ;PCODE: $00000023 VOL: 0
-; 0001 0032 	delay_us(2);
+; 0001 002F 	delay_us(2);
 ;PCODE: $00000024 VOL: 0
-; 0001 0033 }
+; 0001 0030 }
 ;PCODE: $00000025 VOL: 0
 ;PCODE: $00000026 VOL: 0
 ;
@@ -107,18 +104,18 @@
 ;SDA在SCL为高时变为高
 ;***********************************/
 ;void i2c_stp(void)
-; 0001 003A {
+; 0001 0037 {
 ;PCODE: $00000027 VOL: 0
 ;PCODE: $00000028 VOL: 0
-; 0001 003B 	SCLH;
+; 0001 0038 	SCLH;
 ;PCODE: $00000029 VOL: 0
 ;PCODE: $0000002A VOL: 0
-; 0001 003C 	delay_us(2);
+; 0001 0039 	delay_us(2);
 ;PCODE: $0000002B VOL: 0
-; 0001 003D 	SDAL;
+; 0001 003A 	SDAL;
 ;PCODE: $0000002C VOL: 0
 ;PCODE: $0000002D VOL: 0
-; 0001 003E }
+; 0001 003B }
 ;PCODE: $0000002E VOL: 0
 ;PCODE: $0000002F VOL: 0
 ;
@@ -129,63 +126,63 @@
 ;有ACK返回1  无ACK返回0
 ;******************************/
 ;char SDA_in(void)
-; 0001 0047 {
+; 0001 0044 {
 ;PCODE: $00000030 VOL: 0
 ;PCODE: $00000031 VOL: 0
-; 0001 0048 
-; 0001 0049 DDRE &=0xEF;       //SDA  input
+; 0001 0045 
+; 0001 0046 DDRE &=0xEF;       //SDA  input
 ;PCODE: $00000032 VOL: 0
 ;PCODE: $00000033 VOL: 0
-; 0001 004A PORTE |= 0x10;       //SDA pull-up
+; 0001 0047 PORTE |= 0x10;       //SDA pull-up
 ;PCODE: $00000034 VOL: 0
 ;PCODE: $00000035 VOL: 0
-; 0001 004B delay_us(6);
+; 0001 0048 delay_us(6);
 ;PCODE: $00000036 VOL: 0
-; 0001 004C SCLH;
+; 0001 0049 SCLH;
 ;PCODE: $00000037 VOL: 0
 ;PCODE: $00000038 VOL: 0
-; 0001 004D delay_us(2);
+; 0001 004A delay_us(2);
 ;PCODE: $00000039 VOL: 0
-; 0001 004E if(PINE.4==0)
+; 0001 004B if(PINE.4==0)
 ;PCODE: $0000003A VOL: 0
 ;PCODE: $0000003B VOL: 0
 ;PCODE: $0000003C VOL: 0
-; 0001 004F   {
-; 0001 0050 //         temp_para++;
-; 0001 0051 //         //printf("xiang ying: temp_para = %d\n",temp_para);
-; 0001 0052   delay_us(2);
+; 0001 004C   {
+; 0001 004D //         temp_para++;
+; 0001 004E //         //printf("xiang ying: temp_para = %d\n",temp_para);
+; 0001 004F   delay_us(2);
 ;PCODE: $0000003D VOL: 0
-; 0001 0053   SCLL;
+; 0001 0050   SCLL;
 ;PCODE: $0000003E VOL: 0
 ;PCODE: $0000003F VOL: 0
-; 0001 0054   DDRE |=0x10;          //SDA output
+; 0001 0051   DDRE |=0x10;          //SDA output
 ;PCODE: $00000040 VOL: 0
 ;PCODE: $00000041 VOL: 0
-; 0001 0055   PORTE.4=1;            //SDA high
+; 0001 0052   PORTE.4=1;            //SDA high
 ;PCODE: $00000042 VOL: 0
 ;PCODE: $00000043 VOL: 0
-; 0001 0056    putchar1('&');
+; 0001 0053    putchar1('&');
 ;PCODE: $00000044 VOL: 0
 ;PCODE: $00000045 VOL: 0
 ;PCODE: $00000046 VOL: 0
-; 0001 0057   return 1;
+; 0001 0054   return 1;
 ;PCODE: $00000047 VOL: 0
 ;PCODE: $00000048 VOL: 0
-; 0001 0058   }
-; 0001 0059 else
+; 0001 0055   }
+; 0001 0056 else
 ;PCODE: $00000049 VOL: 0
-; 0001 005A 	{
-; 0001 005B 	 //temp_para++;
-; 0001 005C 	 //Tx0('X');
-; 0001 005D 	 DDRE |=0x10;             //SDA output
+; 0001 0057 	{
+; 0001 0058 	 //temp_para++;
+; 0001 0059 	 //Tx0('X');
+; 0001 005A 	 DDRE |=0x10;             //SDA output
 ;PCODE: $0000004A VOL: 0
 ;PCODE: $0000004B VOL: 0
-; 0001 005E 	 return 0;
+; 0001 005B 	 return 0;
 ;PCODE: $0000004C VOL: 0
 ;PCODE: $0000004D VOL: 0
-; 0001 005F 	}
+; 0001 005C 	}
 ;PCODE: $0000004E VOL: 0
-; 0001 0060 }
+; 0001 005D }
 ;PCODE: $0000004F VOL: 0
 ;PCODE: $00000050 VOL: 0
 ;
@@ -194,12 +191,12 @@
 ;发送一个字节的数据，发送完成收到ACK返回1  否则返回0
 ;***************************************/
 ;char i2c_send(unsigned char data)
-; 0001 0067 {
+; 0001 0064 {
 ;PCODE: $00000051 VOL: 0
 ;PCODE: $00000052 VOL: 0
-; 0001 0068 	char i;
-; 0001 0069 
-; 0001 006A 	for(i=0;i<8;i++)
+; 0001 0065 	char i;
+; 0001 0066 
+; 0001 0067 	for(i=0;i<8;i++)
 ;PCODE: $00000053 VOL: 0
 ;	data -> Y+1
 ;	i -> R17
@@ -212,84 +209,84 @@
 ;PCODE: $0000005A VOL: 0
 ;PCODE: $0000005B VOL: 0
 ;PCODE: $0000005C VOL: 0
-; 0001 006B 	{
-; 0001 006C         	SCLL;
+; 0001 0068 	{
+; 0001 0069         	SCLL;
 ;PCODE: $0000005D VOL: 0
 ;PCODE: $0000005E VOL: 0
-; 0001 006D         	delay_us(4);
+; 0001 006A         	delay_us(4);
 ;PCODE: $0000005F VOL: 0
-; 0001 006E         	if(data & 0x80)
+; 0001 006B         	if(data & 0x80)
 ;PCODE: $00000060 VOL: 0
 ;PCODE: $00000061 VOL: 0
 ;PCODE: $00000062 VOL: 0
-; 0001 006F         		SDAH;
+; 0001 006C         		SDAH;
 ;PCODE: $00000063 VOL: 0
 ;PCODE: $00000064 VOL: 0
-; 0001 0070         	else
+; 0001 006D         	else
 ;PCODE: $00000065 VOL: 0
 ;PCODE: $00000066 VOL: 0
-; 0001 0071         		SDAL;
+; 0001 006E         		SDAL;
 ;PCODE: $00000067 VOL: 0
 ;PCODE: $00000068 VOL: 0
-; 0001 0072         	data=(data<<1);
+; 0001 006F         	data=(data<<1);
 ;PCODE: $00000069 VOL: 0
 ;PCODE: $0000006A VOL: 0
 ;PCODE: $0000006B VOL: 0
 ;PCODE: $0000006C VOL: 0
-; 0001 0073 
-; 0001 0074 
-; 0001 0075         	delay_us(2);
+; 0001 0070 
+; 0001 0071 
+; 0001 0072         	delay_us(2);
 ;PCODE: $0000006D VOL: 0
-; 0001 0076         	SCLH;
+; 0001 0073         	SCLH;
 ;PCODE: $0000006E VOL: 0
 ;PCODE: $0000006F VOL: 0
-; 0001 0077         	delay_us(4);
+; 0001 0074         	delay_us(4);
 ;PCODE: $00000070 VOL: 0
-; 0001 0078 	}
+; 0001 0075 	}
 ;PCODE: $00000071 VOL: 0
 ;PCODE: $00000072 VOL: 0
 ;PCODE: $00000073 VOL: 0
 ;PCODE: $00000074 VOL: 0
 ;PCODE: $00000075 VOL: 0
-; 0001 0079 	SCLL;
+; 0001 0076 	SCLL;
 ;PCODE: $00000076 VOL: 0
 ;PCODE: $00000077 VOL: 0
-; 0001 007A 
-; 0001 007B 	if(SDA_in()==1)
+; 0001 0077 
+; 0001 0078 	if(SDA_in()==1)
 ;PCODE: $00000078 VOL: 0
 ;PCODE: $00000079 VOL: 0
 ;PCODE: $0000007A VOL: 0
-; 0001 007C 		{
-; 0001 007D 		delay_us(2);
+; 0001 0079 		{
+; 0001 007A 		delay_us(2);
 ;PCODE: $0000007B VOL: 0
-; 0001 007E 		//Tx0('P');
-; 0001 007F                 lockinfo = 1;
+; 0001 007B 		//Tx0('P');
+; 0001 007C                 lockinfo = 1;
 ;PCODE: $0000007C VOL: 0
 ;PCODE: $0000007D VOL: 0
-; 0001 0080 		return 1;
+; 0001 007D 		return 1;
 ;PCODE: $0000007E VOL: 0
 ;PCODE: $0000007F VOL: 0
 ;PCODE: $00000080 VOL: 0
 ;PCODE: $00000081 VOL: 0
 ;PCODE: $00000082 VOL: 0
-; 0001 0081 		}
-; 0001 0082 	else
+; 0001 007E 		}
+; 0001 007F 	else
 ;PCODE: $00000083 VOL: 0
-; 0001 0083 		{
-; 0001 0084 		delay_us(2);
+; 0001 0080 		{
+; 0001 0081 		delay_us(2);
 ;PCODE: $00000084 VOL: 0
-; 0001 0085 		lockinfo = 0;
+; 0001 0082 		lockinfo = 0;
 ;PCODE: $00000085 VOL: 0
-; 0001 0086 		return 0;
+; 0001 0083 		return 0;
 ;PCODE: $00000086 VOL: 0
 ;PCODE: $00000087 VOL: 0
 ;PCODE: $00000088 VOL: 0
 ;PCODE: $00000089 VOL: 0
 ;PCODE: $0000008A VOL: 0
-; 0001 0087 		}
+; 0001 0084 		}
 ;PCODE: $0000008B VOL: 0
-; 0001 0088 
-; 0001 0089 }
+; 0001 0085 
+; 0001 0086 }
 ;PCODE: $0000008C VOL: 0
 ;PCODE: $0000008D VOL: 0
 ;PCODE: $0000008E VOL: 0
@@ -299,29 +296,29 @@
 ;读取一个字节的数据并返回该字节
 ;****************************************/
 ;unsigned char i2c_byte_read(void)
-; 0001 008E {
+; 0001 008B {
 ;PCODE: $00000091 VOL: 0
 ;PCODE: $00000092 VOL: 0
-; 0001 008F         unsigned char i,data;
-; 0001 0090         data=0;
+; 0001 008C         unsigned char i,data;
+; 0001 008D         data=0;
 ;PCODE: $00000093 VOL: 0
 ;PCODE: $00000094 VOL: 0
 ;	i -> R17
 ;	data -> R16
 ;PCODE: $00000095 VOL: 0
 ;PCODE: $00000096 VOL: 0
-; 0001 0091         DDRE &=0xEF;       //SDA  input
+; 0001 008E         DDRE &=0xEF;       //SDA  input
 ;PCODE: $00000097 VOL: 0
 ;PCODE: $00000098 VOL: 0
-; 0001 0092         PORTE |= 0x10;       //SDA pull-up
+; 0001 008F         PORTE |= 0x10;       //SDA pull-up
 ;PCODE: $00000099 VOL: 0
 ;PCODE: $0000009A VOL: 0
-; 0001 0093         SCLL;
+; 0001 0090         SCLL;
 ;PCODE: $0000009B VOL: 0
 ;PCODE: $0000009C VOL: 0
-; 0001 0094         delay_us(3);
+; 0001 0091         delay_us(3);
 ;PCODE: $0000009D VOL: 0
-; 0001 0095         for(i=0;i<8;i++)
+; 0001 0092         for(i=0;i<8;i++)
 ;PCODE: $0000009E VOL: 0
 ;PCODE: $0000009F VOL: 0
 ;PCODE: $000000A0 VOL: 0
@@ -331,56 +328,56 @@
 ;PCODE: $000000A4 VOL: 0
 ;PCODE: $000000A5 VOL: 0
 ;PCODE: $000000A6 VOL: 0
-; 0001 0096         {
-; 0001 0097                 SCLH;
+; 0001 0093         {
+; 0001 0094                 SCLH;
 ;PCODE: $000000A7 VOL: 0
 ;PCODE: $000000A8 VOL: 0
-; 0001 0098                 delay_us(2);
+; 0001 0095                 delay_us(2);
 ;PCODE: $000000A9 VOL: 0
-; 0001 0099                 data=data<<1;
+; 0001 0096                 data=data<<1;
 ;PCODE: $000000AA VOL: 0
-; 0001 009A                 data=(data |(PINE & 0x10));
+; 0001 0097                 data=(data |(PINE & 0x10));
 ;PCODE: $000000AB VOL: 0
 ;PCODE: $000000AC VOL: 0
 ;PCODE: $000000AD VOL: 0
 ;PCODE: $000000AE VOL: 0
-; 0001 009B                 delay_us(2);
+; 0001 0098                 delay_us(2);
 ;PCODE: $000000AF VOL: 0
-; 0001 009C 
-; 0001 009D                 SCLL;
+; 0001 0099 
+; 0001 009A                 SCLL;
 ;PCODE: $000000B0 VOL: 0
 ;PCODE: $000000B1 VOL: 0
-; 0001 009E                 delay_us(4);
+; 0001 009B                 delay_us(4);
 ;PCODE: $000000B2 VOL: 0
-; 0001 009F         }
+; 0001 009C         }
 ;PCODE: $000000B3 VOL: 0
 ;PCODE: $000000B4 VOL: 0
 ;PCODE: $000000B5 VOL: 0
 ;PCODE: $000000B6 VOL: 0
 ;PCODE: $000000B7 VOL: 0
-; 0001 00A0         //data=(data |((PINE & 0x10)?1:0));
-; 0001 00A1         DDRE.4=1;
+; 0001 009D         //data=(data |((PINE & 0x10)?1:0));
+; 0001 009E         DDRE.4=1;
 ;PCODE: $000000B8 VOL: 0
 ;PCODE: $000000B9 VOL: 0
-; 0001 00A2         SDAL;
+; 0001 009F         SDAL;
 ;PCODE: $000000BA VOL: 0
 ;PCODE: $000000BB VOL: 0
-; 0001 00A3         SCLH;
+; 0001 00A0         SCLH;
 ;PCODE: $000000BC VOL: 0
 ;PCODE: $000000BD VOL: 0
-; 0001 00A4         delay_us(4);
+; 0001 00A1         delay_us(4);
 ;PCODE: $000000BE VOL: 0
-; 0001 00A5         SCLL;
+; 0001 00A2         SCLL;
 ;PCODE: $000000BF VOL: 0
 ;PCODE: $000000C0 VOL: 0
-; 0001 00A6         delay_us(4);
+; 0001 00A3         delay_us(4);
 ;PCODE: $000000C1 VOL: 0
-; 0001 00A7         return data;
+; 0001 00A4         return data;
 ;PCODE: $000000C2 VOL: 0
 ;PCODE: $000000C3 VOL: 0
 ;PCODE: $000000C4 VOL: 0
-; 0001 00A8 
-; 0001 00A9 }
+; 0001 00A5 
+; 0001 00A6 }
 ;PCODE: $000000C5 VOL: 0
 ;
 ;
@@ -391,12 +388,12 @@
 ;从机响应了地址返回1 否则返回0
 ;*******************************************************/
 ;char i2c_rd(unsigned char addr,unsigned char *ddata,unsigned char counter)
-; 0001 00B3 {
+; 0001 00B0 {
 ;PCODE: $000000C6 VOL: 0
 ;PCODE: $000000C7 VOL: 0
-; 0001 00B4  unsigned char i;
-; 0001 00B5  unsigned char *pdata;
-; 0001 00B6  i=counter;
+; 0001 00B1  unsigned char i;
+; 0001 00B2  unsigned char *pdata;
+; 0001 00B3  i=counter;
 ;PCODE: $000000C8 VOL: 0
 ;	addr -> Y+7
 ;	*ddata -> Y+5
@@ -405,54 +402,54 @@
 ;	*pdata -> R18,R19
 ;PCODE: $000000C9 VOL: 0
 ;PCODE: $000000CA VOL: 0
-; 0001 00B7  pdata=ddata;
+; 0001 00B4  pdata=ddata;
 ;PCODE: $000000CB VOL: 0
 ;PCODE: $000000CC VOL: 0
-; 0001 00B8  i2c_sta();
+; 0001 00B5  i2c_sta();
 ;PCODE: $000000CD VOL: 0
-; 0001 00B9  if(i2c_send(addr|0x01)==1)
+; 0001 00B6  if(i2c_send(addr|0x01)==1)
 ;PCODE: $000000CE VOL: 0
 ;PCODE: $000000CF VOL: 0
 ;PCODE: $000000D0 VOL: 0
 ;PCODE: $000000D1 VOL: 0
 ;PCODE: $000000D2 VOL: 0
 ;PCODE: $000000D3 VOL: 0
-; 0001 00BA    {
-; 0001 00BB          while(i)
+; 0001 00B7    {
+; 0001 00B8          while(i)
 ;PCODE: $000000D4 VOL: 0
 ;PCODE: $000000D5 VOL: 0
 ;PCODE: $000000D6 VOL: 0
-; 0001 00BC         	{
-; 0001 00BD         		*pdata=i2c_byte_read();
+; 0001 00B9         	{
+; 0001 00BA         		*pdata=i2c_byte_read();
 ;PCODE: $000000D7 VOL: 0
 ;PCODE: $000000D8 VOL: 0
 ;PCODE: $000000D9 VOL: 0
-; 0001 00BE         		pdata++;
+; 0001 00BB         		pdata++;
 ;PCODE: $000000DA VOL: 0
 ;PCODE: $000000DB VOL: 0
-; 0001 00BF         		i--;
+; 0001 00BC         		i--;
 ;PCODE: $000000DC VOL: 0
 ;PCODE: $000000DD VOL: 0
-; 0001 00C0         	}
+; 0001 00BD         	}
 ;PCODE: $000000DE VOL: 0
 ;PCODE: $000000DF VOL: 0
-; 0001 00C1          i2c_stp();
+; 0001 00BE          i2c_stp();
 ;PCODE: $000000E0 VOL: 0
-; 0001 00C2          return 1;
+; 0001 00BF          return 1;
 ;PCODE: $000000E1 VOL: 0
 ;PCODE: $000000E2 VOL: 0
 ;PCODE: $000000E3 VOL: 0
 ;PCODE: $000000E4 VOL: 0
-; 0001 00C3     }
-; 0001 00C4  else
+; 0001 00C0     }
+; 0001 00C1  else
 ;PCODE: $000000E5 VOL: 0
-; 0001 00C5         return 0;
+; 0001 00C2         return 0;
 ;PCODE: $000000E6 VOL: 0
 ;PCODE: $000000E7 VOL: 0
 ;PCODE: $000000E8 VOL: 0
 ;PCODE: $000000E9 VOL: 0
-; 0001 00C6 
-; 0001 00C7 }
+; 0001 00C3 
+; 0001 00C4 }
 ;PCODE: $000000EA VOL: 0
 ;PCODE: $000000EB VOL: 0
 ;PCODE: $000000EC VOL: 0
@@ -464,17 +461,17 @@
 ;发送完成返回1  否则返回0
 ;**********************************************/
 ;char i2c_tran(char *data,char num)
-; 0001 00CE {
+; 0001 00CB {
 ;PCODE: $000000EF VOL: 0
 ;PCODE: $000000F0 VOL: 0
-; 0001 00CF 	char i;
-; 0001 00D0 	i2c_sta();
+; 0001 00CC 	char i;
+; 0001 00CD 	i2c_sta();
 ;PCODE: $000000F1 VOL: 0
 ;	*data -> Y+2
 ;	num -> Y+1
 ;	i -> R17
 ;PCODE: $000000F2 VOL: 0
-; 0001 00D1 	for(i=0;i<num;i++)
+; 0001 00CE 	for(i=0;i<num;i++)
 ;PCODE: $000000F3 VOL: 0
 ;PCODE: $000000F4 VOL: 0
 ;PCODE: $000000F5 VOL: 0
@@ -484,44 +481,44 @@
 ;PCODE: $000000F9 VOL: 0
 ;PCODE: $000000FA VOL: 0
 ;PCODE: $000000FB VOL: 0
-; 0001 00D2 	{
-; 0001 00D3         	if(i2c_send(*data))
+; 0001 00CF 	{
+; 0001 00D0         	if(i2c_send(*data))
 ;PCODE: $000000FC VOL: 0
 ;PCODE: $000000FD VOL: 0
 ;PCODE: $000000FE VOL: 0
 ;PCODE: $000000FF VOL: 0
 ;PCODE: $00000100 VOL: 0
 ;PCODE: $00000101 VOL: 0
-; 0001 00D4         		data++;
+; 0001 00D1         		data++;
 ;PCODE: $00000102 VOL: 0
 ;PCODE: $00000103 VOL: 0
 ;PCODE: $00000104 VOL: 0
-; 0001 00D5         	else
+; 0001 00D2         	else
 ;PCODE: $00000105 VOL: 0
 ;PCODE: $00000106 VOL: 0
-; 0001 00D6         		return 0;
+; 0001 00D3         		return 0;
 ;PCODE: $00000107 VOL: 0
 ;PCODE: $00000108 VOL: 0
 ;PCODE: $00000109 VOL: 0
 ;PCODE: $0000010A VOL: 0
 ;PCODE: $0000010B VOL: 0
-; 0001 00D7 	}
+; 0001 00D4 	}
 ;PCODE: $0000010C VOL: 0
 ;PCODE: $0000010D VOL: 0
 ;PCODE: $0000010E VOL: 0
 ;PCODE: $0000010F VOL: 0
 ;PCODE: $00000110 VOL: 0
 ;PCODE: $00000111 VOL: 0
-; 0001 00D8 	i2c_stp();
+; 0001 00D5 	i2c_stp();
 ;PCODE: $00000112 VOL: 0
-; 0001 00D9 	return 1;
+; 0001 00D6 	return 1;
 ;PCODE: $00000113 VOL: 0
 ;PCODE: $00000114 VOL: 0
 ;PCODE: $00000115 VOL: 0
 ;PCODE: $00000116 VOL: 0
 ;PCODE: $00000117 VOL: 0
-; 0001 00DA 
-; 0001 00DB }
+; 0001 00D7 
+; 0001 00D8 }
 ;PCODE: $00000118 VOL: 0
 ;
 ;
@@ -530,29 +527,29 @@
 ;open tuner interface
 ;*******************************/
 ;void EnableTunerOperation(void)
-; 0001 00E3 {
+; 0001 00E0 {
 ;PCODE: $00000119 VOL: 0
 ;PCODE: $0000011A VOL: 0
-; 0001 00E4     unsigned char byte[3];
-; 0001 00E5      byte[0]=0xD0;
+; 0001 00E1     unsigned char byte[3];
+; 0001 00E2      byte[0]=0xD0;
 ;PCODE: $0000011B VOL: 0
 ;	byte -> Y+0
 ;PCODE: $0000011C VOL: 0
 ;PCODE: $0000011D VOL: 0
-; 0001 00E6      byte[1]=0x01;
+; 0001 00E3      byte[1]=0x01;
 ;PCODE: $0000011E VOL: 0
 ;PCODE: $0000011F VOL: 0
-; 0001 00E7      byte[2]=0xC0;
+; 0001 00E4      byte[2]=0xC0;
 ;PCODE: $00000120 VOL: 0
 ;PCODE: $00000121 VOL: 0
-; 0001 00E8      i2c_tran(byte,3);
+; 0001 00E5      i2c_tran(byte,3);
 ;PCODE: $00000122 VOL: 0
 ;PCODE: $00000123 VOL: 0
 ;PCODE: $00000124 VOL: 0
 ;PCODE: $00000125 VOL: 0
 ;PCODE: $00000126 VOL: 0
-; 0001 00E9      ////printf("Enable Tuner Operation\n");
-; 0001 00EA }
+; 0001 00E6      ////printf("Enable Tuner Operation\n");
+; 0001 00E7 }
 ;PCODE: $00000127 VOL: 0
 ;PCODE: $00000128 VOL: 0
 ;PCODE: $00000129 VOL: 0
@@ -561,29 +558,29 @@
 ;close tuner interface
 ;*******************************/
 ;void DisableTunerOperation(void)
-; 0001 00F0 {
+; 0001 00ED {
 ;PCODE: $0000012A VOL: 0
 ;PCODE: $0000012B VOL: 0
-; 0001 00F1     unsigned char byte[3];
-; 0001 00F2     byte[0]=0xD0;
+; 0001 00EE     unsigned char byte[3];
+; 0001 00EF     byte[0]=0xD0;
 ;PCODE: $0000012C VOL: 0
 ;	byte -> Y+0
 ;PCODE: $0000012D VOL: 0
 ;PCODE: $0000012E VOL: 0
-; 0001 00F3     byte[1]=0x01;
+; 0001 00F0     byte[1]=0x01;
 ;PCODE: $0000012F VOL: 0
 ;PCODE: $00000130 VOL: 0
-; 0001 00F4     byte[2]=0x40;
+; 0001 00F1     byte[2]=0x40;
 ;PCODE: $00000131 VOL: 0
 ;PCODE: $00000132 VOL: 0
-; 0001 00F5     i2c_tran(byte,3);
+; 0001 00F2     i2c_tran(byte,3);
 ;PCODE: $00000133 VOL: 0
 ;PCODE: $00000134 VOL: 0
 ;PCODE: $00000135 VOL: 0
 ;PCODE: $00000136 VOL: 0
 ;PCODE: $00000137 VOL: 0
-; 0001 00F6     ////printf("Disable Tuner Operation\n");
-; 0001 00F7 }
+; 0001 00F3     ////printf("Disable Tuner Operation\n");
+; 0001 00F4 }
 ;PCODE: $00000138 VOL: 0
 ;PCODE: $00000139 VOL: 0
 ;PCODE: $0000013A VOL: 0
@@ -592,17 +589,17 @@
 ;计算频率 将之转换为tuner初始化需要的字节数据,并写入芯片
 ;*******************************************************/
 ;unsigned char TFC(unsigned long _TunerFrequency) //TunerFrequencyCalculate  KHZ
-; 0001 00FD {
+; 0001 00FA {
 ;PCODE: $0000013B VOL: 0
 ;PCODE: $0000013C VOL: 0
-; 0001 00FE 
-; 0001 00FF 	unsigned long long_tmp, TunerFrequency  ;
-; 0001 0100 	unsigned int i;
-; 0001 0101 	unsigned char B[5] = {0x00},temp[5] = {0x00};
-; 0001 0102 	unsigned int ddata,pd2,pd3,pd4,pd5 ;
-; 0001 0103         //printf("TunerFreq %ld.\n",_TunerFrequency);
-; 0001 0104 
-; 0001 0105 	B[0] = 0xc0;
+; 0001 00FB 
+; 0001 00FC 	unsigned long long_tmp, TunerFrequency  ;
+; 0001 00FD 	unsigned int i;
+; 0001 00FE 	unsigned char B[5] = {0x00},temp[5] = {0x00};
+; 0001 00FF 	unsigned int ddata,pd2,pd3,pd4,pd5 ;
+; 0001 0100         //printf("TunerFreq %ld.\n",_TunerFrequency);
+; 0001 0101 
+; 0001 0102 	B[0] = 0xc0;
 ;PCODE: $0000013D VOL: 0
 ;PCODE: $0000013E VOL: 0
 ;PCODE: $0000013F VOL: 0
@@ -622,7 +619,7 @@
 ;	pd5 -> Y+6
 ;PCODE: $00000143 VOL: 0
 ;PCODE: $00000144 VOL: 0
-; 0001 0106 	if ((_TunerFrequency>=900000)&&(_TunerFrequency<1170000)) 	//
+; 0001 0103 	if ((_TunerFrequency>=900000)&&(_TunerFrequency<1170000)) 	//
 ;PCODE: $00000145 VOL: 0
 ;PCODE: $00000146 VOL: 0
 ;PCODE: $00000147 VOL: 0
@@ -633,11 +630,11 @@
 ;PCODE: $0000014C VOL: 0
 ;PCODE: $0000014D VOL: 0
 ;PCODE: $0000014E VOL: 0
-; 0001 0107 	{
-; 0001 0108 		B[4]=0x0e;
+; 0001 0104 	{
+; 0001 0105 		B[4]=0x0e;
 ;PCODE: $0000014F VOL: 0
 ;PCODE: $00000150 VOL: 0
-; 0001 0109 		for (i=0; i<3; i++)
+; 0001 0106 		for (i=0; i<3; i++)
 ;PCODE: $00000151 VOL: 0
 ;PCODE: $00000152 VOL: 0
 ;PCODE: $00000153 VOL: 0
@@ -647,8 +644,8 @@
 ;PCODE: $00000157 VOL: 0
 ;PCODE: $00000158 VOL: 0
 ;PCODE: $00000159 VOL: 0
-; 0001 010A 		{
-; 0001 010B 	        if (_TunerFrequency < LVCO_FREQS[i][1]) break;
+; 0001 0107 		{
+; 0001 0108 	        if (_TunerFrequency < LVCO_FREQS[i][1]) break;
 ;PCODE: $0000015A VOL: 0
 ;PCODE: $0000015B VOL: 0
 ;PCODE: $0000015C VOL: 0
@@ -658,35 +655,35 @@
 ;PCODE: $00000160 VOL: 0
 ;PCODE: $00000161 VOL: 0
 ;PCODE: $00000162 VOL: 0
-; 0001 010C 		}
+; 0001 0109 		}
 ;PCODE: $00000163 VOL: 0
 ;PCODE: $00000164 VOL: 0
 ;PCODE: $00000165 VOL: 0
 ;PCODE: $00000166 VOL: 0
 ;PCODE: $00000167 VOL: 0
 ;PCODE: $00000168 VOL: 0
-; 0001 010D 		i=i+0x05;
+; 0001 010A 		i=i+0x05;
 ;PCODE: $00000169 VOL: 0
 ;PCODE: $0000016A VOL: 0
-; 0001 010E 		i=i<<5;
+; 0001 010B 		i=i<<5;
 ;PCODE: $0000016B VOL: 0
 ;PCODE: $0000016C VOL: 0
 ;PCODE: $0000016D VOL: 0
 ;PCODE: $0000016E VOL: 0
-; 0001 010F     		B[4]= B[4]+i;
+; 0001 010C     		B[4]= B[4]+i;
 ;PCODE: $0000016F VOL: 0
 ;PCODE: $00000170 VOL: 0
 ;PCODE: $00000171 VOL: 0
 ;PCODE: $00000172 VOL: 0
-; 0001 0110 	}
-; 0001 0111 	else													//
+; 0001 010D 	}
+; 0001 010E 	else													//
 ;PCODE: $00000173 VOL: 0
 ;PCODE: $00000174 VOL: 0
-; 0001 0112 	{
-; 0001 0113 		B[4]=0x0c;
+; 0001 010F 	{
+; 0001 0110 		B[4]=0x0c;
 ;PCODE: $00000175 VOL: 0
 ;PCODE: $00000176 VOL: 0
-; 0001 0114 		for (i=0; i<7; i++)
+; 0001 0111 		for (i=0; i<7; i++)
 ;PCODE: $00000177 VOL: 0
 ;PCODE: $00000178 VOL: 0
 ;PCODE: $00000179 VOL: 0
@@ -696,8 +693,8 @@
 ;PCODE: $0000017D VOL: 0
 ;PCODE: $0000017E VOL: 0
 ;PCODE: $0000017F VOL: 0
-; 0001 0115 		{
-; 0001 0116 	        if (_TunerFrequency < HVCO_FREQS[i][1]) break;
+; 0001 0112 		{
+; 0001 0113 	        if (_TunerFrequency < HVCO_FREQS[i][1]) break;
 ;PCODE: $00000180 VOL: 0
 ;PCODE: $00000181 VOL: 0
 ;PCODE: $00000182 VOL: 0
@@ -707,155 +704,155 @@
 ;PCODE: $00000186 VOL: 0
 ;PCODE: $00000187 VOL: 0
 ;PCODE: $00000188 VOL: 0
-; 0001 0117 		}
+; 0001 0114 		}
 ;PCODE: $00000189 VOL: 0
 ;PCODE: $0000018A VOL: 0
 ;PCODE: $0000018B VOL: 0
 ;PCODE: $0000018C VOL: 0
 ;PCODE: $0000018D VOL: 0
 ;PCODE: $0000018E VOL: 0
-; 0001 0118 		i=i+0x01;
+; 0001 0115 		i=i+0x01;
 ;PCODE: $0000018F VOL: 0
 ;PCODE: $00000190 VOL: 0
-; 0001 0119 		i=i<<5;
+; 0001 0116 		i=i<<5;
 ;PCODE: $00000191 VOL: 0
 ;PCODE: $00000192 VOL: 0
 ;PCODE: $00000193 VOL: 0
 ;PCODE: $00000194 VOL: 0
-; 0001 011A 		B[4]= B[4]+i;
+; 0001 0117 		B[4]= B[4]+i;
 ;PCODE: $00000195 VOL: 0
 ;PCODE: $00000196 VOL: 0
 ;PCODE: $00000197 VOL: 0
 ;PCODE: $00000198 VOL: 0
-; 0001 011B 	}
+; 0001 0118 	}
 ;PCODE: $00000199 VOL: 0
-; 0001 011C 	TunerFrequency = _TunerFrequency/500;
+; 0001 0119 	TunerFrequency = _TunerFrequency/500;
 ;PCODE: $0000019A VOL: 0
 ;PCODE: $0000019B VOL: 0
 ;PCODE: $0000019C VOL: 0
 ;PCODE: $0000019D VOL: 0
-; 0001 011D 	long_tmp = TunerFrequency/32;
+; 0001 011A 	long_tmp = TunerFrequency/32;
 ;PCODE: $0000019E VOL: 0
 ;PCODE: $0000019F VOL: 0
 ;PCODE: $000001A0 VOL: 0
 ;PCODE: $000001A1 VOL: 0
-; 0001 011E 	i = TunerFrequency%32;
+; 0001 011B 	i = TunerFrequency%32;
 ;PCODE: $000001A2 VOL: 0
 ;PCODE: $000001A3 VOL: 0
 ;PCODE: $000001A4 VOL: 0
-; 0001 011F  	B[1] = (int)((long_tmp>>3)&0x000000ff);
+; 0001 011C  	B[1] = (int)((long_tmp>>3)&0x000000ff);
 ;PCODE: $000001A5 VOL: 0
 ;PCODE: $000001A6 VOL: 0
 ;PCODE: $000001A7 VOL: 0
 ;PCODE: $000001A8 VOL: 0
 ;PCODE: $000001A9 VOL: 0
-; 0001 0120 	B[2] = (int)((long_tmp<<5)&0x000000ff);
+; 0001 011D 	B[2] = (int)((long_tmp<<5)&0x000000ff);
 ;PCODE: $000001AA VOL: 0
 ;PCODE: $000001AB VOL: 0
 ;PCODE: $000001AC VOL: 0
 ;PCODE: $000001AD VOL: 0
-; 0001 0121 	B[2] = (int)(B[2] + i);
+; 0001 011E 	B[2] = (int)(B[2] + i);
 ;PCODE: $000001AE VOL: 0
 ;PCODE: $000001AF VOL: 0
 ;PCODE: $000001B0 VOL: 0
 ;PCODE: $000001B1 VOL: 0
-; 0001 0122 	i=0;
+; 0001 011F 	i=0;
 ;PCODE: $000001B2 VOL: 0
 ;PCODE: $000001B3 VOL: 0
-; 0001 0123 	////printf("TFC byte1~5:0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
-; 0001 0124     do
+; 0001 0120 	////printf("TFC byte1~5:0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
+; 0001 0121     do
 ;PCODE: $000001B4 VOL: 0
-; 0001 0125       {
-; 0001 0126 //             temp_para = 0;
-; 0001 0127 // 	    //printf("the cation of i2c acknowlede in function TFC\n");
-; 0001 0128 	    temp[0] = B[0];
+; 0001 0122       {
+; 0001 0123 //             temp_para = 0;
+; 0001 0124 // 	    //printf("the cation of i2c acknowlede in function TFC\n");
+; 0001 0125 	    temp[0] = B[0];
 ;PCODE: $000001B5 VOL: 0
 ;PCODE: $000001B6 VOL: 0
-; 0001 0129 	    temp[1] = B[1];
+; 0001 0126 	    temp[1] = B[1];
 ;PCODE: $000001B7 VOL: 0
 ;PCODE: $000001B8 VOL: 0
-; 0001 012A 	    temp[2] = B[2];
+; 0001 0127 	    temp[2] = B[2];
 ;PCODE: $000001B9 VOL: 0
 ;PCODE: $000001BA VOL: 0
-; 0001 012B 	    temp[4] = B[4];
+; 0001 0128 	    temp[4] = B[4];
 ;PCODE: $000001BB VOL: 0
 ;PCODE: $000001BC VOL: 0
-; 0001 012C 
-; 0001 012D             temp[3] = 0xe1;
+; 0001 0129 
+; 0001 012A             temp[3] = 0xe1;
 ;PCODE: $000001BD VOL: 0
 ;PCODE: $000001BE VOL: 0
-; 0001 012E             temp[4] = B[4] & 0xf3;
+; 0001 012B             temp[4] = B[4] & 0xf3;
 ;PCODE: $000001BF VOL: 0
 ;PCODE: $000001C0 VOL: 0
 ;PCODE: $000001C1 VOL: 0
-; 0001 012F //             //printf("B1. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
-; 0001 0130              ////printf("temp1. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",temp[0],temp[1],temp[2],temp[3],temp[4]);
-; 0001 0131 
-; 0001 0132             EnableTunerOperation();
+; 0001 012C //             //printf("B1. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
+; 0001 012D              ////printf("temp1. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",temp[0],temp[1],temp[2],temp[3],temp[4]);
+; 0001 012E 
+; 0001 012F             EnableTunerOperation();
 ;PCODE: $000001C2 VOL: 0
-; 0001 0133             i2c_tran(temp,5);                   //write byte1 byte2 byte3 byte4 byte5
+; 0001 0130             i2c_tran(temp,5);                   //write byte1 byte2 byte3 byte4 byte5
 ;PCODE: $000001C3 VOL: 0
 ;PCODE: $000001C4 VOL: 0
 ;PCODE: $000001C5 VOL: 0
 ;PCODE: $000001C6 VOL: 0
 ;PCODE: $000001C7 VOL: 0
-; 0001 0134             //DisableTunerOperation();
-; 0001 0135 
-; 0001 0136             temp[1] = temp[3] | 0x04;
+; 0001 0131             //DisableTunerOperation();
+; 0001 0132 
+; 0001 0133             temp[1] = temp[3] | 0x04;
 ;PCODE: $000001C8 VOL: 0
 ;PCODE: $000001C9 VOL: 0
 ;PCODE: $000001CA VOL: 0
-; 0001 0137             // //printf("temp2. byte1,4  0x%x,0x%x\n",temp[0],temp[1]);
-; 0001 0138             //EnableTunerOperation();
-; 0001 0139             i2c_tran(temp,2);           //write byte1 byte4
+; 0001 0134             // //printf("temp2. byte1,4  0x%x,0x%x\n",temp[0],temp[1]);
+; 0001 0135             //EnableTunerOperation();
+; 0001 0136             i2c_tran(temp,2);           //write byte1 byte4
 ;PCODE: $000001CB VOL: 0
 ;PCODE: $000001CC VOL: 0
 ;PCODE: $000001CD VOL: 0
 ;PCODE: $000001CE VOL: 0
 ;PCODE: $000001CF VOL: 0
-; 0001 013A             //DisableTunerOperation();
-; 0001 013B             delay_ms(10);
+; 0001 0137             //DisableTunerOperation();
+; 0001 0138             delay_ms(10);
 ;PCODE: $000001D0 VOL: 0
 ;PCODE: $000001D1 VOL: 0
 ;PCODE: $000001D2 VOL: 0
-; 0001 013C 
-; 0001 013D             B[3] = 0xfd;
+; 0001 0139 
+; 0001 013A             B[3] = 0xfd;
 ;PCODE: $000001D3 VOL: 0
 ;PCODE: $000001D4 VOL: 0
-; 0001 013E             ddata =  (30000/1000)/2 - 2;
+; 0001 013B             ddata =  (30000/1000)/2 - 2;
 ;PCODE: $000001D5 VOL: 0
 ;PCODE: $000001D6 VOL: 0
-; 0001 013F             pd2 = (ddata>>1)&0x04	;
+; 0001 013C             pd2 = (ddata>>1)&0x04	;
 ;PCODE: $000001D7 VOL: 0
 ;PCODE: $000001D8 VOL: 0
 ;PCODE: $000001D9 VOL: 0
 ;PCODE: $000001DA VOL: 0
-; 0001 0140             pd3 = (ddata<<1)&0x08	;
+; 0001 013D             pd3 = (ddata<<1)&0x08	;
 ;PCODE: $000001DB VOL: 0
 ;PCODE: $000001DC VOL: 0
 ;PCODE: $000001DD VOL: 0
 ;PCODE: $000001DE VOL: 0
-; 0001 0141             pd4 = (ddata<<2)&0x08	;
+; 0001 013E             pd4 = (ddata<<2)&0x08	;
 ;PCODE: $000001DF VOL: 0
 ;PCODE: $000001E0 VOL: 0
 ;PCODE: $000001E1 VOL: 0
 ;PCODE: $000001E2 VOL: 0
-; 0001 0142             pd5 = (ddata<<4)&0x10	;
+; 0001 013F             pd5 = (ddata<<4)&0x10	;
 ;PCODE: $000001E3 VOL: 0
 ;PCODE: $000001E4 VOL: 0
 ;PCODE: $000001E5 VOL: 0
 ;PCODE: $000001E6 VOL: 0
-; 0001 0143             B[3] &= 0xE7	;
+; 0001 0140             B[3] &= 0xE7	;
 ;PCODE: $000001E7 VOL: 0
 ;PCODE: $000001E8 VOL: 0
 ;PCODE: $000001E9 VOL: 0
 ;PCODE: $000001EA VOL: 0
-; 0001 0144             B[4] &= 0xF3	;
+; 0001 0141             B[4] &= 0xF3	;
 ;PCODE: $000001EB VOL: 0
 ;PCODE: $000001EC VOL: 0
 ;PCODE: $000001ED VOL: 0
 ;PCODE: $000001EE VOL: 0
-; 0001 0145             B[3] |= (pd5|pd4)	;
+; 0001 0142             B[3] |= (pd5|pd4)	;
 ;PCODE: $000001EF VOL: 0
 ;PCODE: $000001F0 VOL: 0
 ;PCODE: $000001F1 VOL: 0
@@ -865,7 +862,7 @@
 ;PCODE: $000001F5 VOL: 0
 ;PCODE: $000001F6 VOL: 0
 ;PCODE: $000001F7 VOL: 0
-; 0001 0146             B[4] |= (pd3|pd2)	;
+; 0001 0143             B[4] |= (pd3|pd2)	;
 ;PCODE: $000001F8 VOL: 0
 ;PCODE: $000001F9 VOL: 0
 ;PCODE: $000001FA VOL: 0
@@ -875,47 +872,47 @@
 ;PCODE: $000001FE VOL: 0
 ;PCODE: $000001FF VOL: 0
 ;PCODE: $00000200 VOL: 0
-; 0001 0147 
-; 0001 0148 //             //printf("B2. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
-; 0001 0149 
-; 0001 014A             temp[1] = B[3] | 0x04;
+; 0001 0144 
+; 0001 0145 //             //printf("B2. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
+; 0001 0146 
+; 0001 0147             temp[1] = B[3] | 0x04;
 ;PCODE: $00000201 VOL: 0
 ;PCODE: $00000202 VOL: 0
 ;PCODE: $00000203 VOL: 0
-; 0001 014B             temp[2] = B[4];
+; 0001 0148             temp[2] = B[4];
 ;PCODE: $00000204 VOL: 0
 ;PCODE: $00000205 VOL: 0
-; 0001 014C             // //printf("temp3. byte1,4,5  0x%x,0x%x,0x%x\n",temp[0],temp[1],temp[2]);
-; 0001 014D             //EnableTunerOperation();
-; 0001 014E             i2c_tran(temp,3);                   //write byte1 byte4 byte5
+; 0001 0149             // //printf("temp3. byte1,4,5  0x%x,0x%x,0x%x\n",temp[0],temp[1],temp[2]);
+; 0001 014A             //EnableTunerOperation();
+; 0001 014B             i2c_tran(temp,3);                   //write byte1 byte4 byte5
 ;PCODE: $00000206 VOL: 0
 ;PCODE: $00000207 VOL: 0
 ;PCODE: $00000208 VOL: 0
 ;PCODE: $00000209 VOL: 0
 ;PCODE: $0000020A VOL: 0
-; 0001 014F             DisableTunerOperation();
+; 0001 014C             DisableTunerOperation();
 ;PCODE: $0000020B VOL: 0
-; 0001 0150 
-; 0001 0151             delay_ms(1);
+; 0001 014D 
+; 0001 014E             delay_ms(1);
 ;PCODE: $0000020C VOL: 0
 ;PCODE: $0000020D VOL: 0
 ;PCODE: $0000020E VOL: 0
-; 0001 0152             i++;
+; 0001 014F             i++;
 ;PCODE: $0000020F VOL: 0
 ;PCODE: $00000210 VOL: 0
-; 0001 0153             if(pll_lk())
+; 0001 0150             if(pll_lk())
 ;PCODE: $00000211 VOL: 0
 ;PCODE: $00000212 VOL: 0
 ;PCODE: $00000213 VOL: 0
-; 0001 0154             {
-; 0001 0155                 //printf("TunerFrequency Calculate & set Success! \n");
-; 0001 0156                 return 1;
+; 0001 0151             {
+; 0001 0152                 //printf("TunerFrequency Calculate & set Success! \n");
+; 0001 0153                 return 1;
 ;PCODE: $00000214 VOL: 0
 ;PCODE: $00000215 VOL: 0
 ;PCODE: $00000216 VOL: 0
 ;PCODE: $00000217 VOL: 0
-; 0001 0157             }
-; 0001 0158         }while(i < 4);
+; 0001 0154             }
+; 0001 0155         }while(i < 4);
 ;PCODE: $00000218 VOL: 0
 ;PCODE: $00000219 VOL: 0
 ;PCODE: $0000021A VOL: 0
@@ -923,13 +920,13 @@
 ;PCODE: $0000021C VOL: 0
 ;PCODE: $0000021D VOL: 0
 ;PCODE: $0000021E VOL: 0
-; 0001 0159         //printf("TunerFrequency Calculate & set Failed!\n");
-; 0001 015A         return 0;
+; 0001 0156         //printf("TunerFrequency Calculate & set Failed!\n");
+; 0001 0157         return 0;
 ;PCODE: $0000021F VOL: 0
 ;PCODE: $00000220 VOL: 0
 ;PCODE: $00000221 VOL: 0
 ;PCODE: $00000222 VOL: 0
-; 0001 015B }
+; 0001 0158 }
 ;PCODE: $00000223 VOL: 0
 ;
 ;
@@ -937,16 +934,16 @@
 ;STV0288芯片初始化
 ;***************************/
 ;void STV0288Init(void)
-; 0001 0162 {
+; 0001 015F {
 ;PCODE: $00000224 VOL: 0
 ;PCODE: $00000225 VOL: 0
-; 0001 0163  unsigned char byte[10];  //i = 0;
-; 0001 0164  unsigned char *pointer;
+; 0001 0160  unsigned char byte[10];  //i = 0;
+; 0001 0161  unsigned char *pointer;
+; 0001 0162 
+; 0001 0163         // temp_para = 0;
+; 0001 0164         // //printf("the cation of i2c acknowlede in function STV0288Init\n");
 ; 0001 0165 
-; 0001 0166         // temp_para = 0;
-; 0001 0167         // //printf("the cation of i2c acknowlede in function STV0288Init\n");
-; 0001 0168 
-; 0001 0169         byte[0]=0xD0;
+; 0001 0166         byte[0]=0xD0;
 ;PCODE: $00000226 VOL: 0
 ;PCODE: $00000227 VOL: 0
 ;PCODE: $00000228 VOL: 0
@@ -954,269 +951,269 @@
 ;	*pointer -> R16,R17
 ;PCODE: $00000229 VOL: 0
 ;PCODE: $0000022A VOL: 0
-; 0001 016A         pointer= &byte[0];
+; 0001 0167         pointer= &byte[0];
 ;PCODE: $0000022B VOL: 0
 ;PCODE: $0000022C VOL: 0
-; 0001 016B 
-; 0001 016C         /********************************
-; 0001 016D         set clock
-; 0001 016E         PLL_DIV=100
-; 0001 016F         clock inputfrom CLKI,Fmclk=4M*PLL_DIV/4=100M
-; 0001 0170         ********************************/
-; 0001 0171         byte[1]= 0x40;
+; 0001 0168 
+; 0001 0169         /********************************
+; 0001 016A         set clock
+; 0001 016B         PLL_DIV=100
+; 0001 016C         clock inputfrom CLKI,Fmclk=4M*PLL_DIV/4=100M
+; 0001 016D         ********************************/
+; 0001 016E         byte[1]= 0x40;
 ;PCODE: $0000022D VOL: 0
 ;PCODE: $0000022E VOL: 0
-; 0001 0172         byte[2]= 0x64;             //PLLCTRL
+; 0001 016F         byte[2]= 0x64;             //PLLCTRL
 ;PCODE: $0000022F VOL: 0
 ;PCODE: $00000230 VOL: 0
-; 0001 0173         byte[3]= 0x04;             //SYNTCTRL
+; 0001 0170         byte[3]= 0x04;             //SYNTCTRL
 ;PCODE: $00000231 VOL: 0
 ;PCODE: $00000232 VOL: 0
-; 0001 0174         i2c_tran(pointer,4);
+; 0001 0171         i2c_tran(pointer,4);
 ;PCODE: $00000233 VOL: 0
 ;PCODE: $00000234 VOL: 0
 ;PCODE: $00000235 VOL: 0
 ;PCODE: $00000236 VOL: 0
-; 0001 0175 
-; 0001 0176 
-; 0001 0177 
-; 0001 0178         byte[1]=0x02;                 //ACR
+; 0001 0172 
+; 0001 0173 
+; 0001 0174 
+; 0001 0175         byte[1]=0x02;                 //ACR
 ;PCODE: $00000237 VOL: 0
 ;PCODE: $00000238 VOL: 0
-; 0001 0179         byte[2]=0x20;
+; 0001 0176         byte[2]=0x20;
 ;PCODE: $00000239 VOL: 0
 ;PCODE: $0000023A VOL: 0
-; 0001 017A         i2c_tran(pointer,3);
+; 0001 0177         i2c_tran(pointer,3);
 ;PCODE: $0000023B VOL: 0
 ;PCODE: $0000023C VOL: 0
 ;PCODE: $0000023D VOL: 0
 ;PCODE: $0000023E VOL: 0
+; 0001 0178 
+; 0001 0179 
+; 0001 017A 
 ; 0001 017B 
-; 0001 017C 
-; 0001 017D 
-; 0001 017E 
-; 0001 017F         /*********************
-; 0001 0180         set register about AGC
-; 0001 0181         **********************/
-; 0001 0182         byte[1]=0x0F;
+; 0001 017C         /*********************
+; 0001 017D         set register about AGC
+; 0001 017E         **********************/
+; 0001 017F         byte[1]=0x0F;
 ;PCODE: $0000023F VOL: 0
 ;PCODE: $00000240 VOL: 0
-; 0001 0183         byte[2]=0x54;               //AGC1REF
+; 0001 0180         byte[2]=0x54;               //AGC1REF
 ;PCODE: $00000241 VOL: 0
 ;PCODE: $00000242 VOL: 0
-; 0001 0184         i2c_tran(pointer,3);
+; 0001 0181         i2c_tran(pointer,3);
 ;PCODE: $00000243 VOL: 0
 ;PCODE: $00000244 VOL: 0
 ;PCODE: $00000245 VOL: 0
 ;PCODE: $00000246 VOL: 0
-; 0001 0185         ////printf("AGC1REF*");
-; 0001 0186         /*******************************
-; 0001 0187         set register about timing loop
-; 0001 0188         ********************************/
-; 0001 0189 
-; 0001 018A         byte[1]=0x11;
+; 0001 0182         ////printf("AGC1REF*");
+; 0001 0183         /*******************************
+; 0001 0184         set register about timing loop
+; 0001 0185         ********************************/
+; 0001 0186 
+; 0001 0187         byte[1]=0x11;
 ;PCODE: $00000247 VOL: 0
 ;PCODE: $00000248 VOL: 0
-; 0001 018B         byte[2]=0x7a;                 //RTC
+; 0001 0188         byte[2]=0x7a;                 //RTC
 ;PCODE: $00000249 VOL: 0
 ;PCODE: $0000024A VOL: 0
-; 0001 018C         i2c_tran(pointer,3);
+; 0001 0189         i2c_tran(pointer,3);
 ;PCODE: $0000024B VOL: 0
 ;PCODE: $0000024C VOL: 0
 ;PCODE: $0000024D VOL: 0
 ;PCODE: $0000024E VOL: 0
-; 0001 018D         ////printf("RTC*");
-; 0001 018E         byte[1]=0x22;
+; 0001 018A         ////printf("RTC*");
+; 0001 018B         byte[1]=0x22;
 ;PCODE: $0000024F VOL: 0
 ;PCODE: $00000250 VOL: 0
-; 0001 018F         byte[2]=0x00;               //RTFM
+; 0001 018C         byte[2]=0x00;               //RTFM
 ;PCODE: $00000251 VOL: 0
 ;PCODE: $00000252 VOL: 0
-; 0001 0190         byte[3]=0x00;               //RTFL
+; 0001 018D         byte[3]=0x00;               //RTFL
 ;PCODE: $00000253 VOL: 0
 ;PCODE: $00000254 VOL: 0
-; 0001 0191         i2c_tran(pointer,4);
+; 0001 018E         i2c_tran(pointer,4);
 ;PCODE: $00000255 VOL: 0
 ;PCODE: $00000256 VOL: 0
 ;PCODE: $00000257 VOL: 0
 ;PCODE: $00000258 VOL: 0
-; 0001 0192         ////printf("RTF*");
-; 0001 0193 
-; 0001 0194         /**********************************************
-; 0001 0195         set register about DAC (该寄存器设置不影响锁定)
-; 0001 0196         **********************************************/
-; 0001 0197 
-; 0001 0198         byte[1]=0x1b;
+; 0001 018F         ////printf("RTF*");
+; 0001 0190 
+; 0001 0191         /**********************************************
+; 0001 0192         set register about DAC (该寄存器设置不影响锁定)
+; 0001 0193         **********************************************/
+; 0001 0194 
+; 0001 0195         byte[1]=0x1b;
 ;PCODE: $00000259 VOL: 0
 ;PCODE: $0000025A VOL: 0
-; 0001 0199         byte[2]=0x8f;                    //DACR1
+; 0001 0196         byte[2]=0x8f;                    //DACR1
 ;PCODE: $0000025B VOL: 0
 ;PCODE: $0000025C VOL: 0
-; 0001 019A         byte[3]=0xf0;               //DACR2
+; 0001 0197         byte[3]=0xf0;               //DACR2
 ;PCODE: $0000025D VOL: 0
 ;PCODE: $0000025E VOL: 0
-; 0001 019B         i2c_tran(pointer,4);
+; 0001 0198         i2c_tran(pointer,4);
 ;PCODE: $0000025F VOL: 0
 ;PCODE: $00000260 VOL: 0
 ;PCODE: $00000261 VOL: 0
 ;PCODE: $00000262 VOL: 0
-; 0001 019C         ////printf("DACR*");
-; 0001 019D         /*******************************
-; 0001 019E         set register about carrier loop
-; 0001 019F         ********************************/
-; 0001 01A0         byte[1]=0x15;
+; 0001 0199         ////printf("DACR*");
+; 0001 019A         /*******************************
+; 0001 019B         set register about carrier loop
+; 0001 019C         ********************************/
+; 0001 019D         byte[1]=0x15;
 ;PCODE: $00000263 VOL: 0
 ;PCODE: $00000264 VOL: 0
-; 0001 01A1         byte[2]=0xf7;                   //CFD
+; 0001 019E         byte[2]=0xf7;                   //CFD
 ;PCODE: $00000265 VOL: 0
 ;PCODE: $00000266 VOL: 0
-; 0001 01A2         byte[3]=0x88;                 //ACLC
+; 0001 019F         byte[3]=0x88;                 //ACLC
 ;PCODE: $00000267 VOL: 0
 ;PCODE: $00000268 VOL: 0
-; 0001 01A3         byte[4]=0x58;                 //BCLC
+; 0001 01A0         byte[4]=0x58;                 //BCLC
 ;PCODE: $00000269 VOL: 0
 ;PCODE: $0000026A VOL: 0
-; 0001 01A4         i2c_tran(pointer,5);
+; 0001 01A1         i2c_tran(pointer,5);
 ;PCODE: $0000026B VOL: 0
 ;PCODE: $0000026C VOL: 0
 ;PCODE: $0000026D VOL: 0
 ;PCODE: $0000026E VOL: 0
-; 0001 01A5 
-; 0001 01A6 
-; 0001 01A7         byte[1]=0x19;
+; 0001 01A2 
+; 0001 01A3 
+; 0001 01A4         byte[1]=0x19;
 ;PCODE: $0000026F VOL: 0
 ;PCODE: $00000270 VOL: 0
-; 0001 01A8         byte[2]=0xa6;                   //LDT
+; 0001 01A5         byte[2]=0xa6;                   //LDT
 ;PCODE: $00000271 VOL: 0
 ;PCODE: $00000272 VOL: 0
-; 0001 01A9         byte[3]=0x88;                 //LDT2
+; 0001 01A6         byte[3]=0x88;                 //LDT2
 ;PCODE: $00000273 VOL: 0
 ;PCODE: $00000274 VOL: 0
-; 0001 01AA         i2c_tran(pointer,4);
+; 0001 01A7         i2c_tran(pointer,4);
 ;PCODE: $00000275 VOL: 0
 ;PCODE: $00000276 VOL: 0
 ;PCODE: $00000277 VOL: 0
 ;PCODE: $00000278 VOL: 0
-; 0001 01AB 
-; 0001 01AC         byte[1]=0x2B;
+; 0001 01A8 
+; 0001 01A9         byte[1]=0x2B;
 ;PCODE: $00000279 VOL: 0
 ;PCODE: $0000027A VOL: 0
-; 0001 01AD         byte[2]=0xFF;                   //CFRM
+; 0001 01AA         byte[2]=0xFF;                   //CFRM
 ;PCODE: $0000027B VOL: 0
 ;PCODE: $0000027C VOL: 0
-; 0001 01AE         byte[3]=0xF7;                 //CFRL
+; 0001 01AB         byte[3]=0xF7;                 //CFRL
 ;PCODE: $0000027D VOL: 0
 ;PCODE: $0000027E VOL: 0
-; 0001 01AF         i2c_tran(pointer,4);
+; 0001 01AC         i2c_tran(pointer,4);
 ;PCODE: $0000027F VOL: 0
 ;PCODE: $00000280 VOL: 0
 ;PCODE: $00000281 VOL: 0
 ;PCODE: $00000282 VOL: 0
-; 0001 01B0 
-; 0001 01B1 
-; 0001 01B2         /*******************************
-; 0001 01B3         set register about FEC and SYNC
-; 0001 01B4         ********************************/
-; 0001 01B5         byte[1]=0x37;
+; 0001 01AD 
+; 0001 01AE 
+; 0001 01AF         /*******************************
+; 0001 01B0         set register about FEC and SYNC
+; 0001 01B1         ********************************/
+; 0001 01B2         byte[1]=0x37;
 ;PCODE: $00000283 VOL: 0
 ;PCODE: $00000284 VOL: 0
-; 0001 01B6         byte[2]=0x2f;                   //PR
+; 0001 01B3         byte[2]=0x2f;                   //PR
 ;PCODE: $00000285 VOL: 0
 ;PCODE: $00000286 VOL: 0
-; 0001 01B7         byte[3]=0x16;                 //VSEARCH
+; 0001 01B4         byte[3]=0x16;                 //VSEARCH
 ;PCODE: $00000287 VOL: 0
 ;PCODE: $00000288 VOL: 0
-; 0001 01B8         byte[4]=0xbd;                 //RS
+; 0001 01B5         byte[4]=0xbd;                 //RS
 ;PCODE: $00000289 VOL: 0
 ;PCODE: $0000028A VOL: 0
-; 0001 01B9         i2c_tran(pointer,5);
+; 0001 01B6         i2c_tran(pointer,5);
 ;PCODE: $0000028B VOL: 0
 ;PCODE: $0000028C VOL: 0
 ;PCODE: $0000028D VOL: 0
 ;PCODE: $0000028E VOL: 0
-; 0001 01BA 
-; 0001 01BB         // byte[1]=0x3B;
-; 0001 01BC         // byte[2]=0x13;                   //ERRCTRL
-; 0001 01BD         // byte[3]=0x12;                 //VITPROG
-; 0001 01BE         // byte[4]=0x30;                 //ERRCTRL2
-; 0001 01BF         // i2c_tran(pointer,5);
-; 0001 01C0 
-; 0001 01C1         byte[1]=0x3c;
+; 0001 01B7 
+; 0001 01B8         // byte[1]=0x3B;
+; 0001 01B9         // byte[2]=0x13;                   //ERRCTRL
+; 0001 01BA         // byte[3]=0x12;                 //VITPROG
+; 0001 01BB         // byte[4]=0x30;                 //ERRCTRL2
+; 0001 01BC         // i2c_tran(pointer,5);
+; 0001 01BD 
+; 0001 01BE         byte[1]=0x3c;
 ;PCODE: $0000028F VOL: 0
 ;PCODE: $00000290 VOL: 0
-; 0001 01C2         byte[2]=0x12;                 //VITPROG
+; 0001 01BF         byte[2]=0x12;                 //VITPROG
 ;PCODE: $00000291 VOL: 0
 ;PCODE: $00000292 VOL: 0
-; 0001 01C3         i2c_tran(pointer,3);
+; 0001 01C0         i2c_tran(pointer,3);
 ;PCODE: $00000293 VOL: 0
 ;PCODE: $00000294 VOL: 0
 ;PCODE: $00000295 VOL: 0
 ;PCODE: $00000296 VOL: 0
-; 0001 01C4 
-; 0001 01C5         byte[1]=0x02;         //ACR
+; 0001 01C1 
+; 0001 01C2         byte[1]=0x02;         //ACR
 ;PCODE: $00000297 VOL: 0
 ;PCODE: $00000298 VOL: 0
-; 0001 01C6         byte[2]=0x20;
+; 0001 01C3         byte[2]=0x20;
 ;PCODE: $00000299 VOL: 0
 ;PCODE: $0000029A VOL: 0
-; 0001 01C7         i2c_tran(pointer,3);
+; 0001 01C4         i2c_tran(pointer,3);
 ;PCODE: $0000029B VOL: 0
 ;PCODE: $0000029C VOL: 0
 ;PCODE: $0000029D VOL: 0
 ;PCODE: $0000029E VOL: 0
-; 0001 01C8 
-; 0001 01C9         /********************************
-; 0001 01CA         set clock
-; 0001 01CB         PLL_DIV=100
-; 0001 01CC         clock inputfrom CLKI,Fmclk=4M*PLL_DIV/4=100M
-; 0001 01CD         ********************************/
-; 0001 01CE         byte[1]= 0x40;
+; 0001 01C5 
+; 0001 01C6         /********************************
+; 0001 01C7         set clock
+; 0001 01C8         PLL_DIV=100
+; 0001 01C9         clock inputfrom CLKI,Fmclk=4M*PLL_DIV/4=100M
+; 0001 01CA         ********************************/
+; 0001 01CB         byte[1]= 0x40;
 ;PCODE: $0000029F VOL: 0
 ;PCODE: $000002A0 VOL: 0
-; 0001 01CF         byte[2]= 0x63;             //PLLCTRL
+; 0001 01CC         byte[2]= 0x63;             //PLLCTRL
 ;PCODE: $000002A1 VOL: 0
 ;PCODE: $000002A2 VOL: 0
-; 0001 01D0         byte[3]= 0x04;             //SYNTCTRL
+; 0001 01CD         byte[3]= 0x04;             //SYNTCTRL
 ;PCODE: $000002A3 VOL: 0
 ;PCODE: $000002A4 VOL: 0
-; 0001 01D1         byte[4]= 0x20;             //TSTTNR1
+; 0001 01CE         byte[4]= 0x20;             //TSTTNR1
 ;PCODE: $000002A5 VOL: 0
 ;PCODE: $000002A6 VOL: 0
-; 0001 01D2         i2c_tran(pointer,5);
+; 0001 01CF         i2c_tran(pointer,5);
 ;PCODE: $000002A7 VOL: 0
 ;PCODE: $000002A8 VOL: 0
 ;PCODE: $000002A9 VOL: 0
 ;PCODE: $000002AA VOL: 0
-; 0001 01D3 
-; 0001 01D4 
-; 0001 01D5         byte[1]=0xB2;
+; 0001 01D0 
+; 0001 01D1 
+; 0001 01D2         byte[1]=0xB2;
 ;PCODE: $000002AB VOL: 0
 ;PCODE: $000002AC VOL: 0
-; 0001 01D6         byte[2]=0x10;                   //AGCCFG
+; 0001 01D3         byte[2]=0x10;                   //AGCCFG
 ;PCODE: $000002AD VOL: 0
 ;PCODE: $000002AE VOL: 0
-; 0001 01D7         byte[3]=0x82;                 //DIRCLKCFG
+; 0001 01D4         byte[3]=0x82;                 //DIRCLKCFG
 ;PCODE: $000002AF VOL: 0
 ;PCODE: $000002B0 VOL: 0
-; 0001 01D8         byte[4]=0x80;                 //AUXCKCFG
+; 0001 01D5         byte[4]=0x80;                 //AUXCKCFG
 ;PCODE: $000002B1 VOL: 0
 ;PCODE: $000002B2 VOL: 0
-; 0001 01D9         byte[5]=0x82;                 //STDBYCFG
+; 0001 01D6         byte[5]=0x82;                 //STDBYCFG
 ;PCODE: $000002B3 VOL: 0
 ;PCODE: $000002B4 VOL: 0
-; 0001 01DA         byte[6]=0x82;                 //CS0CFG
+; 0001 01D7         byte[6]=0x82;                 //CS0CFG
 ;PCODE: $000002B5 VOL: 0
 ;PCODE: $000002B6 VOL: 0
-; 0001 01DB         byte[7]=0x82;                 //CS1CFG
+; 0001 01D8         byte[7]=0x82;                 //CS1CFG
 ;PCODE: $000002B7 VOL: 0
 ;PCODE: $000002B8 VOL: 0
-; 0001 01DC         i2c_tran(pointer,8);
+; 0001 01D9         i2c_tran(pointer,8);
 ;PCODE: $000002B9 VOL: 0
 ;PCODE: $000002BA VOL: 0
 ;PCODE: $000002BB VOL: 0
 ;PCODE: $000002BC VOL: 0
-; 0001 01DD         //printf("STV0288 Init Done\n");
-; 0001 01DE }
+; 0001 01DA         //printf("STV0288 Init Done\n");
+; 0001 01DB }
 ;PCODE: $000002BD VOL: 0
 ;PCODE: $000002BE VOL: 0
 ;PCODE: $000002BF VOL: 0
@@ -1230,13 +1227,13 @@
 ;设定符号率
 ;**********************************/
 ;void SetSymbolRate(float sym_rate)
-; 0001 01E5 {
+; 0001 01E2 {
 ;PCODE: $000002C4 VOL: 0
 ;PCODE: $000002C5 VOL: 0
-; 0001 01E6         char byte[8];
-; 0001 01E7         char *pointer;
-; 0001 01E8         long int ksy_rate;
-; 0001 01E9         pointer = &byte[0];
+; 0001 01E3         char byte[8];
+; 0001 01E4         char *pointer;
+; 0001 01E5         long int ksy_rate;
+; 0001 01E6         pointer = &byte[0];
 ;PCODE: $000002C6 VOL: 0
 ;PCODE: $000002C7 VOL: 0
 ;PCODE: $000002C8 VOL: 0
@@ -1246,52 +1243,52 @@
 ;	ksy_rate -> Y+2
 ;PCODE: $000002C9 VOL: 0
 ;PCODE: $000002CA VOL: 0
-; 0001 01EA        // temp_para = 0;
-; 0001 01EB //         //printf("the cation of i2c acknowlede in function SetSymbolRate\n");
-; 0001 01EC 
-; 0001 01ED         byte[0]=0xD0;
+; 0001 01E7        // temp_para = 0;
+; 0001 01E8 //         //printf("the cation of i2c acknowlede in function SetSymbolRate\n");
+; 0001 01E9 
+; 0001 01EA         byte[0]=0xD0;
 ;PCODE: $000002CB VOL: 0
 ;PCODE: $000002CC VOL: 0
-; 0001 01EE 
-; 0001 01EF         /********************************
-; 0001 01F0         set clock
-; 0001 01F1         PLL_DIV=100
-; 0001 01F2         clock inputfrom CLKI,Fmclk=4M*PLL_DIV/4=100M
-; 0001 01F3         ********************************/
-; 0001 01F4         byte[1]= 0x40;
+; 0001 01EB 
+; 0001 01EC         /********************************
+; 0001 01ED         set clock
+; 0001 01EE         PLL_DIV=100
+; 0001 01EF         clock inputfrom CLKI,Fmclk=4M*PLL_DIV/4=100M
+; 0001 01F0         ********************************/
+; 0001 01F1         byte[1]= 0x40;
 ;PCODE: $000002CD VOL: 0
 ;PCODE: $000002CE VOL: 0
-; 0001 01F5         byte[2]= 0x64;             //PLLCTRL
+; 0001 01F2         byte[2]= 0x64;             //PLLCTRL
 ;PCODE: $000002CF VOL: 0
 ;PCODE: $000002D0 VOL: 0
-; 0001 01F6         byte[3]= 0x04;             //SYNTCTRL
+; 0001 01F3         byte[3]= 0x04;             //SYNTCTRL
 ;PCODE: $000002D1 VOL: 0
 ;PCODE: $000002D2 VOL: 0
-; 0001 01F7         i2c_tran(pointer,4);
+; 0001 01F4         i2c_tran(pointer,4);
 ;PCODE: $000002D3 VOL: 0
 ;PCODE: $000002D4 VOL: 0
 ;PCODE: $000002D5 VOL: 0
 ;PCODE: $000002D6 VOL: 0
-; 0001 01F8 
-; 0001 01F9 
-; 0001 01FA 
-; 0001 01FB         byte[1]=0x02;                 //ACR
+; 0001 01F5 
+; 0001 01F6 
+; 0001 01F7 
+; 0001 01F8         byte[1]=0x02;                 //ACR
 ;PCODE: $000002D7 VOL: 0
 ;PCODE: $000002D8 VOL: 0
-; 0001 01FC         byte[2]=0x20;
+; 0001 01F9         byte[2]=0x20;
 ;PCODE: $000002D9 VOL: 0
 ;PCODE: $000002DA VOL: 0
-; 0001 01FD         i2c_tran(pointer,3);
+; 0001 01FA         i2c_tran(pointer,3);
 ;PCODE: $000002DB VOL: 0
 ;PCODE: $000002DC VOL: 0
 ;PCODE: $000002DD VOL: 0
 ;PCODE: $000002DE VOL: 0
-; 0001 01FE 
-; 0001 01FF         /*****************************
-; 0001 0200         set symbol rate
-; 0001 0201         //SFRH,SFRM,SFRL = 27.5/100*2e20 =0x46666   27.49996
-; 0001 0202         *****************************/
-; 0001 0203         ksy_rate =(sym_rate*1048576/100000);
+; 0001 01FB 
+; 0001 01FC         /*****************************
+; 0001 01FD         set symbol rate
+; 0001 01FE         //SFRH,SFRM,SFRL = 27.5/100*2e20 =0x46666   27.49996
+; 0001 01FF         *****************************/
+; 0001 0200         ksy_rate =(sym_rate*1048576/100000);
 ;PCODE: $000002DF VOL: 0
 ;PCODE: $000002E0 VOL: 0
 ;PCODE: $000002E1 VOL: 0
@@ -1301,42 +1298,42 @@
 ;PCODE: $000002E5 VOL: 0
 ;PCODE: $000002E6 VOL: 0
 ;PCODE: $000002E7 VOL: 0
-; 0001 0204         byte[1]=0x28;
+; 0001 0201         byte[1]=0x28;
 ;PCODE: $000002E8 VOL: 0
 ;PCODE: $000002E9 VOL: 0
-; 0001 0205 
-; 0001 0206         byte[2]=(ksy_rate >> 12)& 0xFF;
+; 0001 0202 
+; 0001 0203         byte[2]=(ksy_rate >> 12)& 0xFF;
 ;PCODE: $000002EA VOL: 0
 ;PCODE: $000002EB VOL: 0
 ;PCODE: $000002EC VOL: 0
 ;PCODE: $000002ED VOL: 0
 ;PCODE: $000002EE VOL: 0
-; 0001 0207         byte[3]=(ksy_rate >> 4)& 0xFF;
+; 0001 0204         byte[3]=(ksy_rate >> 4)& 0xFF;
 ;PCODE: $000002EF VOL: 0
 ;PCODE: $000002F0 VOL: 0
 ;PCODE: $000002F1 VOL: 0
 ;PCODE: $000002F2 VOL: 0
 ;PCODE: $000002F3 VOL: 0
-; 0001 0208         byte[4]=(ksy_rate << 4)& 0xFF;
+; 0001 0205         byte[4]=(ksy_rate << 4)& 0xFF;
 ;PCODE: $000002F4 VOL: 0
 ;PCODE: $000002F5 VOL: 0
 ;PCODE: $000002F6 VOL: 0
 ;PCODE: $000002F7 VOL: 0
-; 0001 0209 
-; 0001 020A         //printf("symbol %f, 0x%x 0x%x 0x%x\n",sym_rate,byte[2],byte[3],byte[4] );
-; 0001 020B         byte[5]=0;     //CFRM  载波频率
+; 0001 0206 
+; 0001 0207         //printf("symbol %f, 0x%x 0x%x 0x%x\n",sym_rate,byte[2],byte[3],byte[4] );
+; 0001 0208         byte[5]=0;     //CFRM  载波频率
 ;PCODE: $000002F8 VOL: 0
 ;PCODE: $000002F9 VOL: 0
-; 0001 020C         byte[6]=0;     //CFRL
+; 0001 0209         byte[6]=0;     //CFRL
 ;PCODE: $000002FA VOL: 0
 ;PCODE: $000002FB VOL: 0
-; 0001 020D         i2c_tran(pointer,7);
+; 0001 020A         i2c_tran(pointer,7);
 ;PCODE: $000002FC VOL: 0
 ;PCODE: $000002FD VOL: 0
 ;PCODE: $000002FE VOL: 0
 ;PCODE: $000002FF VOL: 0
-; 0001 020E         //printf("SetSymbolRate Done\n");
-; 0001 020F }
+; 0001 020B         //printf("SetSymbolRate Done\n");
+; 0001 020C }
 ;PCODE: $00000300 VOL: 0
 ;PCODE: $00000301 VOL: 0
 ;PCODE: $00000302 VOL: 0
@@ -1355,92 +1352,92 @@
 ;11880-10750=1030
 ;****************************************************************/
 ;unsigned char tuner(unsigned long F,float S)
-; 0001 021B {
+; 0001 0218 {
 ;PCODE: $00000307 VOL: 0
 ;PCODE: $00000308 VOL: 0
-; 0001 021C 
-; 0001 021D         char i;
-; 0001 021E         TunerRst();
+; 0001 0219 
+; 0001 021A         char i;
+; 0001 021B         TunerRst();
 ;PCODE: $00000309 VOL: 0
 ;	F -> Y+5
 ;	S -> Y+1
 ;	i -> R17
 ;PCODE: $0000030A VOL: 0
-; 0001 021F         delay_ms(50);
+; 0001 021C         delay_ms(50);
 ;PCODE: $0000030B VOL: 0
 ;PCODE: $0000030C VOL: 0
 ;PCODE: $0000030D VOL: 0
-; 0001 0220 
-; 0001 0221 
-; 0001 0222         putchar1('1');
+; 0001 021D 
+; 0001 021E 
+; 0001 021F         putchar1('1');
 ;PCODE: $0000030E VOL: 0
 ;PCODE: $0000030F VOL: 0
 ;PCODE: $00000310 VOL: 0
-; 0001 0223         TFC(F);
+; 0001 0220         TFC(F);
 ;PCODE: $00000311 VOL: 0
 ;PCODE: $00000312 VOL: 0
 ;PCODE: $00000313 VOL: 0
-; 0001 0224         putchar1('2');
+; 0001 0221         putchar1('2');
 ;PCODE: $00000314 VOL: 0
 ;PCODE: $00000315 VOL: 0
 ;PCODE: $00000316 VOL: 0
-; 0001 0225         STV0288Init();
+; 0001 0222         STV0288Init();
 ;PCODE: $00000317 VOL: 0
-; 0001 0226         putchar1('3');
+; 0001 0223         putchar1('3');
 ;PCODE: $00000318 VOL: 0
 ;PCODE: $00000319 VOL: 0
 ;PCODE: $0000031A VOL: 0
-; 0001 0227         SetSymbolRate(S);
+; 0001 0224         SetSymbolRate(S);
 ;PCODE: $0000031B VOL: 0
 ;PCODE: $0000031C VOL: 0
 ;PCODE: $0000031D VOL: 0
-; 0001 0228         putchar1('4');
+; 0001 0225         putchar1('4');
 ;PCODE: $0000031E VOL: 0
 ;PCODE: $0000031F VOL: 0
 ;PCODE: $00000320 VOL: 0
-; 0001 0229         i = 0;
+; 0001 0226         i = 0;
 ;PCODE: $00000321 VOL: 0
 ;PCODE: $00000322 VOL: 0
-; 0001 022A         while(i<4)
+; 0001 0227         while(i<4)
 ;PCODE: $00000323 VOL: 0
 ;PCODE: $00000324 VOL: 0
 ;PCODE: $00000325 VOL: 0
 ;PCODE: $00000326 VOL: 0
-; 0001 022B         {
-; 0001 022C             i++;
+; 0001 0228         {
+; 0001 0229             i++;
 ;PCODE: $00000327 VOL: 0
 ;PCODE: $00000328 VOL: 0
-; 0001 022D             delay_us(900);
+; 0001 022A             delay_us(900);
 ;PCODE: $00000329 VOL: 0
-; 0001 022E             if(locked())
+; 0001 022B             if(locked())
 ;PCODE: $0000032A VOL: 0
 ;PCODE: $0000032B VOL: 0
 ;PCODE: $0000032C VOL: 0
-; 0001 022F             {
-; 0001 0230                //printf("locked\n");
-; 0001 0231                lockinfo = 8;
+; 0001 022C             {
+; 0001 022D                //printf("locked\n");
+; 0001 022E                lockinfo = 8;
 ;PCODE: $0000032D VOL: 0
 ;PCODE: $0000032E VOL: 0
-; 0001 0232                return 1;
+; 0001 022F                return 1;
 ;PCODE: $0000032F VOL: 0
 ;PCODE: $00000330 VOL: 0
 ;PCODE: $00000331 VOL: 0
 ;PCODE: $00000332 VOL: 0
 ;PCODE: $00000333 VOL: 0
-; 0001 0233             }
-; 0001 0234         }
+; 0001 0230             }
+; 0001 0231         }
 ;PCODE: $00000334 VOL: 0
 ;PCODE: $00000335 VOL: 0
 ;PCODE: $00000336 VOL: 0
-; 0001 0235         //printf("not locked\n");
-; 0001 0236         return 0;
+; 0001 0232         //printf("not locked\n");
+; 0001 0233         return 0;
 ;PCODE: $00000337 VOL: 0
 ;PCODE: $00000338 VOL: 0
 ;PCODE: $00000339 VOL: 0
 ;PCODE: $0000033A VOL: 0
 ;PCODE: $0000033B VOL: 0
-; 0001 0237 
-; 0001 0238 }
+; 0001 0234 
+; 0001 0235 }
 ;PCODE: $0000033C VOL: 0
 ;
 ;/*
@@ -1448,13 +1445,13 @@
 ;and save to pointer p
 ;*/
 ;void getstus(char *p)
-; 0001 023F   {
+; 0001 023C   {
 ;PCODE: $0000033D VOL: 0
 ;PCODE: $0000033E VOL: 0
-; 0001 0240         char data[3];
-; 0001 0241         char *pdata;
-; 0001 0242         char i,j;
-; 0001 0243         i = 1;
+; 0001 023D         char data[3];
+; 0001 023E         char *pdata;
+; 0001 023F         char i,j;
+; 0001 0240         i = 1;
 ;PCODE: $0000033F VOL: 0
 ;PCODE: $00000340 VOL: 0
 ;	*p -> Y+7
@@ -1464,38 +1461,38 @@
 ;	j -> R18
 ;PCODE: $00000341 VOL: 0
 ;PCODE: $00000342 VOL: 0
-; 0001 0244         j = 0;
+; 0001 0241         j = 0;
 ;PCODE: $00000343 VOL: 0
 ;PCODE: $00000344 VOL: 0
-; 0001 0245         putchar1('5');
+; 0001 0242         putchar1('5');
 ;PCODE: $00000345 VOL: 0
 ;PCODE: $00000346 VOL: 0
 ;PCODE: $00000347 VOL: 0
-; 0001 0246         do
+; 0001 0243         do
 ;PCODE: $00000348 VOL: 0
-; 0001 0247           {
-; 0001 0248                  pdata = &data[0];
+; 0001 0244           {
+; 0001 0245                  pdata = &data[0];
 ;PCODE: $00000349 VOL: 0
 ;PCODE: $0000034A VOL: 0
-; 0001 0249                  data[0]= 0xD0;
+; 0001 0246                  data[0]= 0xD0;
 ;PCODE: $0000034B VOL: 0
 ;PCODE: $0000034C VOL: 0
-; 0001 024A                  data[1]= 0x24;
+; 0001 0247                  data[1]= 0x24;
 ;PCODE: $0000034D VOL: 0
 ;PCODE: $0000034E VOL: 0
-; 0001 024B                  if (i2c_tran(pdata,2))
+; 0001 0248                  if (i2c_tran(pdata,2))
 ;PCODE: $0000034F VOL: 0
 ;PCODE: $00000350 VOL: 0
 ;PCODE: $00000351 VOL: 0
 ;PCODE: $00000352 VOL: 0
 ;PCODE: $00000353 VOL: 0
 ;PCODE: $00000354 VOL: 0
-; 0001 024C                    {
-; 0001 024D                      putchar1('b');
+; 0001 0249                    {
+; 0001 024A                      putchar1('b');
 ;PCODE: $00000355 VOL: 0
 ;PCODE: $00000356 VOL: 0
 ;PCODE: $00000357 VOL: 0
-; 0001 024E                       if(i2c_rd(data[0],pdata,2))
+; 0001 024B                       if(i2c_rd(data[0],pdata,2))
 ;PCODE: $00000358 VOL: 0
 ;PCODE: $00000359 VOL: 0
 ;PCODE: $0000035A VOL: 0
@@ -1504,62 +1501,62 @@
 ;PCODE: $0000035D VOL: 0
 ;PCODE: $0000035E VOL: 0
 ;PCODE: $0000035F VOL: 0
-; 0001 024F                       {
-; 0001 0250                                p[j] = data[0];
+; 0001 024C                       {
+; 0001 024D                                p[j] = data[0];
 ;PCODE: $00000360 VOL: 0
 ;PCODE: $00000361 VOL: 0
 ;PCODE: $00000362 VOL: 0
 ;PCODE: $00000363 VOL: 0
 ;PCODE: $00000364 VOL: 0
 ;PCODE: $00000365 VOL: 0
-; 0001 0251                                //////printf("R 24-0x%x    ",data[0]);
-; 0001 0252                                j = 1;
+; 0001 024E                                //////printf("R 24-0x%x    ",data[0]);
+; 0001 024F                                j = 1;
 ;PCODE: $00000366 VOL: 0
 ;PCODE: $00000367 VOL: 0
-; 0001 0253 
-; 0001 0254                                 i=0;
+; 0001 0250 
+; 0001 0251                                 i=0;
 ;PCODE: $00000368 VOL: 0
 ;PCODE: $00000369 VOL: 0
-; 0001 0255 
-; 0001 0256                       }
-; 0001 0257                    }
+; 0001 0252 
+; 0001 0253                       }
+; 0001 0254                    }
 ;PCODE: $0000036A VOL: 0
-; 0001 0258             }
+; 0001 0255             }
 ;PCODE: $0000036B VOL: 0
-; 0001 0259        while(i) ;
+; 0001 0256        while(i) ;
 ;PCODE: $0000036C VOL: 0
 ;PCODE: $0000036D VOL: 0
 ;PCODE: $0000036E VOL: 0
 ;PCODE: $0000036F VOL: 0
 ;PCODE: $00000370 VOL: 0
-; 0001 025A        putchar1('6');
+; 0001 0257        putchar1('6');
 ;PCODE: $00000371 VOL: 0
 ;PCODE: $00000372 VOL: 0
 ;PCODE: $00000373 VOL: 0
-; 0001 025B        i=1;
+; 0001 0258        i=1;
 ;PCODE: $00000374 VOL: 0
 ;PCODE: $00000375 VOL: 0
-; 0001 025C        do
+; 0001 0259        do
 ;PCODE: $00000376 VOL: 0
-; 0001 025D           {
-; 0001 025E                  pdata = &data[0];
+; 0001 025A           {
+; 0001 025B                  pdata = &data[0];
 ;PCODE: $00000377 VOL: 0
 ;PCODE: $00000378 VOL: 0
-; 0001 025F                  data[0]= 0xD0;
+; 0001 025C                  data[0]= 0xD0;
 ;PCODE: $00000379 VOL: 0
 ;PCODE: $0000037A VOL: 0
-; 0001 0260                  data[1]= 0x1E;
+; 0001 025D                  data[1]= 0x1E;
 ;PCODE: $0000037B VOL: 0
 ;PCODE: $0000037C VOL: 0
-; 0001 0261                  if (i2c_tran(pdata,2))
+; 0001 025E                  if (i2c_tran(pdata,2))
 ;PCODE: $0000037D VOL: 0
 ;PCODE: $0000037E VOL: 0
 ;PCODE: $0000037F VOL: 0
 ;PCODE: $00000380 VOL: 0
 ;PCODE: $00000381 VOL: 0
 ;PCODE: $00000382 VOL: 0
-; 0001 0262                    {
-; 0001 0263                          if(i2c_rd(data[0],pdata,2))
+; 0001 025F                    {
+; 0001 0260                          if(i2c_rd(data[0],pdata,2))
 ;PCODE: $00000383 VOL: 0
 ;PCODE: $00000384 VOL: 0
 ;PCODE: $00000385 VOL: 0
@@ -1568,34 +1565,34 @@
 ;PCODE: $00000388 VOL: 0
 ;PCODE: $00000389 VOL: 0
 ;PCODE: $0000038A VOL: 0
-; 0001 0264                          {
-; 0001 0265                               p[j] = data[0];
+; 0001 0261                          {
+; 0001 0262                               p[j] = data[0];
 ;PCODE: $0000038B VOL: 0
 ;PCODE: $0000038C VOL: 0
 ;PCODE: $0000038D VOL: 0
 ;PCODE: $0000038E VOL: 0
 ;PCODE: $0000038F VOL: 0
 ;PCODE: $00000390 VOL: 0
-; 0001 0266                               //////printf("R 1E-0x%x\n",data[0]);
-; 0001 0267                               i=0;
+; 0001 0263                               //////printf("R 1E-0x%x\n",data[0]);
+; 0001 0264                               i=0;
 ;PCODE: $00000391 VOL: 0
 ;PCODE: $00000392 VOL: 0
-; 0001 0268                          }
-; 0001 0269                    }
+; 0001 0265                          }
+; 0001 0266                    }
 ;PCODE: $00000393 VOL: 0
-; 0001 026A           }
+; 0001 0267           }
 ;PCODE: $00000394 VOL: 0
-; 0001 026B        while(i) ;
+; 0001 0268        while(i) ;
 ;PCODE: $00000395 VOL: 0
 ;PCODE: $00000396 VOL: 0
 ;PCODE: $00000397 VOL: 0
 ;PCODE: $00000398 VOL: 0
 ;PCODE: $00000399 VOL: 0
-; 0001 026C       putchar1('7');
+; 0001 0269       putchar1('7');
 ;PCODE: $0000039A VOL: 0
 ;PCODE: $0000039B VOL: 0
 ;PCODE: $0000039C VOL: 0
-; 0001 026D   }
+; 0001 026A   }
 ;PCODE: $0000039D VOL: 0
 ;PCODE: $0000039E VOL: 0
 ;PCODE: $0000039F VOL: 0
@@ -1603,19 +1600,19 @@
 ;
 ;
 ;char locked(void)
-; 0001 0271 {
+; 0001 026E {
 ;PCODE: $000003A1 VOL: 0
 ;PCODE: $000003A2 VOL: 0
-; 0001 0272     char t[2];
-; 0001 0273     getstus(t);
+; 0001 026F     char t[2];
+; 0001 0270     getstus(t);
 ;PCODE: $000003A3 VOL: 0
 ;	t -> Y+0
 ;PCODE: $000003A4 VOL: 0
 ;PCODE: $000003A5 VOL: 0
 ;PCODE: $000003A6 VOL: 0
-; 0001 0274 
-; 0001 0275 
-; 0001 0276     if(((t[0] & 0x80) == 0x80) && ((t[1] & 0x80) == 0x80))
+; 0001 0271 
+; 0001 0272 
+; 0001 0273     if(((t[0] & 0x80) == 0x80) && ((t[1] & 0x80) == 0x80))
 ;PCODE: $000003A7 VOL: 0
 ;PCODE: $000003A8 VOL: 0
 ;PCODE: $000003A9 VOL: 0
@@ -1628,39 +1625,39 @@
 ;PCODE: $000003B0 VOL: 0
 ;PCODE: $000003B1 VOL: 0
 ;PCODE: $000003B2 VOL: 0
-; 0001 0277     {
-; 0001 0278         //LED_ON;
-; 0001 0279         return 1;
+; 0001 0274     {
+; 0001 0275         //LED_ON;
+; 0001 0276         return 1;
 ;PCODE: $000003B3 VOL: 0
 ;PCODE: $000003B4 VOL: 0
 ;PCODE: $000003B5 VOL: 0
-; 0001 027A     }
-; 0001 027B     else
+; 0001 0277     }
+; 0001 0278     else
 ;PCODE: $000003B6 VOL: 0
-; 0001 027C     {
-; 0001 027D        STV0288Init();
+; 0001 0279     {
+; 0001 027A        STV0288Init();
 ;PCODE: $000003B7 VOL: 0
-; 0001 027E        //LED_OFF;
-; 0001 027F        return 0;
+; 0001 027B        //LED_OFF;
+; 0001 027C        return 0;
 ;PCODE: $000003B8 VOL: 0
 ;PCODE: $000003B9 VOL: 0
 ;PCODE: $000003BA VOL: 0
-; 0001 0280     }
+; 0001 027D     }
 ;PCODE: $000003BB VOL: 0
-; 0001 0281 
-; 0001 0282  }
+; 0001 027E 
+; 0001 027F  }
 ;PCODE: $000003BC VOL: 0
 ;PCODE: $000003BD VOL: 0
 ;PCODE: $000003BE VOL: 0
 ;
 ;
 ;char Get0288Register(unsigned char addr)
-; 0001 0286 {
+; 0001 0283 {
 ;PCODE: $000003BF VOL: 0
 ;PCODE: $000003C0 VOL: 0
-; 0001 0287     char data[3];
-; 0001 0288     char *pdata;
-; 0001 0289     pdata = &data[0];
+; 0001 0284     char data[3];
+; 0001 0285     char *pdata;
+; 0001 0286     pdata = &data[0];
 ;PCODE: $000003C1 VOL: 0
 ;PCODE: $000003C2 VOL: 0
 ;PCODE: $000003C3 VOL: 0
@@ -1669,21 +1666,21 @@
 ;	*pdata -> R16,R17
 ;PCODE: $000003C4 VOL: 0
 ;PCODE: $000003C5 VOL: 0
-; 0001 028A     data[0]= 0xD0;
+; 0001 0287     data[0]= 0xD0;
 ;PCODE: $000003C6 VOL: 0
 ;PCODE: $000003C7 VOL: 0
-; 0001 028B     data[1]= addr;
+; 0001 0288     data[1]= addr;
 ;PCODE: $000003C8 VOL: 0
 ;PCODE: $000003C9 VOL: 0
-; 0001 028C     if (i2c_tran(pdata,2))
+; 0001 0289     if (i2c_tran(pdata,2))
 ;PCODE: $000003CA VOL: 0
 ;PCODE: $000003CB VOL: 0
 ;PCODE: $000003CC VOL: 0
 ;PCODE: $000003CD VOL: 0
 ;PCODE: $000003CE VOL: 0
 ;PCODE: $000003CF VOL: 0
-; 0001 028D       {
-; 0001 028E        if(i2c_rd(data[0],pdata,1))
+; 0001 028A       {
+; 0001 028B        if(i2c_rd(data[0],pdata,1))
 ;PCODE: $000003D0 VOL: 0
 ;PCODE: $000003D1 VOL: 0
 ;PCODE: $000003D2 VOL: 0
@@ -1692,8 +1689,8 @@
 ;PCODE: $000003D5 VOL: 0
 ;PCODE: $000003D6 VOL: 0
 ;PCODE: $000003D7 VOL: 0
-; 0001 028F           {
-; 0001 0290            return data[0];
+; 0001 028C           {
+; 0001 028D            return data[0];
 ;PCODE: $000003D8 VOL: 0
 ;PCODE: $000003D9 VOL: 0
 ;PCODE: $000003DA VOL: 0
@@ -1701,10 +1698,10 @@
 ;PCODE: $000003DC VOL: 0
 ;PCODE: $000003DD VOL: 0
 ;PCODE: $000003DE VOL: 0
-; 0001 0291           }
-; 0001 0292       }
+; 0001 028E           }
+; 0001 028F       }
 ;PCODE: $000003DF VOL: 0
-; 0001 0293 }
+; 0001 0290 }
 ;PCODE: $000003E0 VOL: 0
 ;PCODE: $000003E1 VOL: 0
 ;PCODE: $000003E2 VOL: 0
@@ -1715,11 +1712,11 @@
 ;PCODE: $000003E7 VOL: 0
 ;
 ;unsigned char pll_lk(void)
-; 0001 0296   {
+; 0001 0293   {
 ;PCODE: $000003E8 VOL: 0
 ;PCODE: $000003E9 VOL: 0
-; 0001 0297       unsigned char byte[1] = {0xc0},i = 0;
-; 0001 0298       EnableTunerOperation();
+; 0001 0294       unsigned char byte[1] = {0xc0},i = 0;
+; 0001 0295       EnableTunerOperation();
 ;PCODE: $000003EA VOL: 0
 ;PCODE: $000003EB VOL: 0
 ;PCODE: $000003EC VOL: 0
@@ -1729,10 +1726,10 @@
 ;PCODE: $000003EE VOL: 0
 ;PCODE: $000003EF VOL: 0
 ;PCODE: $000003F0 VOL: 0
-; 0001 0299       do
+; 0001 0296       do
 ;PCODE: $000003F1 VOL: 0
-; 0001 029A       {
-; 0001 029B           i2c_rd(byte[0],byte,1);
+; 0001 0297       {
+; 0001 0298           i2c_rd(byte[0],byte,1);
 ;PCODE: $000003F2 VOL: 0
 ;PCODE: $000003F3 VOL: 0
 ;PCODE: $000003F4 VOL: 0
@@ -1740,56 +1737,56 @@
 ;PCODE: $000003F6 VOL: 0
 ;PCODE: $000003F7 VOL: 0
 ;PCODE: $000003F8 VOL: 0
-; 0001 029C           i++;
+; 0001 0299           i++;
 ;PCODE: $000003F9 VOL: 0
 ;PCODE: $000003FA VOL: 0
-; 0001 029D           if((byte[0] & 0x40) != 0)
+; 0001 029A           if((byte[0] & 0x40) != 0)
 ;PCODE: $000003FB VOL: 0
 ;PCODE: $000003FC VOL: 0
 ;PCODE: $000003FD VOL: 0
-; 0001 029E           {
-; 0001 029F               ////printf("pll locked:0x%x\n",byte[0]);
-; 0001 02A0               lockinfo = 4;
+; 0001 029B           {
+; 0001 029C               ////printf("pll locked:0x%x\n",byte[0]);
+; 0001 029D               lockinfo = 4;
 ;PCODE: $000003FE VOL: 0
 ;PCODE: $000003FF VOL: 0
-; 0001 02A1               DisableTunerOperation();
+; 0001 029E               DisableTunerOperation();
 ;PCODE: $00000400 VOL: 0
-; 0001 02A2               return 1;
+; 0001 029F               return 1;
 ;PCODE: $00000401 VOL: 0
 ;PCODE: $00000402 VOL: 0
 ;PCODE: $00000403 VOL: 0
 ;PCODE: $00000404 VOL: 0
 ;PCODE: $00000405 VOL: 0
-; 0001 02A3           }
-; 0001 02A4           else
+; 0001 02A0           }
+; 0001 02A1           else
 ;PCODE: $00000406 VOL: 0
-; 0001 02A5           {
-; 0001 02A6              if(byte[0]>0)
+; 0001 02A2           {
+; 0001 02A3              if(byte[0]>0)
 ;PCODE: $00000407 VOL: 0
 ;PCODE: $00000408 VOL: 0
 ;PCODE: $00000409 VOL: 0
-; 0001 02A7                    lockinfo = 2;
+; 0001 02A4                    lockinfo = 2;
 ;PCODE: $0000040A VOL: 0
 ;PCODE: $0000040B VOL: 0
-; 0001 02A8              ////printf("pll no locked:0x%x\n",byte[0]);
-; 0001 02A9           }
+; 0001 02A5              ////printf("pll no locked:0x%x\n",byte[0]);
+; 0001 02A6           }
 ;PCODE: $0000040C VOL: 0
 ;PCODE: $0000040D VOL: 0
-; 0001 02AA       }while(i < 3);
+; 0001 02A7       }while(i < 3);
 ;PCODE: $0000040E VOL: 0
 ;PCODE: $0000040F VOL: 0
 ;PCODE: $00000410 VOL: 0
 ;PCODE: $00000411 VOL: 0
 ;PCODE: $00000412 VOL: 0
 ;PCODE: $00000413 VOL: 0
-; 0001 02AB       DisableTunerOperation();
+; 0001 02A8       DisableTunerOperation();
 ;PCODE: $00000414 VOL: 0
-; 0001 02AC       return 0;
+; 0001 02A9       return 0;
 ;PCODE: $00000415 VOL: 0
 ;PCODE: $00000416 VOL: 0
 ;PCODE: $00000417 VOL: 0
 ;PCODE: $00000418 VOL: 0
 ;PCODE: $00000419 VOL: 0
-; 0001 02AD }
+; 0001 02AA }
 ;PCODE: $0000041A VOL: 0
 ;

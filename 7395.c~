@@ -82,7 +82,8 @@ if(PINE.4==0)
   delay_us(2);
   SCLL;
   DDRE |=0x10;          //SDA output
-  PORTE.4=1;            //SDA high
+  PORTE.4=1;            //SDA high    
+   putchar1('&');
   return 1;
   }
 else

@@ -1,5 +1,88 @@
 #include "include.h"      
+#include <stdarg.h>
 
+char uprintf(const char *fmt, ...)
+{
+    const char *s;
+    int d;
+    char buf[16],i,j,k;
+    va_list ap;
+    va_start(ap, fmt);
+    while (*fmt) {
+        if (*fmt != '%') {
+            putchar1(*fmt++);
+            continue;
+        }
+        switch (*++fmt) {
+            case 's':
+                s = va_arg(ap, const char *);
+                for ( ; *s; s++) {
+                    putchar1(*s);
+                }
+                break;
+            case 'u':
+                d = va_arg(ap, int);
+                //itoa(d, buf, 10);
+                i=0;        //转换成十进制字符 低位在前高位在后
+                while(1)
+                       {
+                        buf[i] = d%10+'0';
+                        d = d/10;
+                        if(d==0)//全部转完只剩0 退出
+                                break;         
+                        i++;                                   
+                      }
+                      for(j=0;j<i;j++)//逆序
+                      {
+                              k=buf[j];
+                              buf[j] = buf[i-j];
+                              buf[i-j] = k;                                      
+                      }
+                      
+                for ( s = buf; *s; s++) {
+                    putchar1(*s);
+                }
+                break;
+            case 'd':
+                d = va_arg(ap, int);
+                //itoa(d, buf, 10);
+                i=0;        //转换成十进制字符 低位在前高位在后
+                while(1)
+                       {
+                        buf[i] = d%10+'0';
+                        d = d/10;
+                        if(d==0)//全部转完只剩0 退出
+                                break;         
+                        i++;                                   
+                      }
+                for(j=0;j<i;j++)//逆序
+                      {
+                              k=buf[j];
+                              buf[j] = buf[i-j];
+                              buf[i-j] = k;                                      
+                      }
+//                if(d<0)	//if negative,add '-' ahead
+//      	              {
+//                        for(j=i;j>0;j--)//      	{
+//                            {	
+//                                buf[j+1] = buf[j];
+//                            }
+//                        buf[0]='-';		
+//      	              }      
+                for ( s = buf; *s; s++) {
+                    putchar1(*s);
+                }
+                break;
+           /* Add other specifiers here... */              
+            default:  
+                putchar1(*fmt);
+                break;
+        }
+        fmt++;
+    }
+    va_end(ap);
+    return 1;   /* Dummy return value */
+}
 
 
 // Read the AD conversion result

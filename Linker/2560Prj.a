@@ -607,160 +607,346 @@
 ; 0000 0164     long int sate_frequence;//
 ; 0000 0165     unsigned long TunerFreq;
 ; 0000 0166     float symbol_rate;
-; 0000 0167 
-; 0000 0168 
-; 0000 0169     LNB_frequence =10750;//11300;
+; 0000 0167     unsigned char cmd;
+; 0000 0168     char str[16] = "jingle bells";
+; 0000 0169     unsigned int uint;
+; 0000 016A     signed int sint;
+; 0000 016B 
+; 0000 016C     LNB_frequence =10750;//11300;
 ;PCODE: $000000EE VOL: 0
-;	LNB_frequence -> Y+12
-;	sate_frequence -> Y+8
-;	TunerFreq -> Y+4
-;	symbol_rate -> Y+0
 ;PCODE: $000000EF VOL: 0
 ;PCODE: $000000F0 VOL: 0
-; 0000 016A     sate_frequence =11880; //92.2
 ;PCODE: $000000F1 VOL: 0
 ;PCODE: $000000F2 VOL: 0
-; 0000 016B     symbol_rate  =28800;   //
+;	LNB_frequence -> Y+28
+;	sate_frequence -> Y+24
+;	TunerFreq -> Y+20
+;	symbol_rate -> Y+16
+;	cmd -> R17
+;	str -> Y+0
+;	uint -> R18,R19
+;	sint -> R20,R21
 ;PCODE: $000000F3 VOL: 0
 ;PCODE: $000000F4 VOL: 0
-; 0000 016C     TunerFreq = (labs(LNB_frequence-sate_frequence))*1000;
+; 0000 016D     sate_frequence =11880; //92.2
 ;PCODE: $000000F5 VOL: 0
 ;PCODE: $000000F6 VOL: 0
+; 0000 016E     symbol_rate  =28800;   //
 ;PCODE: $000000F7 VOL: 0
 ;PCODE: $000000F8 VOL: 0
+; 0000 016F     TunerFreq = (labs(LNB_frequence-sate_frequence))*1000;
 ;PCODE: $000000F9 VOL: 0
 ;PCODE: $000000FA VOL: 0
 ;PCODE: $000000FB VOL: 0
 ;PCODE: $000000FC VOL: 0
-; 0000 016D     init();
 ;PCODE: $000000FD VOL: 0
-; 0000 016E 
-; 0000 016F     LED_ON;
 ;PCODE: $000000FE VOL: 0
 ;PCODE: $000000FF VOL: 0
-; 0000 0170     delay_ms(200);
 ;PCODE: $00000100 VOL: 0
+; 0000 0170     init();
 ;PCODE: $00000101 VOL: 0
+; 0000 0171 
+; 0000 0172     LED_ON;
 ;PCODE: $00000102 VOL: 0
-; 0000 0171     LED_OFF;
 ;PCODE: $00000103 VOL: 0
+; 0000 0173     delay_ms(200);
 ;PCODE: $00000104 VOL: 0
-; 0000 0172     delay_ms(200);
 ;PCODE: $00000105 VOL: 0
 ;PCODE: $00000106 VOL: 0
+; 0000 0174     LED_OFF;
 ;PCODE: $00000107 VOL: 0
-; 0000 0173     LED_ON;
 ;PCODE: $00000108 VOL: 0
+; 0000 0175     delay_ms(200);
 ;PCODE: $00000109 VOL: 0
-; 0000 0174     delay_ms(200);
 ;PCODE: $0000010A VOL: 0
 ;PCODE: $0000010B VOL: 0
+; 0000 0176     LED_ON;
 ;PCODE: $0000010C VOL: 0
-; 0000 0175     LED_OFF;
 ;PCODE: $0000010D VOL: 0
+; 0000 0177     delay_ms(200);
 ;PCODE: $0000010E VOL: 0
-; 0000 0176     delay_ms(200);
 ;PCODE: $0000010F VOL: 0
 ;PCODE: $00000110 VOL: 0
+; 0000 0178     LED_OFF;
 ;PCODE: $00000111 VOL: 0
-; 0000 0177     LED_ON;
 ;PCODE: $00000112 VOL: 0
+; 0000 0179     delay_ms(200);
 ;PCODE: $00000113 VOL: 0
-; 0000 0178     delay_ms(200);
 ;PCODE: $00000114 VOL: 0
 ;PCODE: $00000115 VOL: 0
+; 0000 017A     LED_ON;
 ;PCODE: $00000116 VOL: 0
-; 0000 0179     LED_OFF;
 ;PCODE: $00000117 VOL: 0
+; 0000 017B     delay_ms(200);
 ;PCODE: $00000118 VOL: 0
-; 0000 017A     delay_ms(500);
 ;PCODE: $00000119 VOL: 0
 ;PCODE: $0000011A VOL: 0
+; 0000 017C     LED_OFF;
 ;PCODE: $0000011B VOL: 0
-; 0000 017B     putchar1('A');
 ;PCODE: $0000011C VOL: 0
+; 0000 017D     delay_ms(500);
 ;PCODE: $0000011D VOL: 0
 ;PCODE: $0000011E VOL: 0
-; 0000 017C     putchar1('B');
 ;PCODE: $0000011F VOL: 0
+; 0000 017E     putchar1('A');
 ;PCODE: $00000120 VOL: 0
 ;PCODE: $00000121 VOL: 0
-; 0000 017D 
-; 0000 017E     /*LED_ON;
-; 0000 017F     delay_ms(500);
-; 0000 0180     LED_OFF;
-; 0000 0181     delay_ms(500); */
-; 0000 0182 
-; 0000 0183     //tuner(TunerFreq,symbol_rate);
-; 0000 0184     putchar1('C');
 ;PCODE: $00000122 VOL: 0
+; 0000 017F     putchar1('B');
 ;PCODE: $00000123 VOL: 0
 ;PCODE: $00000124 VOL: 0
-; 0000 0185     while (getchar1())
 ;PCODE: $00000125 VOL: 0
+; 0000 0180 
+; 0000 0181     /*LED_ON;
+; 0000 0182     delay_ms(500);
+; 0000 0183     LED_OFF;
+; 0000 0184     delay_ms(500); */
+; 0000 0185 
+; 0000 0186     //tuner(TunerFreq,symbol_rate);
+; 0000 0187     putchar1('C');
 ;PCODE: $00000126 VOL: 0
 ;PCODE: $00000127 VOL: 0
 ;PCODE: $00000128 VOL: 0
-; 0000 0186           {
-; 0000 0187            // Place your code here
-; 0000 0188             putchar1('D');
+; 0000 0188 
+; 0000 0189     while (1)
 ;PCODE: $00000129 VOL: 0
+; 0000 018A           {
+; 0000 018B            // Place your code here
+; 0000 018C             LED_OFF;
 ;PCODE: $0000012A VOL: 0
 ;PCODE: $0000012B VOL: 0
-; 0000 0189 
-; 0000 018A             LED_ON;
+; 0000 018D             switch (getchar1())
 ;PCODE: $0000012C VOL: 0
+; 0000 018E             {
+; 0000 018F                 case 'H':
 ;PCODE: $0000012D VOL: 0
-; 0000 018B             delay_ms(1000);
 ;PCODE: $0000012E VOL: 0
+; 0000 0190                     {
+; 0000 0191                         DDRE |= 0x30;
 ;PCODE: $0000012F VOL: 0
 ;PCODE: $00000130 VOL: 0
-; 0000 018C             LED_OFF;
 ;PCODE: $00000131 VOL: 0
+; 0000 0192                         SCLH;
 ;PCODE: $00000132 VOL: 0
-; 0000 018D             delay_ms(1000);
 ;PCODE: $00000133 VOL: 0
+; 0000 0193                         SDAL;
 ;PCODE: $00000134 VOL: 0
 ;PCODE: $00000135 VOL: 0
-; 0000 018E 
-; 0000 018F //            if(lockinfo>0)      //1st one
-; 0000 0190 //                LED_ON;
-; 0000 0191 //            delay_ms(200);
-; 0000 0192 //            LED_OFF;
-; 0000 0193 //            delay_ms(200);
-; 0000 0194 //
-; 0000 0195 //            if(lockinfo>1)      //2nd two
-; 0000 0196 //                LED_ON;
-; 0000 0197 //            delay_ms(200);
-; 0000 0198 //            LED_OFF;
-; 0000 0199 //            delay_ms(200);
-; 0000 019A //
-; 0000 019B //            if(lockinfo>3)       //third four
-; 0000 019C //                LED_ON;
-; 0000 019D //            delay_ms(200);
-; 0000 019E //            LED_OFF;
-; 0000 019F //            delay_ms(200);
-; 0000 01A0 //
-; 0000 01A1 //            if(lockinfo>5)        //4th 8
-; 0000 01A2 //                LED_ON;
-; 0000 01A3 //            delay_ms(200);
-; 0000 01A4 //            LED_OFF;
-; 0000 01A5 //            delay_ms(200);
-; 0000 01A6 //
-; 0000 01A7 //            LED_ON;
-; 0000 01A8 //            delay_ms(1000);
-; 0000 01A9 //            LED_OFF;
-; 0000 01AA //            delay_ms(1000);
-; 0000 01AB 
-; 0000 01AC             putchar1('A');
+; 0000 0194                         putchar1('H');
 ;PCODE: $00000136 VOL: 0
 ;PCODE: $00000137 VOL: 0
 ;PCODE: $00000138 VOL: 0
-; 0000 01AD           }
+; 0000 0195                     }
+; 0000 0196                     break;
 ;PCODE: $00000139 VOL: 0
+; 0000 0197                 case 'A':
 ;PCODE: $0000013A VOL: 0
-; 0000 01AE }
 ;PCODE: $0000013B VOL: 0
 ;PCODE: $0000013C VOL: 0
+; 0000 0198                     {
+; 0000 0199                         putchar1('D');
 ;PCODE: $0000013D VOL: 0
 ;PCODE: $0000013E VOL: 0
+;PCODE: $0000013F VOL: 0
+; 0000 019A                         LED_ON;
+;PCODE: $00000140 VOL: 0
+;PCODE: $00000141 VOL: 0
+; 0000 019B                         delay_ms(1000);
+;PCODE: $00000142 VOL: 0
+;PCODE: $00000143 VOL: 0
+;PCODE: $00000144 VOL: 0
+; 0000 019C                         LED_OFF;
+;PCODE: $00000145 VOL: 0
+;PCODE: $00000146 VOL: 0
+; 0000 019D                         delay_ms(1000);
+;PCODE: $00000147 VOL: 0
+;PCODE: $00000148 VOL: 0
+;PCODE: $00000149 VOL: 0
+; 0000 019E                         putchar1('A');
+;PCODE: $0000014A VOL: 0
+;PCODE: $0000014B VOL: 0
+;PCODE: $0000014C VOL: 0
+; 0000 019F                     }
+; 0000 01A0                     break;
+;PCODE: $0000014D VOL: 0
+; 0000 01A1                  case 'G':
+;PCODE: $0000014E VOL: 0
+;PCODE: $0000014F VOL: 0
+;PCODE: $00000150 VOL: 0
+; 0000 01A2                     {
+; 0000 01A3 
+; 0000 01A4                     }
+; 0000 01A5                     break;
+;PCODE: $00000151 VOL: 0
+; 0000 01A6                 case 'L':
+;PCODE: $00000152 VOL: 0
+;PCODE: $00000153 VOL: 0
+;PCODE: $00000154 VOL: 0
+; 0000 01A7                     {
+; 0000 01A8                        DDRE |= 0x30;
+;PCODE: $00000155 VOL: 0
+;PCODE: $00000156 VOL: 0
+;PCODE: $00000157 VOL: 0
+; 0000 01A9                        SCLL;
+;PCODE: $00000158 VOL: 0
+;PCODE: $00000159 VOL: 0
+; 0000 01AA                        SDAH;
+;PCODE: $0000015A VOL: 0
+;PCODE: $0000015B VOL: 0
+; 0000 01AB                        putchar1('L');
+;PCODE: $0000015C VOL: 0
+;PCODE: $0000015D VOL: 0
+;PCODE: $0000015E VOL: 0
+; 0000 01AC                     }
+; 0000 01AD                     break;
+;PCODE: $0000015F VOL: 0
+; 0000 01AE                 case 'R':
+;PCODE: $00000160 VOL: 0
+;PCODE: $00000161 VOL: 0
+;PCODE: $00000162 VOL: 0
+; 0000 01AF                     {
+; 0000 01B0 
+; 0000 01B1                     }
+; 0000 01B2                     break;
+;PCODE: $00000163 VOL: 0
+; 0000 01B3                 case 'S':
+;PCODE: $00000164 VOL: 0
+;PCODE: $00000165 VOL: 0
+;PCODE: $00000166 VOL: 0
+; 0000 01B4                     {
+; 0000 01B5 
+; 0000 01B6                     }
+; 0000 01B7                     break;
+;PCODE: $00000167 VOL: 0
+; 0000 01B8                 case 'T':
+;PCODE: $00000168 VOL: 0
+;PCODE: $00000169 VOL: 0
+;PCODE: $0000016A VOL: 0
+; 0000 01B9                     {
+; 0000 01BA                      LED_ON;
+;PCODE: $0000016B VOL: 0
+;PCODE: $0000016C VOL: 0
+; 0000 01BB                      putchar1('t');
+;PCODE: $0000016D VOL: 0
+;PCODE: $0000016E VOL: 0
+;PCODE: $0000016F VOL: 0
+; 0000 01BC                      tuner(TunerFreq,symbol_rate);
+;PCODE: $00000170 VOL: 0
+;PCODE: $00000171 VOL: 0
+;PCODE: $00000172 VOL: 0
+;PCODE: $00000173 VOL: 0
+;PCODE: $00000174 VOL: 0
+; 0000 01BD                     }
+; 0000 01BE                     break;
+;PCODE: $00000175 VOL: 0
+; 0000 01BF                 case 'U':
+;PCODE: $00000176 VOL: 0
+;PCODE: $00000177 VOL: 0
+;PCODE: $00000178 VOL: 0
+; 0000 01C0                     {
+; 0000 01C1 
+; 0000 01C2                        uint = 42561;
+;PCODE: $00000179 VOL: 0
+;PCODE: $0000017A VOL: 0
+; 0000 01C3                        sint = -23456;
+;PCODE: $0000017B VOL: 0
+;PCODE: $0000017C VOL: 0
+; 0000 01C4                        uprintf("this is test!!\n");
+;PCODE: $0000017D VOL: 0
+;PCODE: $0000017E VOL: 0
+;PCODE: $0000017F VOL: 0
+;PCODE: $00000180 VOL: 0
+;PCODE: $00000181 VOL: 0
+;PCODE: $00000182 VOL: 0
+;PCODE: $00000183 VOL: 0
+; 0000 01C5                        uprintf("string means %s\n",str);
+;PCODE: $00000184 VOL: 0
+;PCODE: $00000185 VOL: 0
+;PCODE: $00000186 VOL: 0
+;PCODE: $00000187 VOL: 0
+;PCODE: $00000188 VOL: 0
+;PCODE: $00000189 VOL: 0
+;PCODE: $0000018A VOL: 0
+;PCODE: $0000018B VOL: 0
+;PCODE: $0000018C VOL: 0
+;PCODE: $0000018D VOL: 0
+; 0000 01C6                        uint = 42561;
+;PCODE: $0000018E VOL: 0
+;PCODE: $0000018F VOL: 0
+; 0000 01C7                        sint = -23456;
+;PCODE: $00000190 VOL: 0
+;PCODE: $00000191 VOL: 0
+; 0000 01C8                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
+;PCODE: $00000192 VOL: 0
+;PCODE: $00000193 VOL: 0
+;PCODE: $00000194 VOL: 0
+;PCODE: $00000195 VOL: 0
+;PCODE: $00000196 VOL: 0
+;PCODE: $00000197 VOL: 0
+;PCODE: $00000198 VOL: 0
+;PCODE: $00000199 VOL: 0
+;PCODE: $0000019A VOL: 0
+;PCODE: $0000019B VOL: 0
+;PCODE: $0000019C VOL: 0
+;PCODE: $0000019D VOL: 0
+;PCODE: $0000019E VOL: 0
+; 0000 01C9                        uint = 2561;
+;PCODE: $0000019F VOL: 0
+;PCODE: $000001A0 VOL: 0
+; 0000 01CA                        sint = -3456;
+;PCODE: $000001A1 VOL: 0
+;PCODE: $000001A2 VOL: 0
+; 0000 01CB                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
+;PCODE: $000001A3 VOL: 0
+;PCODE: $000001A4 VOL: 0
+;PCODE: $000001A5 VOL: 0
+;PCODE: $000001A6 VOL: 0
+;PCODE: $000001A7 VOL: 0
+;PCODE: $000001A8 VOL: 0
+;PCODE: $000001A9 VOL: 0
+;PCODE: $000001AA VOL: 0
+;PCODE: $000001AB VOL: 0
+;PCODE: $000001AC VOL: 0
+;PCODE: $000001AD VOL: 0
+;PCODE: $000001AE VOL: 0
+;PCODE: $000001AF VOL: 0
+; 0000 01CC                        uint = 161;
+;PCODE: $000001B0 VOL: 0
+;PCODE: $000001B1 VOL: 0
+; 0000 01CD                        sint = 123;
+;PCODE: $000001B2 VOL: 0
+;PCODE: $000001B3 VOL: 0
+; 0000 01CE                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
+;PCODE: $000001B4 VOL: 0
+;PCODE: $000001B5 VOL: 0
+;PCODE: $000001B6 VOL: 0
+;PCODE: $000001B7 VOL: 0
+;PCODE: $000001B8 VOL: 0
+;PCODE: $000001B9 VOL: 0
+;PCODE: $000001BA VOL: 0
+;PCODE: $000001BB VOL: 0
+;PCODE: $000001BC VOL: 0
+;PCODE: $000001BD VOL: 0
+;PCODE: $000001BE VOL: 0
+;PCODE: $000001BF VOL: 0
+;PCODE: $000001C0 VOL: 0
+; 0000 01CF                     }
+; 0000 01D0                     break;
+;PCODE: $000001C1 VOL: 0
+; 0000 01D1             default:
+;PCODE: $000001C2 VOL: 0
+; 0000 01D2             };
+;PCODE: $000001C3 VOL: 0
+; 0000 01D3 
+; 0000 01D4           }
+;PCODE: $000001C4 VOL: 0
+;PCODE: $000001C5 VOL: 0
+; 0000 01D5 }
+;PCODE: $000001C6 VOL: 0
+;PCODE: $000001C7 VOL: 0
+;PCODE: $000001C8 VOL: 0
+;PCODE: $000001C9 VOL: 0
+
+	.DSEG
+_0x2E:
+	.BYTE 0x8D

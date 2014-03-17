@@ -356,7 +356,10 @@ void main(void)
     long int sate_frequence;//
     unsigned long TunerFreq;
     float symbol_rate;    
-    unsigned char cmd;        
+    unsigned char cmd;  
+    char str[16] = "jingle bells"; 
+    unsigned int uint;
+    signed int sint;       
         
     LNB_frequence =10750;//11300;      
     sate_frequence =11880; //92.2
@@ -387,45 +390,80 @@ void main(void)
     //tuner(TunerFreq,symbol_rate);
     putchar1('C'); 
     
-    while (getchar1())
+    while (1)
           {
            // Place your code here     
-            putchar1('D');
-           
-            LED_ON;
-            delay_ms(1000);
-            LED_OFF;
-            delay_ms(1000);
-            
-//            if(lockinfo>0)      //1st one
-//                LED_ON;
-//            delay_ms(200);
-//            LED_OFF;
-//            delay_ms(200);
-//            
-//            if(lockinfo>1)      //2nd two
-//                LED_ON;
-//            delay_ms(200);
-//            LED_OFF;
-//            delay_ms(200);
-//            
-//            if(lockinfo>3)       //third four
-//                LED_ON;
-//            delay_ms(200);
-//            LED_OFF;
-//            delay_ms(200);     
-//            
-//            if(lockinfo>5)        //4th 8
-//                LED_ON;
-//            delay_ms(200);
-//            LED_OFF;
-//            delay_ms(200);
-//            
-//            LED_ON;
-//            delay_ms(1000);
-//            LED_OFF;
-//            delay_ms(1000);    
-            
-            putchar1('A');
+            LED_OFF; 
+            switch (getchar1()) 
+            {
+                case 'H': 
+                    {     
+                        DDRE |= 0x30;
+                        SCLH;
+                        SDAL;
+                        putchar1('H');          
+                    }
+                    break;    
+                case 'A': 
+                    {
+                        putchar1('D');               
+                        LED_ON;
+                        delay_ms(1000);
+                        LED_OFF;
+                        delay_ms(1000);                     
+                        putchar1('A'); 
+                    }
+                    break;   
+                 case 'G': 
+                    {
+                       
+                    }
+                    break;              
+                case 'L': 
+                    {     
+                       DDRE |= 0x30;
+                       SCLL;
+                       SDAH; 
+                       putchar1('L'); 
+                    }
+                    break;   
+                case 'R': 
+                    {     
+                   
+                    }
+                    break; 
+                case 'S': 
+                    {     
+                   
+                    }
+                    break;     
+                case 'T': 
+                    {  
+                     LED_ON;   
+                     putchar1('t');
+                     tuner(TunerFreq,symbol_rate);
+                    }
+                    break;               
+                case 'U': 
+                    {                               
+                                          
+                       uint = 42561;
+                       sint = -23456;
+                       uprintf("this is test!!\n");
+                       uprintf("string means %s\n",str);    
+                       uint = 42561;
+                       sint = -23456;
+                       uprintf("unsigned & signed int number:%u %d\n",uint,sint);
+                       uint = 2561;
+                       sint = -3456;
+                       uprintf("unsigned & signed int number:%u %d\n",uint,sint); 
+                       uint = 161;
+                       sint = 123;
+                       uprintf("unsigned & signed int number:%u %d\n",uint,sint);                      
+                    }
+                    break;    
+            default:
+            };
+                        
           }
 }
