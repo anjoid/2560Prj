@@ -104,7 +104,7 @@ void SetSymbolRate(float sym_rate);
 char Get0288Register(char addr);
 char getchar1(void);
 void putchar1(char c);              
-
+char uprintf(const char *fmt, ...);
 
                         
 #endif

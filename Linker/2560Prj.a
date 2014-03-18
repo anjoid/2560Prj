@@ -844,25 +844,24 @@
 ;PCODE: $00000177 VOL: 0
 ;PCODE: $00000178 VOL: 0
 ; 0000 01C0                     {
-; 0000 01C1 
-; 0000 01C2                        uint = 42561;
+; 0000 01C1                        uprintf("string means %s\n",str);
 ;PCODE: $00000179 VOL: 0
 ;PCODE: $0000017A VOL: 0
-; 0000 01C3                        sint = -23456;
 ;PCODE: $0000017B VOL: 0
 ;PCODE: $0000017C VOL: 0
-; 0000 01C4                        uprintf("this is test!!\n");
 ;PCODE: $0000017D VOL: 0
 ;PCODE: $0000017E VOL: 0
 ;PCODE: $0000017F VOL: 0
 ;PCODE: $00000180 VOL: 0
 ;PCODE: $00000181 VOL: 0
 ;PCODE: $00000182 VOL: 0
+; 0000 01C2                        uint = 32879;
 ;PCODE: $00000183 VOL: 0
-; 0000 01C5                        uprintf("string means %s\n",str);
 ;PCODE: $00000184 VOL: 0
+; 0000 01C3                        sint = -23456;
 ;PCODE: $00000185 VOL: 0
 ;PCODE: $00000186 VOL: 0
+; 0000 01C4                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
 ;PCODE: $00000187 VOL: 0
 ;PCODE: $00000188 VOL: 0
 ;PCODE: $00000189 VOL: 0
@@ -870,19 +869,19 @@
 ;PCODE: $0000018B VOL: 0
 ;PCODE: $0000018C VOL: 0
 ;PCODE: $0000018D VOL: 0
-; 0000 01C6                        uint = 42561;
 ;PCODE: $0000018E VOL: 0
 ;PCODE: $0000018F VOL: 0
-; 0000 01C7                        sint = -23456;
 ;PCODE: $00000190 VOL: 0
 ;PCODE: $00000191 VOL: 0
-; 0000 01C8                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
 ;PCODE: $00000192 VOL: 0
 ;PCODE: $00000193 VOL: 0
+; 0000 01C5                        uint = -2561;
 ;PCODE: $00000194 VOL: 0
 ;PCODE: $00000195 VOL: 0
+; 0000 01C6                        sint = 13456;
 ;PCODE: $00000196 VOL: 0
 ;PCODE: $00000197 VOL: 0
+; 0000 01C7                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
 ;PCODE: $00000198 VOL: 0
 ;PCODE: $00000199 VOL: 0
 ;PCODE: $0000019A VOL: 0
@@ -890,19 +889,19 @@
 ;PCODE: $0000019C VOL: 0
 ;PCODE: $0000019D VOL: 0
 ;PCODE: $0000019E VOL: 0
-; 0000 01C9                        uint = 2561;
 ;PCODE: $0000019F VOL: 0
 ;PCODE: $000001A0 VOL: 0
-; 0000 01CA                        sint = -3456;
 ;PCODE: $000001A1 VOL: 0
 ;PCODE: $000001A2 VOL: 0
-; 0000 01CB                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
 ;PCODE: $000001A3 VOL: 0
 ;PCODE: $000001A4 VOL: 0
+; 0000 01C8                        uint = 105;
 ;PCODE: $000001A5 VOL: 0
 ;PCODE: $000001A6 VOL: 0
+; 0000 01C9                        sint = -123;
 ;PCODE: $000001A7 VOL: 0
 ;PCODE: $000001A8 VOL: 0
+; 0000 01CA                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
 ;PCODE: $000001A9 VOL: 0
 ;PCODE: $000001AA VOL: 0
 ;PCODE: $000001AB VOL: 0
@@ -910,43 +909,29 @@
 ;PCODE: $000001AD VOL: 0
 ;PCODE: $000001AE VOL: 0
 ;PCODE: $000001AF VOL: 0
-; 0000 01CC                        uint = 161;
 ;PCODE: $000001B0 VOL: 0
 ;PCODE: $000001B1 VOL: 0
-; 0000 01CD                        sint = 123;
 ;PCODE: $000001B2 VOL: 0
 ;PCODE: $000001B3 VOL: 0
-; 0000 01CE                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
 ;PCODE: $000001B4 VOL: 0
 ;PCODE: $000001B5 VOL: 0
+; 0000 01CB                     }
+; 0000 01CC                     break;
 ;PCODE: $000001B6 VOL: 0
+; 0000 01CD             default:
 ;PCODE: $000001B7 VOL: 0
+; 0000 01CE             };
 ;PCODE: $000001B8 VOL: 0
+; 0000 01CF 
+; 0000 01D0           }
 ;PCODE: $000001B9 VOL: 0
 ;PCODE: $000001BA VOL: 0
+; 0000 01D1 }
 ;PCODE: $000001BB VOL: 0
 ;PCODE: $000001BC VOL: 0
 ;PCODE: $000001BD VOL: 0
 ;PCODE: $000001BE VOL: 0
-;PCODE: $000001BF VOL: 0
-;PCODE: $000001C0 VOL: 0
-; 0000 01CF                     }
-; 0000 01D0                     break;
-;PCODE: $000001C1 VOL: 0
-; 0000 01D1             default:
-;PCODE: $000001C2 VOL: 0
-; 0000 01D2             };
-;PCODE: $000001C3 VOL: 0
-; 0000 01D3 
-; 0000 01D4           }
-;PCODE: $000001C4 VOL: 0
-;PCODE: $000001C5 VOL: 0
-; 0000 01D5 }
-;PCODE: $000001C6 VOL: 0
-;PCODE: $000001C7 VOL: 0
-;PCODE: $000001C8 VOL: 0
-;PCODE: $000001C9 VOL: 0
 
 	.DSEG
 _0x2E:
-	.BYTE 0x8D
+	.BYTE 0x7D

@@ -92,8 +92,6 @@ IO Operating
 functions declaration
 */
 unsigned int read_adc(unsigned char adc_input);
-void Tx0(unsigned char c);
-unsigned char Rx0(void);
 
 unsigned char locked(void);
 void TunerRst(void);

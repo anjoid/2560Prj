@@ -1,9 +1,6 @@
-VERSION:3 SOURCE_TIMESTAMP:4471BE81
+VERSION:3 SOURCE_TIMESTAMP:4472BDEC
 NODE:I LEVEL:0 LINE:1 "G:\My Documents\GitHub\2560Prj\include.h"
 NODE:I LEVEL:0 LINE:2 "D:\cvavr\inc\stdarg.h"
 NODE:F LEVEL:0 LINE:4 "uprintf(const unsigned char * fmt)"
-NODE:F LEVEL:0 LINE:89 "read_adc(unsigned char adc_input)"
-NODE:F LEVEL:0 LINE:109 "Tx0(unsigned char c)"
-NODE:F LEVEL:0 LINE:123 "Rx0(void)"
-NODE:F LEVEL:0 LINE:136 "getchar1(void)"
-NODE:F LEVEL:0 LINE:151 "putchar1(unsigned char c)"
+NODE:F LEVEL:0 LINE:105 "getchar1(void)"
+NODE:F LEVEL:0 LINE:120 "putchar1(unsigned char c)"

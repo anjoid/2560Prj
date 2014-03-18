@@ -1156,8 +1156,6 @@ _0x3:
 _0x31:
 	.DB  0x0
 _0x0:
-	.DB  0x74,0x68,0x69,0x73,0x20,0x69,0x73,0x20
-	.DB  0x74,0x65,0x73,0x74,0x21,0x21,0xA,0x0
 	.DB  0x73,0x74,0x72,0x69,0x6E,0x67,0x20,0x6D
 	.DB  0x65,0x61,0x6E,0x73,0x20,0x25,0x73,0xA
 	.DB  0x0,0x75,0x6E,0x73,0x69,0x67,0x6E,0x65
@@ -1175,25 +1173,21 @@ _0x2040000:
 	.DB  0x0
 
 __GLOBAL_INI_TBL:
-	.DW  0x10
+	.DW  0x11
 	.DW  _0x2E
 	.DW  _0x0*2
 
-	.DW  0x11
-	.DW  _0x2E+16
-	.DW  _0x0*2+16
+	.DW  0x24
+	.DW  _0x2E+17
+	.DW  _0x0*2+17
 
 	.DW  0x24
-	.DW  _0x2E+33
-	.DW  _0x0*2+33
+	.DW  _0x2E+53
+	.DW  _0x0*2+17
 
 	.DW  0x24
-	.DW  _0x2E+69
-	.DW  _0x0*2+33
-
-	.DW  0x24
-	.DW  _0x2E+105
-	.DW  _0x0*2+33
+	.DW  _0x2E+89
+	.DW  _0x0*2+17
 
 	.DW  0x01
 	.DW  0x04
@@ -1971,23 +1965,19 @@ _0x22:
 ; 0000 01AE                 case 'R':
 _0x23:
 	CPI  R30,LOW(0x52)
-	BRNE _0x28
+	BREQ _0x17
 ; 0000 01AF                     {
 ; 0000 01B0 
 ; 0000 01B1                     }
 ; 0000 01B2                     break;
-	RJMP _0x17
 ; 0000 01B3                 case 'S':
-_0x28:
 	CPI  R30,LOW(0x53)
-	BRNE _0x29
+	BREQ _0x17
 ; 0000 01B4                     {
 ; 0000 01B5 
 ; 0000 01B6                     }
 ; 0000 01B7                     break;
-	RJMP _0x17
 ; 0000 01B8                 case 'T':
-_0x29:
 	CPI  R30,LOW(0x54)
 	BRNE _0x2A
 ; 0000 01B9                     {
@@ -2009,20 +1999,8 @@ _0x2A:
 	CPI  R30,LOW(0x55)
 	BRNE _0x2F
 ; 0000 01C0                     {
-; 0000 01C1 
-; 0000 01C2                        uint = 42561;
-	__GETWRN 18,19,-22975
-; 0000 01C3                        sint = -23456;
-	__GETWRN 20,21,-23456
-; 0000 01C4                        uprintf("this is test!!\n");
+; 0000 01C1                        uprintf("string means %s\n",str);
 	__POINTW1MN _0x2E,0
-	ST   -Y,R31
-	ST   -Y,R30
-	LDI  R24,0
-	CALL _uprintf
-	ADIW R28,2
-; 0000 01C5                        uprintf("string means %s\n",str);
-	__POINTW1MN _0x2E,16
 	ST   -Y,R31
 	ST   -Y,R30
 	MOVW R30,R28
@@ -2031,46 +2009,46 @@ _0x2A:
 	LDI  R24,4
 	CALL _uprintf
 	ADIW R28,6
-; 0000 01C6                        uint = 42561;
-	__GETWRN 18,19,-22975
-; 0000 01C7                        sint = -23456;
+; 0000 01C2                        uint = 32879;
+	__GETWRN 18,19,-32657
+; 0000 01C3                        sint = -23456;
 	__GETWRN 20,21,-23456
-; 0000 01C8                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
-	__POINTW1MN _0x2E,33
+; 0000 01C4                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
+	__POINTW1MN _0x2E,17
 	CALL SUBOPT_0x4
 	CALL SUBOPT_0x5
-; 0000 01C9                        uint = 2561;
-	__GETWRN 18,19,2561
-; 0000 01CA                        sint = -3456;
-	__GETWRN 20,21,-3456
-; 0000 01CB                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
-	__POINTW1MN _0x2E,69
+; 0000 01C5                        uint = -2561;
+	__GETWRN 18,19,-2561
+; 0000 01C6                        sint = 13456;
+	__GETWRN 20,21,13456
+; 0000 01C7                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
+	__POINTW1MN _0x2E,53
 	CALL SUBOPT_0x4
 	CALL SUBOPT_0x5
-; 0000 01CC                        uint = 161;
-	__GETWRN 18,19,161
-; 0000 01CD                        sint = 123;
-	__GETWRN 20,21,123
-; 0000 01CE                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
-	__POINTW1MN _0x2E,105
+; 0000 01C8                        uint = 105;
+	__GETWRN 18,19,105
+; 0000 01C9                        sint = -123;
+	__GETWRN 20,21,-123
+; 0000 01CA                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
+	__POINTW1MN _0x2E,89
 	CALL SUBOPT_0x4
 	CALL SUBOPT_0x5
-; 0000 01CF                     }
-; 0000 01D0                     break;
-; 0000 01D1             default:
+; 0000 01CB                     }
+; 0000 01CC                     break;
+; 0000 01CD             default:
 _0x2F:
-; 0000 01D2             };
+; 0000 01CE             };
 _0x17:
-; 0000 01D3 
-; 0000 01D4           }
+; 0000 01CF 
+; 0000 01D0           }
 	RJMP _0x10
-; 0000 01D5 }
+; 0000 01D1 }
 _0x30:
 	RJMP _0x30
 
 	.DSEG
 _0x2E:
-	.BYTE 0x8D
+	.BYTE 0x7D
 ;#include "include.h"
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
@@ -3566,21 +3544,19 @@ _uprintf:
 	MOV  R15,R24
 ; 0002 0006     const char *s;
 ; 0002 0007     int d;
-; 0002 0008     char buf[16],i,j,k;
+; 0002 0008     char buf[16],i;
 ; 0002 0009     va_list ap;
 ; 0002 000A     va_start(ap, fmt);
-	SBIW R28,19
+	SBIW R28,18
 	CALL __SAVELOCR6
-;	*fmt -> Y+25
+;	*fmt -> Y+24
 ;	*s -> R16,R17
 ;	d -> R18,R19
-;	buf -> Y+9
+;	buf -> Y+8
 ;	i -> R21
-;	j -> R20
-;	k -> Y+8
 ;	*ap -> Y+6
 	MOVW R26,R28
-	ADIW R26,21
+	ADIW R26,20
 	CALL __ADDW2R15
 	STD  Y+6,R26
 	STD  Y+6+1,R27
@@ -3615,267 +3591,217 @@ _0x40006:
 	LDI  R26,HIGH(0x73)
 	CPC  R31,R26
 	BRNE _0x4000A
-; 0002 0012                 s = va_arg(ap, const char *);
+; 0002 0012                {
+; 0002 0013                 s = va_arg(ap, char *);
 	CALL SUBOPT_0x16
 	LD   R16,X+
 	LD   R17,X
-; 0002 0013                 for ( ; *s; s++) {
+; 0002 0014                 for ( ; *s; s++)
 _0x4000C:
 	MOVW R26,R16
 	LD   R30,X
 	CPI  R30,0
 	BREQ _0x4000D
-; 0002 0014                     putchar1(*s);
+; 0002 0015                     {
+; 0002 0016                     putchar1(*s);
 	CALL SUBOPT_0x17
-; 0002 0015                 }
+; 0002 0017                     }
 	__ADDWRN 16,17,1
 	RJMP _0x4000C
 _0x4000D:
-; 0002 0016                 break;
+; 0002 0018                 }
+; 0002 0019                 break;
 	RJMP _0x40009
-; 0002 0017             case 'u':
+; 0002 001A             case 'u':
 _0x4000A:
 	CPI  R30,LOW(0x75)
 	LDI  R26,HIGH(0x75)
 	CPC  R31,R26
 	BRNE _0x4000E
-; 0002 0018                 d = va_arg(ap, int);
+; 0002 001B                 {
+; 0002 001C                     d = va_arg(ap,long int);   //0~4294967295
 	CALL SUBOPT_0x16
 	LD   R18,X+
 	LD   R19,X
-; 0002 0019                 //itoa(d, buf, 10);
-; 0002 001A                 i=0;        //转换成十进制字符 低位在前高位在后
+; 0002 001D                     i=0;        //turn d into decimal,low digit first
 	LDI  R21,LOW(0)
-; 0002 001B                 while(1)
+; 0002 001E                     while(1)
 _0x4000F:
-; 0002 001C                        {
-; 0002 001D                         buf[i] = d%10+'0';
+; 0002 001F                       {
+; 0002 0020                         buf[i] = d%10+'0';  //ASICII character
 	CALL SUBOPT_0x18
-; 0002 001E                         d = d/10;
-; 0002 001F                         if(d==0)//全部转完只剩0 退出
+	CALL SUBOPT_0x19
+; 0002 0021                         d = d/10;
+; 0002 0022                         if(d==0)//done
 	BREQ _0x40011
-; 0002 0020                                 break;
-; 0002 0021                         i++;
+; 0002 0023                                 break;
+; 0002 0024                         i++;
 	SUBI R21,-1
-; 0002 0022                       }
+; 0002 0025                       }
 	RJMP _0x4000F
 _0x40011:
-; 0002 0023                       for(j=0;j<i;j++)//逆序
-	LDI  R20,LOW(0)
-_0x40014:
-	CP   R20,R21
-	BRSH _0x40015
-; 0002 0024                       {
-; 0002 0025                               k=buf[j];
-	CALL SUBOPT_0x19
-	CALL SUBOPT_0x1A
-	STD  Y+8,R30
-; 0002 0026                               buf[j] = buf[i-j];
-	CALL SUBOPT_0x19
-	CALL SUBOPT_0x1B
-	CALL SUBOPT_0x1C
-; 0002 0027                               buf[i-j] = k;
-	CALL SUBOPT_0x1D
-; 0002 0028                       }
-	SUBI R20,-1
-	RJMP _0x40014
-_0x40015:
-; 0002 0029 
-; 0002 002A                 for ( s = buf; *s; s++) {
-	MOVW R30,R28
-	ADIW R30,9
-	MOVW R16,R30
-_0x40017:
-	MOVW R26,R16
-	LD   R30,X
-	CPI  R30,0
-	BREQ _0x40018
-; 0002 002B                     putchar1(*s);
+; 0002 0026                     while(i)		//i point to the max digit,output till buf[0]
+_0x40013:
+	CPI  R21,0
+	BREQ _0x40015
+; 0002 0027                         {
+; 0002 0028                                 putchar1(buf[i]);
+	CALL SUBOPT_0x18
+	ADD  R26,R30
+	ADC  R27,R31
 	CALL SUBOPT_0x17
+; 0002 0029                                 i--;
+	SUBI R21,1
+; 0002 002A                         }
+	RJMP _0x40013
+_0x40015:
+; 0002 002B                     putchar1(buf[0]);
+	LDD  R30,Y+8
+	RJMP _0x4002A
 ; 0002 002C                 }
-	__ADDWRN 16,17,1
-	RJMP _0x40017
-_0x40018:
 ; 0002 002D                 break;
-	RJMP _0x40009
 ; 0002 002E             case 'd':
 _0x4000E:
 	CPI  R30,LOW(0x64)
 	LDI  R26,HIGH(0x64)
 	CPC  R31,R26
-	BRNE _0x40024
-; 0002 002F                 d = va_arg(ap, int);
+	BRNE _0x4001F
+; 0002 002F                 {
+; 0002 0030                     d = va_arg(ap,signed long int);  //-2147483648~2147483647
 	CALL SUBOPT_0x16
 	LD   R18,X+
 	LD   R19,X
-; 0002 0030                 //itoa(d, buf, 10);
-; 0002 0031                 i=0;        //转换成十进制字符 低位在前高位在后
-	LDI  R21,LOW(0)
-; 0002 0032                 while(1)
-_0x4001A:
-; 0002 0033                        {
-; 0002 0034                         buf[i] = d%10+'0';
-	CALL SUBOPT_0x18
-; 0002 0035                         d = d/10;
-; 0002 0036                         if(d==0)//全部转完只剩0 退出
-	BREQ _0x4001C
-; 0002 0037                                 break;
-; 0002 0038                         i++;
-	SUBI R21,-1
-; 0002 0039                       }
-	RJMP _0x4001A
-_0x4001C:
-; 0002 003A                 for(j=0;j<i;j++)//逆序
-	LDI  R20,LOW(0)
-_0x4001F:
-	CP   R20,R21
-	BRSH _0x40020
-; 0002 003B                       {
-; 0002 003C                               k=buf[j];
-	CALL SUBOPT_0x19
-	CALL SUBOPT_0x1A
-	STD  Y+8,R30
-; 0002 003D                               buf[j] = buf[i-j];
-	CALL SUBOPT_0x19
-	CALL SUBOPT_0x1B
-	CALL SUBOPT_0x1C
-; 0002 003E                               buf[i-j] = k;
-	CALL SUBOPT_0x1D
-; 0002 003F                       }
-	SUBI R20,-1
-	RJMP _0x4001F
-_0x40020:
-; 0002 0040 //                if(d<0)	//if negative,add '-' ahead
-; 0002 0041 //      	              {
-; 0002 0042 //                        for(j=i;j>0;j--)//      	{
-; 0002 0043 //                            {
-; 0002 0044 //                                buf[j+1] = buf[j];
-; 0002 0045 //                            }
-; 0002 0046 //                        buf[0]='-';
-; 0002 0047 //      	              }
-; 0002 0048                 for ( s = buf; *s; s++) {
-	MOVW R30,R28
-	ADIW R30,9
-	MOVW R16,R30
-_0x40022:
-	MOVW R26,R16
-	LD   R30,X
-	CPI  R30,0
-	BREQ _0x40023
-; 0002 0049                     putchar1(*s);
-	CALL SUBOPT_0x17
-; 0002 004A                 }
-	__ADDWRN 16,17,1
-	RJMP _0x40022
-_0x40023:
-; 0002 004B                 break;
-	RJMP _0x40009
-; 0002 004C            /* Add other specifiers here... */
-; 0002 004D             default:
-_0x40024:
-; 0002 004E                 putchar1(*fmt);
-	CALL SUBOPT_0x14
-	LD   R30,Z
+; 0002 0031 
+; 0002 0032                     if(d<0)	//negative output a minus
+	TST  R19
+	BRPL _0x40017
+; 0002 0033                             putchar1('-');
+	LDI  R30,LOW(45)
 	ST   -Y,R30
 	RCALL _putchar1
-; 0002 004F                 break;
-; 0002 0050         }
+; 0002 0034                     d = abs(d);
+_0x40017:
+	ST   -Y,R19
+	ST   -Y,R18
+	CALL _abs
+	MOVW R18,R30
+; 0002 0035                     i=0;
+	LDI  R21,LOW(0)
+; 0002 0036                     while(1)
+_0x40018:
+; 0002 0037                            {
+; 0002 0038                             buf[i] = d%10+'0';
+	CALL SUBOPT_0x18
+	CALL SUBOPT_0x19
+; 0002 0039                             d = d/10;
+; 0002 003A                             if(d==0)
+	BREQ _0x4001A
+; 0002 003B                                     break;
+; 0002 003C                             i++;
+	SUBI R21,-1
+; 0002 003D                           }
+	RJMP _0x40018
+_0x4001A:
+; 0002 003E                      while(i)
+_0x4001C:
+	CPI  R21,0
+	BREQ _0x4001E
+; 0002 003F 	                {
+; 0002 0040                             putchar1(buf[i]);
+	CALL SUBOPT_0x18
+	ADD  R26,R30
+	ADC  R27,R31
+	CALL SUBOPT_0x17
+; 0002 0041                             i--;
+	SUBI R21,1
+; 0002 0042                 	}
+	RJMP _0x4001C
+_0x4001E:
+; 0002 0043                      putchar1(buf[0]);
+	LDD  R30,Y+8
+	RJMP _0x4002A
+; 0002 0044                 }
+; 0002 0045                 break;
+; 0002 0046            /* Add other specifiers here... */
+; 0002 0047             default:
+_0x4001F:
+; 0002 0048                 putchar1(*fmt);
+	CALL SUBOPT_0x14
+	LD   R30,Z
+_0x4002A:
+	ST   -Y,R30
+	RCALL _putchar1
+; 0002 0049                 break;
+; 0002 004A         }
 _0x40009:
-; 0002 0051         fmt++;
+; 0002 004B         fmt++;
 	CALL SUBOPT_0x15
-; 0002 0052     }
+; 0002 004C     }
 	RJMP _0x40003
 _0x40005:
-; 0002 0053     va_end(ap);
-; 0002 0054     return 1;   /* Dummy return value */
+; 0002 004D     va_end(ap);
+; 0002 004E     return 1;   /* Dummy return value */
 	LDI  R30,LOW(1)
 	CALL __LOADLOCR6
-	ADIW R28,25
+	ADIW R28,24
 	POP  R15
 	RET
-; 0002 0055 }
+; 0002 004F }
 ;
 ;
 ;// Read the AD conversion result
-;unsigned int read_adc(unsigned char adc_input)
-; 0002 005A {
-; 0002 005B ADMUX=(adc_input & 0x1f) | (ADC_VREF_TYPE & 0xff);
-;	adc_input -> Y+0
-; 0002 005C if (adc_input & 0x20) ADCSRB |= 0x08;
-; 0002 005D else ADCSRB &= 0xf7;
-; 0002 005E // Delay needed for the stabilization of the ADC input voltage
-; 0002 005F delay_us(10);
-; 0002 0060 // Start the AD conversion
-; 0002 0061 ADCSRA|=0x40;
-; 0002 0062 // Wait for the AD conversion to complete
-; 0002 0063 while ((ADCSRA & 0x10)==0);
-; 0002 0064 ADCSRA|=0x10;
-; 0002 0065 return ADCW;
-; 0002 0066 }
+;//unsigned int read_adc(unsigned char adc_input)
+;//{
+;//ADMUX=(adc_input & 0x1f) | (ADC_VREF_TYPE & 0xff);
+;//if (adc_input & 0x20) ADCSRB |= 0x08;
+;//else ADCSRB &= 0xf7;
+;//// Delay needed for the stabilization of the ADC input voltage
+;//delay_us(10);
+;//// Start the AD conversion
+;//ADCSRA|=0x40;
+;//// Wait for the AD conversion to complete
+;//while ((ADCSRA & 0x10)==0);
+;//ADCSRA|=0x10;
+;//return ADCW;
+;//}
 ;
 ;
-;#pragma used+
-;/**********************
-;发送单个字符
-;***********************/
-;void Tx0(unsigned char c)
-; 0002 006E {
-; 0002 006F         UDR0 = c;
-;	c -> Y+0
-; 0002 0070         while(!(UCSR0A & 0x40))
-; 0002 0071                 ;
-; 0002 0072         UCSR0A |= 0x40;
-; 0002 0073 
-; 0002 0074 }
-;#pragma used-
 ;
-;#pragma used+
-;/**********************
-;接收单个字符
-;***********************/
-;unsigned char Rx0(void)
-; 0002 007C {
-; 0002 007D         if(UCSR0A & 0x80)
-; 0002 007E            return UDR0;
-; 0002 007F         else
-; 0002 0080            return 0;
-; 0002 0081 }
-;#pragma used-
 ;
 ;
 ;
 ;// Get a character from the USART1 Receiver
 ;#pragma used+
 ;char getchar1(void)
-; 0002 0089 {
+; 0002 006A {
 _getchar1:
-; 0002 008A char status,data;
-; 0002 008B while (1)
+; 0002 006B char status,data;
+; 0002 006C while (1)
 	ST   -Y,R17
 	ST   -Y,R16
 ;	status -> R17
 ;	data -> R16
-_0x4002F:
-; 0002 008C       {
-; 0002 008D       while (((status=UCSR1A) & RX_COMPLETE)==0);
-_0x40032:
+_0x40020:
+; 0002 006D       {
+; 0002 006E       while (((status=UCSR1A) & RX_COMPLETE)==0);
+_0x40023:
 	LDS  R30,200
 	MOV  R17,R30
 	ANDI R30,LOW(0x80)
-	BREQ _0x40032
-; 0002 008E       data=UDR1;
+	BREQ _0x40023
+; 0002 006F       data=UDR1;
 	LDS  R16,206
-; 0002 008F       if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
+; 0002 0070       if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
 	MOV  R30,R17
 	ANDI R30,LOW(0x1C)
-	BRNE _0x40035
-; 0002 0090          return data;
+	BRNE _0x40026
+; 0002 0071          return data;
 	MOV  R30,R16
 	RJMP _0x20A0001
-; 0002 0091       }
-_0x40035:
-	RJMP _0x4002F
-; 0002 0092 }
+; 0002 0072       }
+_0x40026:
+	RJMP _0x40020
+; 0002 0073 }
 _0x20A0001:
 	LD   R16,Y+
 	LD   R17,Y+
@@ -3885,18 +3811,18 @@ _0x20A0001:
 ;// Write a character to the USART1 Transmitter
 ;#pragma used+
 ;void putchar1(char c)
-; 0002 0098 {
+; 0002 0079 {
 _putchar1:
-; 0002 0099 while ((UCSR1A & DATA_REGISTER_EMPTY)==0);
+; 0002 007A while ((UCSR1A & DATA_REGISTER_EMPTY)==0);
 ;	c -> Y+0
-_0x40036:
+_0x40027:
 	LDS  R30,200
 	ANDI R30,LOW(0x20)
-	BREQ _0x40036
-; 0002 009A UDR1=c;
+	BREQ _0x40027
+; 0002 007B UDR1=c;
 	LD   R30,Y
 	STS  206,R30
-; 0002 009B }
+; 0002 007C }
 	ADIW R28,1
 	RET
 ;#pragma used-
@@ -3921,6 +3847,16 @@ _0x40036:
 	.CSEG
 
 	.CSEG
+_abs:
+    ld   r30,y+
+    ld   r31,y+
+    sbiw r30,0
+    brpl __abs0
+    com  r30
+    com  r31
+    adiw r30,1
+__abs0:
+    ret
 _labs:
     ld    r30,y+
     ld    r31,y+
@@ -4131,7 +4067,7 @@ SUBOPT_0x13:
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:5 WORDS
 SUBOPT_0x14:
 	MOVW R26,R28
-	ADIW R26,25
+	ADIW R26,24
 	CALL __ADDW2R15
 	CALL __GETW1P
 	RET
@@ -4139,7 +4075,7 @@ SUBOPT_0x14:
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:11 WORDS
 SUBOPT_0x15:
 	MOVW R26,R28
-	ADIW R26,25
+	ADIW R26,24
 	CALL __ADDW2R15
 	LD   R30,X+
 	LD   R31,X+
@@ -4160,19 +4096,22 @@ SUBOPT_0x16:
 	ADIW R26,4
 	RET
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:3 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:1 WORDS
 SUBOPT_0x17:
-	MOVW R26,R16
 	LD   R30,X
 	ST   -Y,R30
 	JMP  _putchar1
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:20 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:9 WORDS
 SUBOPT_0x18:
 	MOV  R30,R21
 	LDI  R31,0
 	MOVW R26,R28
-	ADIW R26,9
+	ADIW R26,8
+	RET
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:14 WORDS
+SUBOPT_0x19:
 	ADD  R30,R26
 	ADC  R31,R27
 	MOVW R22,R30
@@ -4190,58 +4129,6 @@ SUBOPT_0x18:
 	MOVW R18,R30
 	MOV  R0,R18
 	OR   R0,R19
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 6 TIMES, CODE SIZE REDUCTION:7 WORDS
-SUBOPT_0x19:
-	MOV  R30,R20
-	LDI  R31,0
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:6 WORDS
-SUBOPT_0x1A:
-	MOVW R26,R28
-	ADIW R26,9
-	ADD  R26,R30
-	ADC  R27,R31
-	LD   R30,X
-	RET
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:10 WORDS
-SUBOPT_0x1B:
-	MOVW R0,R30
-	MOVW R26,R28
-	ADIW R26,9
-	ADD  R30,R26
-	ADC  R31,R27
-	MOVW R22,R30
-	MOV  R26,R21
-	CLR  R27
-	MOVW R30,R0
-	CALL __SWAPW12
-	SUB  R30,R26
-	SBC  R31,R27
-	RJMP SUBOPT_0x1A
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:1 WORDS
-SUBOPT_0x1C:
-	MOVW R26,R22
-	ST   X,R30
-	MOV  R26,R21
-	CLR  R27
-	RJMP SUBOPT_0x19
-
-;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:5 WORDS
-SUBOPT_0x1D:
-	CALL __SWAPW12
-	SUB  R30,R26
-	SBC  R31,R27
-	MOVW R26,R28
-	ADIW R26,9
-	ADD  R30,R26
-	ADC  R31,R27
-	LDD  R26,Y+8
-	STD  Z+0,R26
 	RET
 
 
@@ -4842,17 +4729,6 @@ __PUTPARD1:
 	ST   -Y,R22
 	ST   -Y,R31
 	ST   -Y,R30
-	RET
-
-__SWAPW12:
-	MOV  R1,R27
-	MOV  R27,R31
-	MOV  R31,R1
-
-__SWAPB12:
-	MOV  R1,R26
-	MOV  R26,R30
-	MOV  R30,R1
 	RET
 
 __CPD21:

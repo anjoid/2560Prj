@@ -445,20 +445,16 @@ void main(void)
                     }
                     break;               
                 case 'U': 
-                    {                               
-                                          
-                       uint = 42561;
-                       sint = -23456;
-                       uprintf("this is test!!\n");
+                    {         
                        uprintf("string means %s\n",str);    
-                       uint = 42561;
+                       uint = 32879;
                        sint = -23456;
                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
-                       uint = 2561;
-                       sint = -3456;
+                       uint = -2561;
+                       sint = 13456;
                        uprintf("unsigned & signed int number:%u %d\n",uint,sint); 
-                       uint = 161;
-                       sint = 123;
+                       uint = 105;
+                       sint = -123;
                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);                      
                     }
                     break;    
