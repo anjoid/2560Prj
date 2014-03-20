@@ -25,7 +25,7 @@ char uprintf(const char *fmt, ...)
                 break;
             case 'u':   
                 {
-                    d = va_arg(ap,long int);   //0~4294967295
+                    d = va_arg(ap,unsigned int);   //0~4294967295
                     i=0;        //turn d into decimal,low digit first
                     while(1)
                       {

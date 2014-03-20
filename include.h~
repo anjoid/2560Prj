@@ -92,8 +92,6 @@ IO Operating
 functions declaration
 */
 unsigned int read_adc(unsigned char adc_input);
-void Tx0(unsigned char c);
-unsigned char Rx0(void);
 
 unsigned char locked(void);
 void TunerRst(void);
@@ -105,6 +103,6 @@ char Get0288Register(char addr);
 char getchar1(void);
 void putchar1(char c);              
 char uprintf(const char *fmt, ...);
-
+char tunerTest(char addr);
                         
 #endif

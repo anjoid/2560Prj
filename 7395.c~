@@ -1,20 +1,16 @@
 #include "include.h"
 
-#define SCLH PORTE.5=1
-#define SCLL PORTE.5=0
-#define SDAH PORTE.4=1
-#define SDAL PORTE.4=0
+
 
       
-extern unsigned char lockinfo;
 
-flash	unsigned	long	LVCO_FREQS[3][2] =
+flash unsigned long LVCO_FREQS[3][2] =
 {
 	{950000,970000},
 	{970000,1065000},
 	{1065000,1170000}
 };
-flash	unsigned	long	HVCO_FREQS[7][2] =
+flash unsigned long HVCO_FREQS[7][2] =
 {
 	{1170000,1300000},
 	{1300000,1445000},
@@ -45,20 +41,22 @@ void i2c_sta(void)
 	DDRE |= 0x30;      //PE5 PE4(SCL SDA) as output
 	SDAH;
 	SCLH;
-	delay_us(4);
+	delay_us(10);
 	SDAL;
 	delay_us(2);
 }                         
 
-/***********************************  
+/******************************  
 I2C结束位  SDA SCL设为输出  
 SDA在SCL为高时变为高
-***********************************/
+*******************************/
 void i2c_stp(void)
 {
 	SCLH;
 	delay_us(2);
 	SDAL;
+        delay_us(2);
+	SDAH;                                 
 }
 
 
@@ -77,22 +75,21 @@ SCLH;
 delay_us(2);
 if(PINE.4==0)  
   {
-//         temp_para++;
-//         //printf("xiang ying: temp_para = %d\n",temp_para);
-  delay_us(2);
-  SCLL;
-  DDRE |=0x10;          //SDA output
-  PORTE.4=1;            //SDA high    
-   putchar1('&');
-  return 1;
+      delay_us(2);
+      SCLL;
+      DDRE |=0x10;          //SDA output
+      PORTE.4=1;            //SDA high    
+          putchar1('&');
+      return 1;
   }
 else
-	{
-	 //temp_para++;
-	 //Tx0('X');               
-	 DDRE |=0x10;             //SDA output
-	 return 0;
-	}
+    {
+     //temp_para++;
+     //Tx0('X');               
+     DDRE |=0x10;             //SDA output    
+     putchar1('X');
+     return 0;
+    }
 }
 
 
@@ -117,20 +114,17 @@ char i2c_send(unsigned char data)
         	delay_us(2);
         	SCLH;
         	delay_us(4);
-	}	
+	}	                     
 	SCLL;
 
 	if(SDA_in()==1)
 		{
 		delay_us(2);
-		//Tx0('P'); 
-                lockinfo = 1;
 		return 1;
 		}
 	else
 		{
 		delay_us(2);
-		lockinfo = 0;
 		return 0;
 		}
 
@@ -185,11 +179,11 @@ char i2c_rd(unsigned char addr,unsigned char *ddata,unsigned char counter)
  if(i2c_send(addr|0x01)==1)
    {    
          while(i)
-        	{
-        		*pdata=i2c_byte_read();
-        		pdata++;
-        		i--;
-        	}    	
+            {
+                *pdata=i2c_byte_read();
+                pdata++;
+                i--;
+            }    	
          i2c_stp(); 
          return 1;
     }
@@ -204,18 +198,17 @@ pointer to the first byte,number to be written
 **********************************************/
 char i2c_tran(char *data,char num)
 {
-	char i; 
-	i2c_sta(); 
-	for(i=0;i<num;i++)
-	{
-        	if(i2c_send(*data))
-        		data++;
-        	else
-        		return 0;
-	}	
-	i2c_stp();
-	return 1;
-
+    char i; 
+    i2c_sta(); 
+    for(i=0;i<num;i++)
+    {
+        if(i2c_send(*data))
+                data++;
+        else
+                return 0;
+    }	
+    i2c_stp();
+    return 1;        
 }  
 
      
@@ -558,7 +551,6 @@ unsigned char tuner(unsigned long F,float S)
             if(locked())
             {
                //printf("locked\n");  
-               lockinfo = 8;
                return 1;
             }
         }  
@@ -668,19 +660,17 @@ unsigned char pll_lk(void)
           i++;
           if((byte[0] & 0x40) != 0)
           {
-              ////printf("pll locked:0x%x\n",byte[0]);                   
-              lockinfo = 4;
               DisableTunerOperation();
               return 1;
-          }
-          else
-          {   
-             if(byte[0]>0)
-                   lockinfo = 2;
-             ////printf("pll no locked:0x%x\n",byte[0]);
-          }
+          }                    
       }while(i < 3);
       DisableTunerOperation();
       return 0;
 }
         
+char tunerTest(char para)
+{
+   char byte=para;
+   EnableTunerOperation(); 
+   return byte; 
+}

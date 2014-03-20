@@ -25,7 +25,7 @@ Data Stack size         : 2048
 #include "include.h"      
  
 // Declare your global variables here
-unsigned char lockinfo=0;
+
 
 
 void init(void)
@@ -356,7 +356,6 @@ void main(void)
     long int sate_frequence;//
     unsigned long TunerFreq;
     float symbol_rate;    
-    unsigned char cmd;  
     char str[16] = "jingle bells"; 
     unsigned int uint;
     signed int sint;       
@@ -429,12 +428,71 @@ void main(void)
                     break;   
                 case 'R': 
                     {     
-                   
+                      uprintf("i2c test-->");   
+                      DDRE |= 0x30;  //SDA PE4,SCL PE5  output
+                      PORTE |= 0x30; //SDA SCL high
+                      delay_us(4);
+                      SDAL;  //SDA low as i2c start
+                      delay_us(2);
+                      SCLL; 
+                      delay_us(2);
+                      SDAH;           //1st bit 1 
+                      delay_us(2);
+                      SCLH;
+                      delay_us(4);
+                      SCLL;
+                      delay_us(2);
+                      SDAH;             //2nd bit 1
+                      delay_us(2);
+                      SCLH;
+                      delay_us(4);
+                      SCLL;
+                      delay_us(2);       
+                      SDAH;             //3rd bit 0
+                      delay_us(2);
+                      SCLH;
+                      delay_us(4);
+                      SCLL;
+                      delay_us(2);         
+                      SDAL;             //4th bit 0
+                      delay_us(2);
+                      SCLH;
+                      delay_us(4);
+                      SCLL;
+                      delay_us(2);           
+                      SDAL;             //5th bit 0
+                      delay_us(2);
+                      SCLH;
+                      delay_us(4);
+                      SCLL;
+                      delay_us(2);         
+                      SDAL;             //6th bit 0
+                      delay_us(2);
+                      SCLH;
+                      delay_us(4);
+                      SCLL;
+                      delay_us(2);           
+                      SDAL;             //7th bit 0    1101 0000 0xC0  stv0288  
+                      delay_us(2);
+                      SCLH;
+                      delay_us(4);
+                      SCLL;
+                      DDRE &= 0xEF;    //release sda
+                      PORTE.4 = 1;     //pull up
+                      delay_us(4); 
+                      SCLH;
+                      if(PINE.4)
+                        putchar1('A');
+                      else
+                        putchar1('a');
+                      uprintf("...done\n");  
                     }
                     break; 
                 case 'S': 
-                    {     
-                   
+                    { 
+                      uprintf("tuner test");   
+                      tunerTest(0);         
+                      uprintf("...done\n");                      
                     }
                     break;     
                 case 'T': 

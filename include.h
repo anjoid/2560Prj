@@ -103,6 +103,6 @@ char Get0288Register(char addr);
 char getchar1(void);
 void putchar1(char c);              
 char uprintf(const char *fmt, ...);
-
+char tunerTest(char para);
                         
 #endif
