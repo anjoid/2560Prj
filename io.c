@@ -66,7 +66,20 @@ char uprintf(const char *fmt, ...)
                 	}  
                      putchar1(buf[0]);             
                 }
-                break;
+                break;   
+            case 'x':
+                {
+                    d = va_arg(ap,char);  //
+                    buf[1] = d%0x10+'0';
+                    buf[0] = d/0x10+'0';
+                    if(buf[1]>'9')
+                        buf[1] += 7;    
+                    if(buf[0]>'9')
+                        buf[0] += 7;
+                    putchar1(buf[0]);
+                    putchar1(buf[1]);             
+                }
+                break;    
            /* Add other specifiers here... */              
             default:  
                 putchar1(*fmt);

@@ -25,7 +25,7 @@ char uprintf(const char *fmt, ...)
                 break;
             case 'u':   
                 {
-                    d = va_arg(ap,long int);   //0~4294967295
+                    d = va_arg(ap,unsigned int);   //0~4294967295
                     i=0;        //turn d into decimal,low digit first
                     while(1)
                       {
@@ -66,7 +66,16 @@ char uprintf(const char *fmt, ...)
                 	}  
                      putchar1(buf[0]);             
                 }
-                break;
+                break;   
+            case 'x':
+                {
+                    d = va_arg(ap,char);  //
+                    buf[1] = d%0x10+'0';
+                    buf[0] = d/0x10;
+                    putchar1(buf[0]);
+                    putchar1(buf[1]);             
+                }
+                break;    
            /* Add other specifiers here... */              
             default:  
                 putchar1(*fmt);

@@ -280,37 +280,91 @@
 ; 0002 0044                 }
 ; 0002 0045                 break;
 ;PCODE: $000000C1 VOL: 0
-; 0002 0046            /* Add other specifiers here... */
-; 0002 0047             default:
+; 0002 0046             case 'x':
 ;PCODE: $000000C2 VOL: 0
-; 0002 0048                 putchar1(*fmt);
 ;PCODE: $000000C3 VOL: 0
 ;PCODE: $000000C4 VOL: 0
+; 0002 0047                 {
+; 0002 0048                     d = va_arg(ap,char);  //
 ;PCODE: $000000C5 VOL: 0
 ;PCODE: $000000C6 VOL: 0
 ;PCODE: $000000C7 VOL: 0
 ;PCODE: $000000C8 VOL: 0
-; 0002 0049                 break;
 ;PCODE: $000000C9 VOL: 0
-; 0002 004A         }
 ;PCODE: $000000CA VOL: 0
-; 0002 004B         fmt++;
 ;PCODE: $000000CB VOL: 0
+; 0002 0049                     buf[1] = d%0x10+'0';
 ;PCODE: $000000CC VOL: 0
 ;PCODE: $000000CD VOL: 0
 ;PCODE: $000000CE VOL: 0
 ;PCODE: $000000CF VOL: 0
-; 0002 004C     }
 ;PCODE: $000000D0 VOL: 0
+; 0002 004A                     buf[0] = d/0x10+'0';
 ;PCODE: $000000D1 VOL: 0
-; 0002 004D     va_end(ap);
-; 0002 004E     return 1;   /* Dummy return value */
 ;PCODE: $000000D2 VOL: 0
 ;PCODE: $000000D3 VOL: 0
 ;PCODE: $000000D4 VOL: 0
 ;PCODE: $000000D5 VOL: 0
-; 0002 004F }
+; 0002 004B                     if(buf[1]>'9')
 ;PCODE: $000000D6 VOL: 0
+;PCODE: $000000D7 VOL: 0
+;PCODE: $000000D8 VOL: 0
+; 0002 004C                         buf[1] += 7;
+;PCODE: $000000D9 VOL: 0
+;PCODE: $000000DA VOL: 0
+;PCODE: $000000DB VOL: 0
+; 0002 004D                     if(buf[0]>'9')
+;PCODE: $000000DC VOL: 0
+;PCODE: $000000DD VOL: 0
+;PCODE: $000000DE VOL: 0
+;PCODE: $000000DF VOL: 0
+; 0002 004E                         buf[0] += 7;
+;PCODE: $000000E0 VOL: 0
+;PCODE: $000000E1 VOL: 0
+;PCODE: $000000E2 VOL: 0
+; 0002 004F                     putchar1(buf[0]);
+;PCODE: $000000E3 VOL: 0
+;PCODE: $000000E4 VOL: 0
+;PCODE: $000000E5 VOL: 0
+;PCODE: $000000E6 VOL: 0
+; 0002 0050                     putchar1(buf[1]);
+;PCODE: $000000E7 VOL: 0
+;PCODE: $000000E8 VOL: 0
+;PCODE: $000000E9 VOL: 0
+; 0002 0051                 }
+; 0002 0052                 break;
+;PCODE: $000000EA VOL: 0
+; 0002 0053            /* Add other specifiers here... */
+; 0002 0054             default:
+;PCODE: $000000EB VOL: 0
+; 0002 0055                 putchar1(*fmt);
+;PCODE: $000000EC VOL: 0
+;PCODE: $000000ED VOL: 0
+;PCODE: $000000EE VOL: 0
+;PCODE: $000000EF VOL: 0
+;PCODE: $000000F0 VOL: 0
+;PCODE: $000000F1 VOL: 0
+; 0002 0056                 break;
+;PCODE: $000000F2 VOL: 0
+; 0002 0057         }
+;PCODE: $000000F3 VOL: 0
+; 0002 0058         fmt++;
+;PCODE: $000000F4 VOL: 0
+;PCODE: $000000F5 VOL: 0
+;PCODE: $000000F6 VOL: 0
+;PCODE: $000000F7 VOL: 0
+;PCODE: $000000F8 VOL: 0
+; 0002 0059     }
+;PCODE: $000000F9 VOL: 0
+;PCODE: $000000FA VOL: 0
+; 0002 005A     va_end(ap);
+; 0002 005B     return 1;   /* Dummy return value */
+;PCODE: $000000FB VOL: 0
+;PCODE: $000000FC VOL: 0
+;PCODE: $000000FD VOL: 0
+;PCODE: $000000FE VOL: 0
+; 0002 005C }
+;PCODE: $000000FF VOL: 0
 ;
 ;
 ;// Read the AD conversion result
@@ -337,67 +391,67 @@
 ;// Get a character from the USART1 Receiver
 ;#pragma used+
 ;char getchar1(void)
-; 0002 006A {
-;PCODE: $000000D7 VOL: 0
-;PCODE: $000000D8 VOL: 0
-; 0002 006B char status,data;
-; 0002 006C while (1)
-;PCODE: $000000D9 VOL: 0
-;PCODE: $000000DA VOL: 0
+; 0002 0077 {
+;PCODE: $00000100 VOL: 0
+;PCODE: $00000101 VOL: 0
+; 0002 0078 char status,data;
+; 0002 0079 while (1)
+;PCODE: $00000102 VOL: 0
+;PCODE: $00000103 VOL: 0
 ;	status -> R17
 ;	data -> R16
-;PCODE: $000000DB VOL: 0
-; 0002 006D       {
-; 0002 006E       while (((status=UCSR1A) & RX_COMPLETE)==0);
-;PCODE: $000000DC VOL: 0
-;PCODE: $000000DD VOL: 0
-;PCODE: $000000DE VOL: 0
-;PCODE: $000000DF VOL: 0
-;PCODE: $000000E0 VOL: 0
-;PCODE: $000000E1 VOL: 0
-;PCODE: $000000E2 VOL: 0
-; 0002 006F       data=UDR1;
-;PCODE: $000000E3 VOL: 0
-;PCODE: $000000E4 VOL: 0
-; 0002 0070       if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
-;PCODE: $000000E5 VOL: 0
-;PCODE: $000000E6 VOL: 0
-;PCODE: $000000E7 VOL: 0
-; 0002 0071          return data;
-;PCODE: $000000E8 VOL: 0
-;PCODE: $000000E9 VOL: 0
-;PCODE: $000000EA VOL: 0
-; 0002 0072       }
-;PCODE: $000000EB VOL: 0
-;PCODE: $000000EC VOL: 0
-;PCODE: $000000ED VOL: 0
-; 0002 0073 }
-;PCODE: $000000EE VOL: 0
-;PCODE: $000000EF VOL: 0
-;PCODE: $000000F0 VOL: 0
+;PCODE: $00000104 VOL: 0
+; 0002 007A       {
+; 0002 007B       while (((status=UCSR1A) & RX_COMPLETE)==0);
+;PCODE: $00000105 VOL: 0
+;PCODE: $00000106 VOL: 0
+;PCODE: $00000107 VOL: 0
+;PCODE: $00000108 VOL: 0
+;PCODE: $00000109 VOL: 0
+;PCODE: $0000010A VOL: 0
+;PCODE: $0000010B VOL: 0
+; 0002 007C       data=UDR1;
+;PCODE: $0000010C VOL: 0
+;PCODE: $0000010D VOL: 0
+; 0002 007D       if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0)
+;PCODE: $0000010E VOL: 0
+;PCODE: $0000010F VOL: 0
+;PCODE: $00000110 VOL: 0
+; 0002 007E          return data;
+;PCODE: $00000111 VOL: 0
+;PCODE: $00000112 VOL: 0
+;PCODE: $00000113 VOL: 0
+; 0002 007F       }
+;PCODE: $00000114 VOL: 0
+;PCODE: $00000115 VOL: 0
+;PCODE: $00000116 VOL: 0
+; 0002 0080 }
+;PCODE: $00000117 VOL: 0
+;PCODE: $00000118 VOL: 0
+;PCODE: $00000119 VOL: 0
 ;#pragma used-
 ;
 ;// Write a character to the USART1 Transmitter
 ;#pragma used+
 ;void putchar1(char c)
-; 0002 0079 {
-;PCODE: $000000F1 VOL: 0
-;PCODE: $000000F2 VOL: 0
-; 0002 007A while ((UCSR1A & DATA_REGISTER_EMPTY)==0);
+; 0002 0086 {
+;PCODE: $0000011A VOL: 0
+;PCODE: $0000011B VOL: 0
+; 0002 0087 while ((UCSR1A & DATA_REGISTER_EMPTY)==0);
 ;	c -> Y+0
-;PCODE: $000000F3 VOL: 0
-;PCODE: $000000F4 VOL: 0
-;PCODE: $000000F5 VOL: 0
-;PCODE: $000000F6 VOL: 0
-;PCODE: $000000F7 VOL: 0
-;PCODE: $000000F8 VOL: 0
-; 0002 007B UDR1=c;
-;PCODE: $000000F9 VOL: 0
-;PCODE: $000000FA VOL: 0
-; 0002 007C }
-;PCODE: $000000FB VOL: 0
-;PCODE: $000000FC VOL: 0
-;PCODE: $000000FD VOL: 0
+;PCODE: $0000011C VOL: 0
+;PCODE: $0000011D VOL: 0
+;PCODE: $0000011E VOL: 0
+;PCODE: $0000011F VOL: 0
+;PCODE: $00000120 VOL: 0
+;PCODE: $00000121 VOL: 0
+; 0002 0088 UDR1=c;
+;PCODE: $00000122 VOL: 0
+;PCODE: $00000123 VOL: 0
+; 0002 0089 }
+;PCODE: $00000124 VOL: 0
+;PCODE: $00000125 VOL: 0
+;PCODE: $00000126 VOL: 0
 ;#pragma used-
 ;
 ;

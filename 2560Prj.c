@@ -7,7 +7,7 @@ http://www.hpinfotech.com
 
 Project : 
 Version : 
-Date    : 2014-1-23
+Date    : 2014-3-21
 Author  : zhangjing
 Company : zhangjing
 Comments: 
@@ -68,7 +68,7 @@ void init(void)
     // Func7=Out Func6=In Func5=Out Func4=Out Func3=Out Func2=In Func1=In Func0=In 
     // State7=0 State6=T State5=0 State4=0 State3=0 State2=T State1=T State0=T 
     PORTE=0x00;
-    DDRE=0xB8;
+    DDRE=0xBC;
 
     // Port F initialization
     // Func7=In Func6=In Func5=In Func4=In Func3=In Func2=In Func1=In Func0=In 
@@ -359,7 +359,7 @@ void main(void)
     char str[16] = "jingle bells"; 
     unsigned int uint;
     signed int sint;       
-        
+    unsigned char uchar;    
     LNB_frequence =10750;//11300;      
     sate_frequence =11880; //92.2
     symbol_rate  =28800;   //
@@ -428,64 +428,10 @@ void main(void)
                     break;   
                 case 'R': 
                     {     
-                      uprintf("i2c test-->");   
-                      DDRE |= 0x30;  //SDA PE4,SCL PE5  output
-                      PORTE |= 0x30; //SDA SCL high
-                      delay_us(4);
-                      SDAL;  //SDA low as i2c start
-                      delay_us(2);
-                      SCLL; 
-                      delay_us(2);
-                      SDAH;           //1st bit 1 
-                      delay_us(2);
-                      SCLH;
-                      delay_us(4);
-                      SCLL;
-                      delay_us(2);
-                      SDAH;             //2nd bit 1
-                      delay_us(2);
-                      SCLH;
-                      delay_us(4);
-                      SCLL;
-                      delay_us(2);       
-                      SDAH;             //3rd bit 0
-                      delay_us(2);
-                      SCLH;
-                      delay_us(4);
-                      SCLL;
-                      delay_us(2);         
-                      SDAL;             //4th bit 0
-                      delay_us(2);
-                      SCLH;
-                      delay_us(4);
-                      SCLL;
-                      delay_us(2);           
-                      SDAL;             //5th bit 0
-                      delay_us(2);
-                      SCLH;
-                      delay_us(4);
-                      SCLL;
-                      delay_us(2);         
-                      SDAL;             //6th bit 0
-                      delay_us(2);
-                      SCLH;
-                      delay_us(4);
-                      SCLL;
-                      delay_us(2);           
-                      SDAL;             //7th bit 0    1101 0000 0xC0  stv0288  
-                      delay_us(2);
-                      SCLH;
-                      delay_us(4);
-                      SCLL;
-                      DDRE &= 0xEF;    //release sda
-                      PORTE.4 = 1;     //pull up
-                      delay_us(4); 
-                      SCLH;
-                      if(PINE.4)
-                        putchar1('A');
-                      else
-                        putchar1('a');
-                      uprintf("...done\n");  
+                        LED_ON;
+                        uprintf("Enter register addr:");
+                        uchar = getchar1();  
+                        uprintf("Register 0x%x value is 0x%x\n",uchar,Get0288Register(uchar));                             
                     }
                     break; 
                 case 'S': 
@@ -504,7 +450,12 @@ void main(void)
                     break;               
                 case 'U': 
                     {         
-                       uprintf("string means %s\n",str);    
+                       uprintf("string means %s\n",str);   
+                       uchar = 0x33;
+                       uprintf("hex 0x%x 0x%x\n",uchar,uchar+16);        
+                       uchar = 0xEC;
+                       uprintf("hex 0x%x\n",uchar);
+                                              
                        uint = 32879;
                        sint = -23456;
                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);

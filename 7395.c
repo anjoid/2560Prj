@@ -70,7 +70,7 @@ char SDA_in(void)
 
 DDRE &=0xEF;       //SDA  input
 PORTE |= 0x10;       //SDA pull-up
-delay_us(6);
+delay_us(2);
 SCLH;
 delay_us(2);
 if(PINE.4==0)  
@@ -79,7 +79,7 @@ if(PINE.4==0)
       SCLL;
       DDRE |=0x10;          //SDA output
       PORTE.4=1;            //SDA high    
-      putchar1('&');
+      //putchar1('&');
       return 1;
   }
 else
@@ -536,25 +536,17 @@ unsigned char tuner(unsigned long F,float S)
         delay_ms(50);        
         
                  
-        putchar1('1');
-        TFC(F);          
-        putchar1('2');                                 
-        STV0288Init();
-        putchar1('3');                                    
-        SetSymbolRate(S);              
-        putchar1('4');
+        TFC(F);                           
+        STV0288Init();                          
+        SetSymbolRate(S);      
         i = 0;
         while(i<4)
         {
             i++;
             delay_us(900);
             if(locked())
-            {
-               //printf("locked\n");  
                return 1;
-            }
-        }  
-        //printf("not locked\n");                      
+        }              
         return 0;                                 
         
 }
@@ -570,28 +562,22 @@ void getstus(char *p)
         char i,j;
         i = 1;
         j = 0; 
-        putchar1('5');
         do
           {        
                  pdata = &data[0];        
                  data[0]= 0xD0;
                  data[1]= 0x24;                                                          
                  if (i2c_tran(pdata,2))
-                   {  
-                     putchar1('b');         
+                   {     
                       if(i2c_rd(data[0],pdata,2))   
                       { 
                                p[j] = data[0];  
-                               //////printf("R 24-0x%x    ",data[0]);
                                j = 1;
-                          
-                                i=0;
-                               
+                               i=0;
                       }
                    }                       
             }  
        while(i) ;
-       putchar1('6');  
        i=1; 
        do
           {         
@@ -602,14 +588,12 @@ void getstus(char *p)
                    {  
                          if(i2c_rd(data[0],pdata,2))   
                          {       
-                              p[j] = data[0];
-                              //////printf("R 1E-0x%x\n",data[0]);                                          
+                              p[j] = data[0];                                      
                               i=0;                                                               
                          }
                    }                  
           } 
        while(i) ; 
-      putchar1('7');
   } 
    
 
@@ -617,8 +601,6 @@ char locked(void)
 { 
     char t[2];
     getstus(t); 
-
-
     if(((t[0] & 0x80) == 0x80) && ((t[1] & 0x80) == 0x80))
     { 
         //LED_ON;
@@ -656,11 +638,12 @@ unsigned char pll_lk(void)
       EnableTunerOperation();
       do 
       {
-          i2c_rd(byte[0],byte,1);
+          i2c_rd(byte[0],byte,1);       
+          uprintf("read tuner:%x\n",byte[0]);
           i++;
           if((byte[0] & 0x40) != 0)
           {
-              DisableTunerOperation();
+              DisableTunerOperation();  
               return 1;
           }                    
       }while(i < 3);
@@ -671,6 +654,6 @@ unsigned char pll_lk(void)
 char tunerTest(char para)
 {
    char byte=para;
-   EnableTunerOperation(); 
+   pll_lk();
    return byte; 
 }
