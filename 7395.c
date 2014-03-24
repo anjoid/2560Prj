@@ -54,8 +54,6 @@ void i2c_stp(void)
 {
 	SCLH;
 	delay_us(2);
-	SDAL;
-        delay_us(2);
 	SDAH;                                 
 }
 
@@ -152,12 +150,12 @@ unsigned char i2c_byte_read(void)
                 delay_us(4);        
         }          
         //data=(data |((PINE & 0x10)?1:0));
-        DDRE.4=1;
-        SDAL;   
-        SCLH;
-        delay_us(4);       
-        SCLL;
-        delay_us(4);
+//        DDRE.4=1;
+//        SDAL; 
+//        SCLH;
+//        delay_us(2);
+//        SCLL;               
+//        delay_us(4);
         return data;
 
 }                                                
@@ -182,7 +180,15 @@ char i2c_rd(unsigned char addr,unsigned char *ddata,unsigned char counter)
             {
                 *pdata=i2c_byte_read();
                 pdata++;
-                i--;
+                if(i--)
+                    {
+                        DDRE.4=1;
+                        SDAL;     //ACK to slave
+                        SCLH;
+                        delay_us(2);
+                        SCLL;               
+                        delay_us(4);    
+                    }
             }    	
          i2c_stp(); 
          return 1;
@@ -625,8 +631,9 @@ char Get0288Register(unsigned char addr)
     data[1]= addr;
     if (i2c_tran(pdata,2))
       {   
-       if(i2c_rd(data[0],pdata,1))   
+       if(i2c_rd(data[0],pdata,2))   
           {   
+           uprintf("0x%x",data[1]);
            return data[0];
           }
       }       

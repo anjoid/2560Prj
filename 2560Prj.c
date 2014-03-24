@@ -420,7 +420,7 @@ void main(void)
                     break;              
                 case 'L': 
                     {     
-                       DDRE |= 0x30;
+                       DDRE |= 0x30;       
                        SCLL;
                        SDAH; 
                        putchar1('L'); 

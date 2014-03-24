@@ -428,10 +428,10 @@ void main(void)
                     break;   
                 case 'R': 
                     {     
-                        LED1_ON;
+                        LED_ON;
                         uprintf("Enter register addr:");
                         uchar = getchar1();  
-                        uprintf("Register 0x%x value is 0x%x\n",addrbyte,Get0288Register(addrbyte));                             
+                        uprintf("Register 0x%x value is 0x%x\n",uchar,Get0288Register(uchar));                             
                     }
                     break; 
                 case 'S': 
