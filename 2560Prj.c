@@ -431,12 +431,13 @@ void main(void)
                         LED_ON;
                         uprintf("Enter register addr:");
                         uchar = getchar1();  
-                        uprintf("Register 0x%x value is 0x%x\n",uchar,Get0288Register(uchar));                             
+                        Get0288Register(uchar);
+                        //uprintf("Register 0x%x value is 0x%x\n",uchar,Get0288Register(uchar));                             
                     }
                     break; 
                 case 'S': 
                     { 
-                      uprintf("tuner test");   
+                      uprintf("tuner test...");   
                       tunerTest(0);         
                       uprintf("...done\n");                      
                     }

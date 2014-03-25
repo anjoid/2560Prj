@@ -818,13 +818,19 @@
 ; 0000 01B1                         uchar = getchar1();
 ;PCODE: $0000016C VOL: 0
 ;PCODE: $0000016D VOL: 0
-; 0000 01B2                         uprintf("Register 0x%x value is 0x%x\n",uchar,Get0288Register(uchar));
+; 0000 01B2                         Get0288Register(uchar);
 ;PCODE: $0000016E VOL: 0
 ;PCODE: $0000016F VOL: 0
+; 0000 01B3                         //uprintf("Register 0x%x value is 0x%x\n",uchar,Get0288Register(uchar));
+; 0000 01B4                     }
+; 0000 01B5                     break;
 ;PCODE: $00000170 VOL: 0
+; 0000 01B6                 case 'S':
 ;PCODE: $00000171 VOL: 0
 ;PCODE: $00000172 VOL: 0
 ;PCODE: $00000173 VOL: 0
+; 0000 01B7                     {
+; 0000 01B8                       uprintf("tuner test...");
 ;PCODE: $00000174 VOL: 0
 ;PCODE: $00000175 VOL: 0
 ;PCODE: $00000176 VOL: 0
@@ -832,65 +838,62 @@
 ;PCODE: $00000178 VOL: 0
 ;PCODE: $00000179 VOL: 0
 ;PCODE: $0000017A VOL: 0
+; 0000 01B9                       tunerTest(0);
 ;PCODE: $0000017B VOL: 0
-; 0000 01B3                     }
-; 0000 01B4                     break;
 ;PCODE: $0000017C VOL: 0
-; 0000 01B5                 case 'S':
 ;PCODE: $0000017D VOL: 0
+; 0000 01BA                       uprintf("...done\n");
 ;PCODE: $0000017E VOL: 0
 ;PCODE: $0000017F VOL: 0
-; 0000 01B6                     {
-; 0000 01B7                       uprintf("tuner test");
 ;PCODE: $00000180 VOL: 0
 ;PCODE: $00000181 VOL: 0
 ;PCODE: $00000182 VOL: 0
 ;PCODE: $00000183 VOL: 0
 ;PCODE: $00000184 VOL: 0
+; 0000 01BB                     }
+; 0000 01BC                     break;
 ;PCODE: $00000185 VOL: 0
+; 0000 01BD                 case 'T':
 ;PCODE: $00000186 VOL: 0
-; 0000 01B8                       tunerTest(0);
 ;PCODE: $00000187 VOL: 0
 ;PCODE: $00000188 VOL: 0
+; 0000 01BE                     {
+; 0000 01BF                      LED_ON;
 ;PCODE: $00000189 VOL: 0
-; 0000 01B9                       uprintf("...done\n");
 ;PCODE: $0000018A VOL: 0
+; 0000 01C0                      putchar1('t');
 ;PCODE: $0000018B VOL: 0
 ;PCODE: $0000018C VOL: 0
 ;PCODE: $0000018D VOL: 0
+; 0000 01C1                      tuner(TunerFreq,symbol_rate);
 ;PCODE: $0000018E VOL: 0
 ;PCODE: $0000018F VOL: 0
 ;PCODE: $00000190 VOL: 0
-; 0000 01BA                     }
-; 0000 01BB                     break;
 ;PCODE: $00000191 VOL: 0
-; 0000 01BC                 case 'T':
 ;PCODE: $00000192 VOL: 0
+; 0000 01C2                     }
+; 0000 01C3                     break;
 ;PCODE: $00000193 VOL: 0
+; 0000 01C4                 case 'U':
 ;PCODE: $00000194 VOL: 0
-; 0000 01BD                     {
-; 0000 01BE                      LED_ON;
 ;PCODE: $00000195 VOL: 0
 ;PCODE: $00000196 VOL: 0
-; 0000 01BF                      putchar1('t');
+; 0000 01C5                     {
+; 0000 01C6                        uprintf("string means %s\n",str);
 ;PCODE: $00000197 VOL: 0
 ;PCODE: $00000198 VOL: 0
 ;PCODE: $00000199 VOL: 0
-; 0000 01C0                      tuner(TunerFreq,symbol_rate);
 ;PCODE: $0000019A VOL: 0
 ;PCODE: $0000019B VOL: 0
 ;PCODE: $0000019C VOL: 0
 ;PCODE: $0000019D VOL: 0
 ;PCODE: $0000019E VOL: 0
-; 0000 01C1                     }
-; 0000 01C2                     break;
 ;PCODE: $0000019F VOL: 0
-; 0000 01C3                 case 'U':
 ;PCODE: $000001A0 VOL: 0
+; 0000 01C7                        uchar = 0x33;
 ;PCODE: $000001A1 VOL: 0
 ;PCODE: $000001A2 VOL: 0
-; 0000 01C4                     {
-; 0000 01C5                        uprintf("string means %s\n",str);
+; 0000 01C8                        uprintf("hex 0x%x 0x%x\n",uchar,uchar+16);
 ;PCODE: $000001A3 VOL: 0
 ;PCODE: $000001A4 VOL: 0
 ;PCODE: $000001A5 VOL: 0
@@ -901,15 +904,15 @@
 ;PCODE: $000001AA VOL: 0
 ;PCODE: $000001AB VOL: 0
 ;PCODE: $000001AC VOL: 0
-; 0000 01C6                        uchar = 0x33;
 ;PCODE: $000001AD VOL: 0
 ;PCODE: $000001AE VOL: 0
-; 0000 01C7                        uprintf("hex 0x%x 0x%x\n",uchar,uchar+16);
 ;PCODE: $000001AF VOL: 0
 ;PCODE: $000001B0 VOL: 0
 ;PCODE: $000001B1 VOL: 0
+; 0000 01C9                        uchar = 0xEC;
 ;PCODE: $000001B2 VOL: 0
 ;PCODE: $000001B3 VOL: 0
+; 0000 01CA                        uprintf("hex 0x%x\n",uchar);
 ;PCODE: $000001B4 VOL: 0
 ;PCODE: $000001B5 VOL: 0
 ;PCODE: $000001B6 VOL: 0
@@ -920,12 +923,14 @@
 ;PCODE: $000001BB VOL: 0
 ;PCODE: $000001BC VOL: 0
 ;PCODE: $000001BD VOL: 0
-; 0000 01C8                        uchar = 0xEC;
+; 0000 01CB 
+; 0000 01CC                        uint = 32879;
 ;PCODE: $000001BE VOL: 0
 ;PCODE: $000001BF VOL: 0
-; 0000 01C9                        uprintf("hex 0x%x\n",uchar);
+; 0000 01CD                        sint = -23456;
 ;PCODE: $000001C0 VOL: 0
 ;PCODE: $000001C1 VOL: 0
+; 0000 01CE                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
 ;PCODE: $000001C2 VOL: 0
 ;PCODE: $000001C3 VOL: 0
 ;PCODE: $000001C4 VOL: 0
@@ -934,19 +939,18 @@
 ;PCODE: $000001C7 VOL: 0
 ;PCODE: $000001C8 VOL: 0
 ;PCODE: $000001C9 VOL: 0
-; 0000 01CA 
-; 0000 01CB                        uint = 32879;
 ;PCODE: $000001CA VOL: 0
 ;PCODE: $000001CB VOL: 0
-; 0000 01CC                        sint = -23456;
 ;PCODE: $000001CC VOL: 0
 ;PCODE: $000001CD VOL: 0
-; 0000 01CD                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
 ;PCODE: $000001CE VOL: 0
+; 0000 01CF                        uint = -2561;
 ;PCODE: $000001CF VOL: 0
 ;PCODE: $000001D0 VOL: 0
+; 0000 01D0                        sint = 13456;
 ;PCODE: $000001D1 VOL: 0
 ;PCODE: $000001D2 VOL: 0
+; 0000 01D1                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
 ;PCODE: $000001D3 VOL: 0
 ;PCODE: $000001D4 VOL: 0
 ;PCODE: $000001D5 VOL: 0
@@ -955,18 +959,18 @@
 ;PCODE: $000001D8 VOL: 0
 ;PCODE: $000001D9 VOL: 0
 ;PCODE: $000001DA VOL: 0
-; 0000 01CE                        uint = -2561;
 ;PCODE: $000001DB VOL: 0
 ;PCODE: $000001DC VOL: 0
-; 0000 01CF                        sint = 13456;
 ;PCODE: $000001DD VOL: 0
 ;PCODE: $000001DE VOL: 0
-; 0000 01D0                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
 ;PCODE: $000001DF VOL: 0
+; 0000 01D2                        uint = 105;
 ;PCODE: $000001E0 VOL: 0
 ;PCODE: $000001E1 VOL: 0
+; 0000 01D3                        sint = -123;
 ;PCODE: $000001E2 VOL: 0
 ;PCODE: $000001E3 VOL: 0
+; 0000 01D4                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
 ;PCODE: $000001E4 VOL: 0
 ;PCODE: $000001E5 VOL: 0
 ;PCODE: $000001E6 VOL: 0
@@ -975,43 +979,28 @@
 ;PCODE: $000001E9 VOL: 0
 ;PCODE: $000001EA VOL: 0
 ;PCODE: $000001EB VOL: 0
-; 0000 01D1                        uint = 105;
 ;PCODE: $000001EC VOL: 0
 ;PCODE: $000001ED VOL: 0
-; 0000 01D2                        sint = -123;
 ;PCODE: $000001EE VOL: 0
 ;PCODE: $000001EF VOL: 0
-; 0000 01D3                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
 ;PCODE: $000001F0 VOL: 0
+; 0000 01D5                     }
+; 0000 01D6                     break;
 ;PCODE: $000001F1 VOL: 0
+; 0000 01D7             default:
 ;PCODE: $000001F2 VOL: 0
+; 0000 01D8             };
 ;PCODE: $000001F3 VOL: 0
+; 0000 01D9 
+; 0000 01DA           }
 ;PCODE: $000001F4 VOL: 0
 ;PCODE: $000001F5 VOL: 0
+; 0000 01DB }
 ;PCODE: $000001F6 VOL: 0
 ;PCODE: $000001F7 VOL: 0
 ;PCODE: $000001F8 VOL: 0
 ;PCODE: $000001F9 VOL: 0
-;PCODE: $000001FA VOL: 0
-;PCODE: $000001FB VOL: 0
-;PCODE: $000001FC VOL: 0
-; 0000 01D4                     }
-; 0000 01D5                     break;
-;PCODE: $000001FD VOL: 0
-; 0000 01D6             default:
-;PCODE: $000001FE VOL: 0
-; 0000 01D7             };
-;PCODE: $000001FF VOL: 0
-; 0000 01D8 
-; 0000 01D9           }
-;PCODE: $00000200 VOL: 0
-;PCODE: $00000201 VOL: 0
-; 0000 01DA }
-;PCODE: $00000202 VOL: 0
-;PCODE: $00000203 VOL: 0
-;PCODE: $00000204 VOL: 0
-;PCODE: $00000205 VOL: 0
 
 	.DSEG
 _0x2B:
-	.BYTE 0xDC
+	.BYTE 0xC2

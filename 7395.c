@@ -1,9 +1,6 @@
 #include "include.h"
 
 
-
-      
-
 flash unsigned long LVCO_FREQS[3][2] =
 {
 	{950000,970000},
@@ -19,17 +16,15 @@ flash unsigned long HVCO_FREQS[7][2] =
 	{1778000,1942000},
 	{1942000,2131000},
 	{2131000,2150000}
-};
-                     
+};                  
 
 
 void TunerRst(void)
 {
-	PORTE.2=0;
-	delay_ms(50);
-	PORTE.2=1; 
-}   
-
+        PORTE.2=0;
+        delay_ms(50);
+        PORTE.2=1; 
+}
 
 
 /***********************************  
@@ -38,12 +33,12 @@ SDA在SCL为高时从高变为低
 ***********************************/
 void i2c_sta(void)
 {
-	DDRE |= 0x30;      //PE5 PE4(SCL SDA) as output
-	SDAH;
-	SCLH;
-	delay_us(10);
-	SDAL;
-	delay_us(2);
+        DDRE |= 0x30;      //PE5 PE4(SCL SDA) as output
+        SDAH;
+        SCLH;
+        delay_us(8);
+        SDAL;
+        delay_us(2);
 }                         
 
 /******************************  
@@ -52,9 +47,21 @@ SDA在SCL为高时变为高
 *******************************/
 void i2c_stp(void)
 {
-	SCLH;
-	delay_us(2);
-	SDAH;                                 
+        DDRE |= 0x30;   
+        
+        SDAH; 
+        delay_us(2);
+        SCLH;
+        
+        delay_us(2);
+        SDAL;
+        
+        delay_us(2);
+        SDAH;
+        
+       
+        delay_us(4);
+        SCLH;                                  
 }
 
 
@@ -68,7 +75,7 @@ char SDA_in(void)
 
 DDRE &=0xEF;       //SDA  input
 PORTE |= 0x10;       //SDA pull-up
-delay_us(2);
+delay_us(4);
 SCLH;
 delay_us(2);
 if(PINE.4==0)  
@@ -76,7 +83,7 @@ if(PINE.4==0)
       delay_us(2);
       SCLL;
       DDRE |=0x10;          //SDA output
-      PORTE.4=1;            //SDA high    
+      //PORTE.4=1;            //SDA high    
       //putchar1('&');
       return 1;
   }
@@ -96,113 +103,159 @@ else
 ***************************************/       
 char i2c_send(unsigned char data)
 {
-	char i;
-	
-	for(i=0;i<8;i++)
-	{
-        	SCLL;
-        	delay_us(4);
-        	if(data & 0x80)
-        		SDAH;
-        	else
-        		SDAL;
-        	data=(data<<1);
-        	
-        	
-        	delay_us(2);
-        	SCLH;
-        	delay_us(4);
-	}	                     
-	SCLL;
+        char i;
 
-	if(SDA_in()==1)
-		{
-		delay_us(2);
-		return 1;
-		}
-	else
-		{
-		delay_us(2);
-		return 0;
-		}
+        for(i=0;i<8;i++)
+        {
+                SCLL;
+                delay_us(2);
+                if(data & 0x80)
+                        SDAH;
+                else
+                        SDAL;
+                data=(data<<1);
+                
+                
+                delay_us(2);
+                SCLH;
+                delay_us(4);
+        }                             
+        SCLL;
+
+        if(SDA_in()==1)
+                {
+                delay_us(4);
+                return 1;
+                }
+        else
+                {
+                delay_us(2);
+                return 0;
+                }
 
 } 
-/****************************************
-读取一个字节的数据并返回该字节
-****************************************/
-unsigned char i2c_byte_read(void)
-{
-        unsigned char i,data;
-        data=0; 
-        DDRE &=0xEF;       //SDA  input
-        PORTE |= 0x10;       //SDA pull-up
-        SCLL;
-        delay_us(3);
-        for(i=0;i<8;i++)
-        {         
-                SCLH;
-                delay_us(2);
-                data=data<<1;
-                data=(data |(PINE & 0x10));
-                delay_us(2);
-               
-                SCLL;
-                delay_us(4);        
-        }          
-        //data=(data |((PINE & 0x10)?1:0));
-//        DDRE.4=1;
-//        SDAL; 
-//        SCLH;
-//        delay_us(2);
-//        SCLL;               
-//        delay_us(4);
-        return data;
 
-}                                                
+///****************************************
+//读取一个字节的数据并返回该字节
+//****************************************/
+//unsigned char i2c_byte_read(void)
+//{
+//
+//}                                                
 
 
 
+///******************************************************    
+//主机读取I2C  参数分别为 从机地址，读回的字节存放的数组指针，读回的字节数   
+//slave address,pointer to be written,number to be read   
+//从机响应了地址返回1 否则返回0
+//*******************************************************/            
+//char i2c_rd(unsigned char addr,unsigned char *ddata,unsigned char counter)     
+//{
+// unsigned char i;
+// unsigned char *pdata;
+// i=counter;  
+// pdata=ddata;
+// i2c_sta();
+// if(i2c_send(addr|0x01)==1)
+//   {    
+//         while(i)
+//            {
+//                *pdata=i2c_byte_read();
+//                pdata++;
+//                if(i--)
+//                    {
+//                        DDRE.4=1;
+//                        SDAL;     //ACK to slave
+//                        SCLH;
+//                        delay_us(2);
+//                        SCLL;               
+//                        delay_us(4);    
+//                    }
+//            }            
+//         i2c_stp(); 
+//         return 1;
+//    }
+// else 
+//        return 0;   
+//    
+//}
+  
 /******************************************************    
 主机读取I2C  参数分别为 从机地址，读回的字节存放的数组指针，读回的字节数   
 slave address,pointer to be written,number to be read   
 从机响应了地址返回1 否则返回0
-*******************************************************/            
+*******************************************************/     
 char i2c_rd(unsigned char addr,unsigned char *ddata,unsigned char counter)     
 {
- unsigned char i;
+ unsigned char i,bitc;
  unsigned char *pdata;
+ unsigned char data;
  i=counter;  
  pdata=ddata;
  i2c_sta();
  if(i2c_send(addr|0x01)==1)
-   {    
-         while(i)
+   {       
+         DDRE.4=0;
+         while(i--)
             {
-                *pdata=i2c_byte_read();
+              data = 0; 
+              delay_us(8);   
+              SDAH;         //pull up
+              for(bitc=0;bitc<8;bitc++)
+                       {
+                          delay_us(4); 
+                          SCLH;
+                          delay_us(2); 
+                          data=data<<1;
+                          if(PINE & 0x10)
+                             data = data + 1;   
+                          //data = (data | (PINE & 0x10));
+                          delay_us(2);
+                          SCLL;
+                                          
+                       }
+                *pdata=data;  
                 pdata++;
-                if(i--)
-                    {
-                        DDRE.4=1;
+                delay_us(4);
+                SDAL;     //ACK to slave
+                DDRE.4=1;                        
+                SCLH;
+                delay_us(4);
+                SCLL;  
+                DDRE.4=0;     
+                //uprintf("*%x*",data);                          
+                delay_us(10);  
+                /*if(i--) //if not the last byte,send ack
+                    {                        
                         SDAL;     //ACK to slave
+                        DDRE.4=1;                        
                         SCLH;
-                        delay_us(2);
+                        delay_us(4);
                         SCLL;               
-                        delay_us(4);    
-                    }
-            }    	
-         i2c_stp(); 
+                        delay_us(6);    
+                    }  */
+            }            
+//         SCLH;
+//         DDRE.4=1;
+//         SDAL;
+//         delay_us(2);        //stop
+//         SDAH;   
+         i2c_stp();
          return 1;
     }
  else 
-        return 0;   
-    
+        return 0;       
 }
+
+
+
 /**********************************************  
 发送一组字节到从机        
 pointer to the first byte,number to be written    
 发送完成返回1  否则返回0
 **********************************************/
-char i2c_tran(char *data,char num)
+char i2c_SendStr(char *data,char num)
 {
     char i; 
     i2c_sta(); 
@@ -212,7 +265,7 @@ char i2c_tran(char *data,char num)
                 data++;
         else
                 return 0;
-    }	
+    }        
     i2c_stp();
     return 1;        
 }  
@@ -227,9 +280,9 @@ void EnableTunerOperation(void)
     unsigned char byte[3];                                 
      byte[0]=0xD0;
      byte[1]=0x01;
-     byte[2]=0xC0; 
-     i2c_tran(byte,3); 
-     ////printf("Enable Tuner Operation\n");
+     byte[2]=0xD8; 
+     i2c_SendStr(byte,3); 
+     //printf("Enable Tuner Operation\n");
 }
 
 /*******************************
@@ -240,8 +293,8 @@ void DisableTunerOperation(void)
     unsigned char byte[3];                                
     byte[0]=0xD0;
     byte[1]=0x01;
-    byte[2]=0x40; 
-    i2c_tran(byte,3);  
+    byte[2]=0x58; 
+    i2c_SendStr(byte,3);  
     ////printf("Disable Tuner Operation\n");
 }
 
@@ -251,78 +304,78 @@ void DisableTunerOperation(void)
 unsigned char TFC(unsigned long _TunerFrequency) //TunerFrequencyCalculate  KHZ
 {
 
-	unsigned long long_tmp, TunerFrequency  ;
-	unsigned int i;
-	unsigned char B[5] = {0x00},temp[5] = {0x00};
-	unsigned int ddata,pd2,pd3,pd4,pd5 ;
+        unsigned long long_tmp, TunerFrequency  ;
+        unsigned int i;
+        unsigned char B[5] = {0x00},temp[5] = {0x00};
+        unsigned int ddata,pd2,pd3,pd4,pd5 ;
         //printf("TunerFreq %ld.\n",_TunerFrequency);
 
-	B[0] = 0xc0;
-	if ((_TunerFrequency>=900000)&&(_TunerFrequency<1170000)) 	//
-	{
-		B[4]=0x0e;
-		for (i=0; i<3; i++)
-		{
-	        if (_TunerFrequency < LVCO_FREQS[i][1]) break;
-		}
-		i=i+0x05;
-		i=i<<5;
-    		B[4]= B[4]+i;
-	}
-	else													//
-	{
-		B[4]=0x0c;
-		for (i=0; i<7; i++)
-		{
-	        if (_TunerFrequency < HVCO_FREQS[i][1]) break;
-		}
-		i=i+0x01;
-		i=i<<5;
-		B[4]= B[4]+i;
-	}
-	TunerFrequency = _TunerFrequency/500;
-	long_tmp = TunerFrequency/32;
-	i = TunerFrequency%32;
- 	B[1] = (int)((long_tmp>>3)&0x000000ff);
-	B[2] = (int)((long_tmp<<5)&0x000000ff);
-	B[2] = (int)(B[2] + i);
-	i=0;  
-	////printf("TFC byte1~5:0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);         
+        B[0] = 0xc0;
+        if ((_TunerFrequency>=900000)&&(_TunerFrequency<1170000))         //
+        {
+                B[4]=0x0e;
+                for (i=0; i<3; i++)
+                {
+                if (_TunerFrequency < LVCO_FREQS[i][1]) break;
+                }
+                i=i+0x05;
+                i=i<<5;
+                    B[4]= B[4]+i;
+        }
+        else                                                                                                        //
+        {
+                B[4]=0x0c;
+                for (i=0; i<7; i++)
+                {
+                if (_TunerFrequency < HVCO_FREQS[i][1]) break;
+                }
+                i=i+0x01;
+                i=i<<5;
+                B[4]= B[4]+i;
+        }
+        TunerFrequency = _TunerFrequency/500;
+        long_tmp = TunerFrequency/32;
+        i = TunerFrequency%32;
+         B[1] = (int)((long_tmp>>3)&0x000000ff);
+        B[2] = (int)((long_tmp<<5)&0x000000ff);
+        B[2] = (int)(B[2] + i);
+        i=0;  
+        ////printf("TFC byte1~5:0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);         
     do
       {   
 //             temp_para = 0;
-// 	    //printf("the cation of i2c acknowlede in function TFC\n");
-	    temp[0] = B[0];
-	    temp[1] = B[1];
-	    temp[2] = B[2];
-	    temp[4] = B[4];
-	    
+//             //printf("the cation of i2c acknowlede in function TFC\n");
+            temp[0] = B[0];
+            temp[1] = B[1];
+            temp[2] = B[2];
+            temp[4] = B[4];
+
             temp[3] = 0xe1;
             temp[4] = B[4] & 0xf3;
 //             //printf("B1. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
              ////printf("temp1. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",temp[0],temp[1],temp[2],temp[3],temp[4]);
 
             EnableTunerOperation();
-            i2c_tran(temp,5);                   //write byte1 byte2 byte3 byte4 byte5
+            i2c_SendStr(temp,5);                   //write byte1 byte2 byte3 byte4 byte5
             //DisableTunerOperation(); 
             
             temp[1] = temp[3] | 0x04;
             // //printf("temp2. byte1,4  0x%x,0x%x\n",temp[0],temp[1]); 
             //EnableTunerOperation();
-            i2c_tran(temp,2);           //write byte1 byte4
+            i2c_SendStr(temp,2);           //write byte1 byte4
             //DisableTunerOperation();
             delay_ms(10);           
             
             B[3] = 0xfd;
             ddata =  (30000/1000)/2 - 2;
-            pd2 = (ddata>>1)&0x04	;
-            pd3 = (ddata<<1)&0x08	;
-            pd4 = (ddata<<2)&0x08	;
-            pd5 = (ddata<<4)&0x10	;
-            B[3] &= 0xE7	;
-            B[4] &= 0xF3	;
-            B[3] |= (pd5|pd4)	;
-            B[4] |= (pd3|pd2)	; 
+            pd2 = (ddata>>1)&0x04        ;
+            pd3 = (ddata<<1)&0x08        ;
+            pd4 = (ddata<<2)&0x08        ;
+            pd5 = (ddata<<4)&0x10        ;
+            B[3] &= 0xE7        ;
+            B[4] &= 0xF3        ;
+            B[3] |= (pd5|pd4)        ;
+            B[4] |= (pd3|pd2)        ; 
             
 //             //printf("B2. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
             
@@ -330,7 +383,7 @@ unsigned char TFC(unsigned long _TunerFrequency) //TunerFrequencyCalculate  KHZ
             temp[2] = B[4];
             // //printf("temp3. byte1,4,5  0x%x,0x%x,0x%x\n",temp[0],temp[1],temp[2]);
             //EnableTunerOperation();
-            i2c_tran(temp,3);                   //write byte1 byte4 byte5
+            i2c_SendStr(temp,3);                   //write byte1 byte4 byte5
             DisableTunerOperation();
             
             delay_ms(1);
@@ -368,13 +421,13 @@ void STV0288Init(void)
         byte[1]= 0x40;    
         byte[2]= 0x64;             //PLLCTRL
         byte[3]= 0x04;             //SYNTCTRL
-        i2c_tran(pointer,4); 
+        i2c_SendStr(pointer,4); 
                                            
         
                   
         byte[1]=0x02;                 //ACR
         byte[2]=0x20; 
-        i2c_tran(pointer,3); 
+        i2c_SendStr(pointer,3); 
         
         
         
@@ -384,7 +437,7 @@ void STV0288Init(void)
         **********************/
         byte[1]=0x0F;
         byte[2]=0x54;               //AGC1REF
-        i2c_tran(pointer,3);  
+        i2c_SendStr(pointer,3);  
         ////printf("AGC1REF*");
         /*******************************
         set register about timing loop
@@ -392,12 +445,12 @@ void STV0288Init(void)
         
         byte[1]=0x11;
         byte[2]=0x7a;                 //RTC
-        i2c_tran(pointer,3); 
+        i2c_SendStr(pointer,3); 
         ////printf("RTC*");
         byte[1]=0x22;
         byte[2]=0x00;               //RTFM
         byte[3]=0x00;               //RTFL               
-        i2c_tran(pointer,4); 
+        i2c_SendStr(pointer,4); 
         ////printf("RTF*");                     
         
         /**********************************************
@@ -407,7 +460,7 @@ void STV0288Init(void)
         byte[1]=0x1b;
         byte[2]=0x8f;                    //DACR1 
         byte[3]=0xf0;               //DACR2              
-        i2c_tran(pointer,4);       
+        i2c_SendStr(pointer,4);       
         ////printf("DACR*");
         /*******************************
         set register about carrier loop
@@ -416,18 +469,18 @@ void STV0288Init(void)
         byte[2]=0xf7;                   //CFD
         byte[3]=0x88;                 //ACLC
         byte[4]=0x58;                 //BCLC
-        i2c_tran(pointer,5); 
+        i2c_SendStr(pointer,5); 
         
         
         byte[1]=0x19;
         byte[2]=0xa6;                   //LDT
         byte[3]=0x88;                 //LDT2
-        i2c_tran(pointer,4); 
+        i2c_SendStr(pointer,4); 
         
         byte[1]=0x2B;
         byte[2]=0xFF;                   //CFRM
         byte[3]=0xF7;                 //CFRL
-        i2c_tran(pointer,4); 
+        i2c_SendStr(pointer,4); 
                       
         
         /*******************************
@@ -437,7 +490,7 @@ void STV0288Init(void)
         byte[2]=0x2f;                   //PR
         byte[3]=0x16;                 //VSEARCH
         byte[4]=0xbd;                 //RS
-        i2c_tran(pointer,5); 
+        i2c_SendStr(pointer,5); 
         
         // byte[1]=0x3B;
         // byte[2]=0x13;                   //ERRCTRL
@@ -447,11 +500,11 @@ void STV0288Init(void)
         
         byte[1]=0x3c;               
         byte[2]=0x12;                 //VITPROG
-        i2c_tran(pointer,3);    
+        i2c_SendStr(pointer,3);    
         
         byte[1]=0x02;         //ACR
         byte[2]=0x20; 
-        i2c_tran(pointer,3);                               
+        i2c_SendStr(pointer,3);                               
         
         /********************************
         set clock     
@@ -462,7 +515,7 @@ void STV0288Init(void)
         byte[2]= 0x63;             //PLLCTRL
         byte[3]= 0x04;             //SYNTCTRL
         byte[4]= 0x20;             //TSTTNR1
-        i2c_tran(pointer,5);   
+        i2c_SendStr(pointer,5);   
                 
         
         byte[1]=0xB2;
@@ -472,7 +525,7 @@ void STV0288Init(void)
         byte[5]=0x82;                 //STDBYCFG
         byte[6]=0x82;                 //CS0CFG
         byte[7]=0x82;                 //CS1CFG  
-        i2c_tran(pointer,8); 
+        i2c_SendStr(pointer,8); 
         //printf("STV0288 Init Done\n");
 } 
 
@@ -499,13 +552,13 @@ void SetSymbolRate(float sym_rate)
         byte[1]= 0x40;    
         byte[2]= 0x64;             //PLLCTRL
         byte[3]= 0x04;             //SYNTCTRL
-        i2c_tran(pointer,4); 
+        i2c_SendStr(pointer,4); 
                                            
         
                   
         byte[1]=0x02;                 //ACR
         byte[2]=0x20; 
-        i2c_tran(pointer,3);         
+        i2c_SendStr(pointer,3);         
         
         /*****************************
         set symbol rate   
@@ -521,7 +574,7 @@ void SetSymbolRate(float sym_rate)
         //printf("symbol %f, 0x%x 0x%x 0x%x\n",sym_rate,byte[2],byte[3],byte[4] );
         byte[5]=0;     //CFRM  载波频率
         byte[6]=0;     //CFRL
-        i2c_tran(pointer,7); 
+        i2c_SendStr(pointer,7); 
         //printf("SetSymbolRate Done\n");
 }  
 
@@ -550,93 +603,93 @@ unsigned char tuner(unsigned long F,float S)
         {
             i++;
             delay_us(900);
-            if(locked())
+            if(locked() == 0xFF)
                return 1;
         }              
         return 0;                                 
         
 }
-                      
+  
 /*
-read lock register  
-and save to pointer p 
-*/            
-void getstus(char *p)
-  {
-        char data[3];
-        char *pdata;        
-        char i,j;
-        i = 1;
-        j = 0; 
-        do
-          {        
-                 pdata = &data[0];        
-                 data[0]= 0xD0;
-                 data[1]= 0x24;                                                          
-                 if (i2c_tran(pdata,2))
-                   {     
-                      if(i2c_rd(data[0],pdata,2))   
-                      { 
-                               p[j] = data[0];  
-                               j = 1;
-                               i=0;
-                      }
-                   }                       
-            }  
-       while(i) ;
-       i=1; 
-       do
-          {         
-                 pdata = &data[0];        
-                 data[0]= 0xD0;
-                 data[1]= 0x1E;                     
-                 if (i2c_tran(pdata,2))
-                   {  
-                         if(i2c_rd(data[0],pdata,2))   
-                         {       
-                              p[j] = data[0];                                      
-                              i=0;                                                               
-                         }
-                   }                  
-          } 
-       while(i) ; 
-  } 
-   
-
+get register 1E & 24,TMGlock and CFlock means lock
+return FF means lock,return 0 mean communication failed,return 1 means register not lock
+*/
 char locked(void)   
 { 
-    char t[2];
-    getstus(t); 
-    if(((t[0] & 0x80) == 0x80) && ((t[1] & 0x80) == 0x80))
+    char reg[2];
+    char addr[2];
+    
+    addr[0] = 0xD0;
+    addr[1] = 0x1E;
+    
+    if (i2c_SendStr(addr,2) == 0)        //send register address 1E
+            return 0;
+    if(i2c_rd(addr[0],reg,1) == 0)   //save reg1E value to reg[0]
+        return 0;
+    
+    reg[1] = reg[0];  //move reg1E value to reg[1]
+    addr[1] = 0x24;   //next reg 24 
+    
+    if (i2c_SendStr(addr,2) == 0)        //send register address 24
+            return 0;
+    if(i2c_rd(addr[0],reg,1) == 0)   //save reg24 value to reg[0]
+        return 0;       
+           
+    if(((reg[0] & 0x80) == 0x80) && ((reg[1] & 0x80) == 0x80))   //1E-timing lock flag, 24-carrier lock flag
     { 
         //LED_ON;
-        return 1;             
+        return 0xFF;             
     }
     else   
     {
-       STV0288Init();          
+       //STV0288Init();          
        //LED_OFF;
-       return 0;         
+       return 1;         
     }
 
  }
+ unsigned int GetAGC(void)
+ {
+    union
+            {        
+            unsigned int numb;
+               char reg[2];
+        } AGC;
+    char addr[2];
+    
+    addr[0] = 0xD0;
+    addr[1] = 0x20;
+    
+    if (i2c_SendStr(addr,2) == 0)        //send register address 20
+            return 0;
+    if(i2c_rd(addr[0],AGC.reg,2) == 0)   //save reg1E value to reg[0] and reg[1]
+        return 0; 
+    addr[0] = AGC.reg[0];
+    AGC.reg[0] = AGC.reg[1];
+    AGC.reg[1] = addr[0];
+    uprintf("AGC %d 0x%x%x",AGC.numb,AGC.reg[1],AGC.reg[0]);
+    return AGC.numb;         
+ }
+              
        
        
 char Get0288Register(unsigned char addr)
 {
     char data[3];
-    char *pdata; 
+    char *pdata;     
+    //EnableTunerOperation();
     pdata = &data[0]; 
     data[0]= 0xD0;
     data[1]= addr;
-    if (i2c_tran(pdata,2))
+    if (i2c_SendStr(pdata,2))
       {   
        if(i2c_rd(data[0],pdata,2))   
           {   
-           uprintf("0x%x",data[1]);
+           uprintf("0x%x,0x%x\n",data[0],data[1]);
            return data[0];
           }
-      }       
+      }
+    //DisableTunerOperation();       
 }
   
 unsigned char pll_lk(void)
@@ -661,6 +714,14 @@ unsigned char pll_lk(void)
 char tunerTest(char para)
 {
    char byte=para;
-   pll_lk();
+   //pll_lk(); 
+   GetAGC();
+   //uprintf("AGC2 %d 0x%x%x\n",GetAGC());
    return byte; 
 }
+
+
+
+
+
+

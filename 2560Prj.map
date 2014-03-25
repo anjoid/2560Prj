@@ -1,7 +1,7 @@
 RAM Allocation
 Variable                                                          Address   Size
 --------------------------------------------------------------------------------
-_seed                                                             0x0AF0       4
+_seed                                                             0x0AEA       4
 
 EEPROM Allocation
 Variable                                                          Address   Size
