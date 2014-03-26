@@ -74,7 +74,33 @@ IO Operating
 #define SDAH PORTE.4=1
 #define SDAL PORTE.4=0
  
+//port to SLA7062M
+#define XSTEP PORTE3
+#define XDIR PORTE7
+#define XRST PORTE6
+#define XSYNC PORTH5
+//#define XSTEPL PORTE3=0
+//#define XDIRL PORTE7=0
+//#define XRSTL PORTE6=0
+//#define XSYNCL PORTH5=0
 
+#define YSTEP PORTH3
+#define YDIR PORTH7
+#define YRST PORTH6
+#define YSYNC PORTG3
+//#define YSTEPL PORTH3
+//#define YDIRL PORTH7
+//#define YRSTL PORTH6
+//#define YSYNCL PORTG3
+
+//#define ZSTEP PORTB.5
+//#define ZDIR PORTB.6
+//#define ZRST PORTB.7
+//#define ZSYNC PORTH.2
+//#define ZSTEP PORTB.5
+//#define ZDIR PORTB.6
+//#define ZRST PORTB.7
+//#define ZSYNC PORTH.2
 
 
  
@@ -92,6 +118,9 @@ IO Operating
 functions declaration
 */
 unsigned int read_adc(unsigned char adc_input);
+char getchar1(void);
+void putchar1(char c);              
+char uprintf(const char *fmt, ...);
 
 unsigned char locked(void);
 void TunerRst(void);
@@ -100,9 +129,15 @@ void STV0288Init(void);
 unsigned char tuner(unsigned long F,float S); 
 void SetSymbolRate(float sym_rate);    
 char Get0288Register(char addr);
-char getchar1(void);
-void putchar1(char c);              
-char uprintf(const char *fmt, ...);
-char tunerTest(char addr);
+char tunerTest(char para);
+
+void Xcycle(char speed);
+void Ymove(int steps,char speed);
+void Xmove(int steps,char speed);
+void Ystop(void);
+void Xstop(void);
+char motorTest(char cmd);
                         
+
+
 #endif

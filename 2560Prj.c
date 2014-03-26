@@ -380,13 +380,6 @@ void main(void)
     delay_ms(500);
     putchar1('A');
     putchar1('B');
-    
-    /*LED_ON;
-    delay_ms(500);
-    LED_OFF;
-    delay_ms(500); */
-    
-    //tuner(TunerFreq,symbol_rate);
     putchar1('C'); 
     
     while (1)
@@ -397,10 +390,8 @@ void main(void)
             {
                 case 'H': 
                     {     
-                        DDRE |= 0x30;
-                        SCLH;
-                        SDAL;
-                        putchar1('H');          
+                        PORTE.3 = 1;
+                        PORTH.1 = 1;          
                     }
                     break;    
                 case 'A': 
