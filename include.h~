@@ -84,10 +84,10 @@ IO Operating
 //#define XRSTL PORTE6=0
 //#define XSYNCL PORTH5=0
 
-#define YSTEP PORTH3
-#define YDIR PORTH7
-#define YRST PORTH6
-#define YSYNC PORTG3
+#define YSTEP PORTH.3
+#define YDIR PORTH.7
+#define YRST PORTH.6
+#define YSYNC PORTG.3
 //#define YSTEPL PORTH3
 //#define YDIRL PORTH7
 //#define YRSTL PORTH6

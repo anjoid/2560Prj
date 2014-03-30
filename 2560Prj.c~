@@ -390,10 +390,8 @@ void main(void)
             {
                 case 'H': 
                     {     
-                        DDRE |= 0x30;
-                        SCLH;
-                        SDAL;
-                        putchar1('H');          
+                        PORTE.3 = 1;
+                        PORTH |= 0x01;          
                     }
                     break;    
                 case 'A': 
@@ -406,9 +404,11 @@ void main(void)
                         putchar1('A'); 
                     }
                     break;   
-                 case 'G': 
+                 case 'M': 
                     {
-                       
+                       uchar = getchar1();
+                       uprintf("motor test with %x\n",uchar);  
+                       motorTest(uchar);
                     }
                     break;              
                 case 'L': 

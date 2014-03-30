@@ -4,6 +4,9 @@
 包含文件声明    
 be included files
 */
+extern unsigned int Xsteps;
+extern unsigned int Ysteps;
+
 
 #include <delay.h>      
 #include <math.h>
@@ -75,23 +78,25 @@ IO Operating
 #define SDAL PORTE.4=0
  
 //port to SLA7062M
-#define XSTEP PORTE3
-#define XDIR PORTE7
-#define XRST PORTE6
-#define XSYNC PORTH5
-//#define XSTEPL PORTE3=0
-//#define XDIRL PORTE7=0
-//#define XRSTL PORTE6=0
-//#define XSYNCL PORTH5=0
+#define XSTEPH PORTE.3 = 1
+#define XDIRH PORTE.7 = 1
+#define XRSTH PORTE.6 = 1
+#define XSYNCH PORTH |= 0x20
 
-#define YSTEP PORTH.3
-#define YDIR PORTH.7
-#define YRST PORTH.6
-#define YSYNC PORTG.3
-//#define YSTEPL PORTH3
-//#define YDIRL PORTH7
-//#define YRSTL PORTH6
-//#define YSYNCL PORTG3
+#define XSTEPL PORTE.3 = 0
+#define XDIRL PORTE.7 = 0
+#define XRSTL PORTE.6 = 0
+#define XSYNCL PORTH &= 0xDF
+
+#define YSTEPH PORTH |= 0x08
+#define YDIRH PORTH |= 0x80
+#define YRSTH PORTH |= 0x40
+#define YSYNCH PORTG.3=1
+
+#define YSTEPL PORTH &= 0xF7
+#define YDIRL PORTH &= 0x7F
+#define YRSTL PORTH &= 0xBF
+#define YSYNCL PORTG.3 = 1
 
 //#define ZSTEP PORTB.5
 //#define ZDIR PORTB.6
@@ -102,10 +107,12 @@ IO Operating
 //#define ZRST PORTB.7
 //#define ZSYNC PORTH.2
 
-
+//limit switch
+#define LMTA PORTJ & 0x20
+#define LMTB PORTJ & 0x40
  
-#define EI	#asm("sei")
-#define DI	#asm("cli")
+#define EI        #asm("sei")
+#define DI        #asm("cli")
 
 
 

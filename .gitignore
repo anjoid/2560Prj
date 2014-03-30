@@ -1,0 +1,7 @@
+*.c~
+*.h~
+*.txt
+Exe/*
+Linker/*
+List/*
+Obj/*

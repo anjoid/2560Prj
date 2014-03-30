@@ -25,7 +25,8 @@ Data Stack size         : 2048
 #include "include.h"      
  
 // Declare your global variables here
-
+unsigned int Xsteps;
+unsigned int Ysteps;
 
 
 void init(void)
@@ -391,7 +392,7 @@ void main(void)
                 case 'H': 
                     {     
                         PORTE.3 = 1;
-                        PORTH.1 = 1;          
+                        PORTH |= 0x01;          
                     }
                     break;    
                 case 'A': 
@@ -404,9 +405,11 @@ void main(void)
                         putchar1('A'); 
                     }
                     break;   
-                 case 'G': 
+                 case 'M': 
                     {
-                       
+                       uchar = getchar1();
+                       uprintf("motor test with %x\n",uchar);  
+                       motorTest(uchar);
                     }
                     break;              
                 case 'L': 
