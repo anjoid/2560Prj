@@ -25,7 +25,8 @@ Data Stack size         : 2048
 #include "include.h"      
  
 // Declare your global variables here
-
+unsigned int Xsteps;
+unsigned int Ysteps;
 
 
 void init(void)
@@ -340,7 +341,9 @@ void init(void)
 
     // TWI initialization
     // TWI disabled
-    TWCR=0x00;                  
+    TWCR=0x00;  
+    
+    EI;                
 }
 
 

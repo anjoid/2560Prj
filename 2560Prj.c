@@ -341,7 +341,9 @@ void init(void)
 
     // TWI initialization
     // TWI disabled
-    TWCR=0x00;                  
+    TWCR=0x00;  
+    
+    EI;                
 }
 
 
@@ -397,12 +399,7 @@ void main(void)
                     break;    
                 case 'A': 
                     {
-                        putchar1('D');               
-                        LED_ON;
-                        delay_ms(1000);
-                        LED_OFF;
-                        delay_ms(1000);                     
-                        putchar1('A'); 
+                        uprintf("gyro1:%d gyro2:%d gyro3:%d AGC:%d\n",GYRO1,GYRO2,GYRO3,AGC_ORG); 
                     }
                     break;   
                  case 'M': 
