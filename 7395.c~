@@ -2,6 +2,7 @@
 /*
 I2c读取0288寄存器数据时 会有一次成功一次不成功的问题
 从示波器波形观察发现通信失败时i2c的stop后SDA上拉电平不到位
+Apr 2
 */
 
 flash unsigned long LVCO_FREQS[3][2] =
