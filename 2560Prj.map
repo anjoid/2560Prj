@@ -1,9 +1,9 @@
 RAM Allocation
 Variable                                                          Address   Size
 --------------------------------------------------------------------------------
-Xsteps                                                            0x0B21       2
-Ysteps                                                            0x0B23       2
-_seed                                                             0x0B25       4
+Xsteps                                                            0x0B7B       2
+Ysteps                                                            0x0B7D       2
+_seed                                                             0x0B7F       4
 
 EEPROM Allocation
 Variable                                                          Address   Size

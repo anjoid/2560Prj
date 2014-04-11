@@ -1,6 +1,7 @@
 *.c~
 *.h~
 *.txt
+*.prj
 Exe/*
 Linker/*
 List/*

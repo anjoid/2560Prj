@@ -393,16 +393,34 @@ void main(void)
             {
                 case 'H': 
                     {     
-                        PORTE.3 = 1;
-                        PORTH |= 0x01;          
+                    	uprintf("tuner init and read AGC analog number and AGC register number:");
+                        //tuner(TunerFreq,symbol_rate);          
+                        uint = AGC_ORG;
+                        uprintf("%d",uint);
+                        uint = GetAGC();
+                        uprintf("%d",uint);
                     }
                     break;    
                 case 'A': 
                     {
+                        uchar = getchar1();
+                        Xcycle(uchar);
+                       	uint = 1000;
+                       	while(uint--)
+                        	{
+                        		delay_ms(5);
+                        		uprintf("gyro1:%d gyro2:%d gyro3:%d AGC:%d\n",GYRO1,GYRO2,GYRO3); 
+                    		}
+                    	Xstop();	
+                    }
+                    break;   
+                case 'B': 
+                    {
                         uprintf("gyro1:%d gyro2:%d gyro3:%d AGC:%d\n",GYRO1,GYRO2,GYRO3,AGC_ORG); 
                     }
                     break;   
-                 case 'M': 
+                
+                case 'M': 
                     {
                        uchar = getchar1();
                        uprintf("motor test with %x\n",uchar);  
