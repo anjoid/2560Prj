@@ -413,7 +413,11 @@ void main(void)
                     		}
                     	Xstop();	
                     }
+<<<<<<< HEAD
                     break;   
+=======
+                    break;    
+>>>>>>> 48c0dc40741c0a046de36c1e5d18016634c5bd4e
                 case 'B': 
                     {
                         uprintf("gyro1:%d gyro2:%d gyro3:%d AGC:%d\n",GYRO1,GYRO2,GYRO3,AGC_ORG); 
@@ -423,8 +427,17 @@ void main(void)
                 case 'M': 
                     {
                        uchar = getchar1();
-                       uprintf("motor test with %x\n",uchar);  
-                       motorTest(uchar);
+                       uprintf("motor test with %x\n",uchar); 
+                       if(uchar == 'U')   
+                         Ymove(200,5);
+                       else if(uchar == 'D')
+                         Ymove(-200,5);
+                       else if(uchar == 'R')
+                         Xmove(200,5);
+                       else if(uchar == 'L')
+                         Ymove(-200,5);
+                       else 
+                         motorTest(uchar);
                     }
                     break;              
                 case 'L': 

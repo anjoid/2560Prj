@@ -1,5 +1,8 @@
 #include "include.h"
-
+/*
+可以发送数量可调的脉冲，但会多一个
+Apr 2
+*/
                                                                                     
 // Timer4 overflow interrupt service routine
 interrupt [TIM4_OVF] void timer4_ovf_isr(void)
@@ -48,6 +51,23 @@ void motorInit()
 
 
 /***************************************/
+void motorInit()
+{
+	XSTEPL; 
+	YSTEPL;
+	
+	XDIRL;
+	YDIRL;
+	
+	XRSTL;
+	YRSTL;
+	delay_us(20);
+	XRSTH;
+	YRSTH;
+	
+	XSYNCL;   //disable sync
+	YSYNCL;	
+}
 
 void Xcycle(char speed)
 {
@@ -97,15 +117,15 @@ void Ymove(int steps,char speed)
     TCNT4H=0x00;
     TCNT4L=0x00;
     ICR4H=0x00;
-    ICR4L=speed<<2;
+    ICR4L=speed<<2;    //ICR=32时脉冲周期256us，4us*32*2=256us
     OCR4AH=0x00;
-    OCR4AL=0x04;
+    OCR4AL=0x04;       //OCR=4，高电平时间32us。时钟为4us计数2*4次得32us
     OCR4BH=0x00;
     OCR4BL=0x00;
     OCR4CH=0x00;
     OCR4CL=0x00;     
     
-    TCCR4A=0x80;
+    TCCR4A=0x80;      //
     TCCR4B=0x13;
     
     TIMSK4=0x01;        

@@ -21,22 +21,35 @@ Active0=0
 EditorPanel0=0
 PageIndex0=0
 EditorPanel1=0
+<<<<<<< HEAD
 TimeStamp1=1149468024
+=======
+TimeStamp1=1149810105
+>>>>>>> 48c0dc40741c0a046de36c1e5d18016634c5bd4e
 PageIndex1=1
 OF2=7395.c
 Active2=0
 EditorPanel2=0
+<<<<<<< HEAD
 TimeStamp2=1149467565
 PageIndex2=2
 OF3=include.h
 Active3=0
 EditorPanel3=0
 TimeStamp3=1149467608
+=======
+TimeStamp2=1149484076
+PageIndex2=2
+OF3=motor.c
+Active3=0
+EditorPanel3=0
+TimeStamp3=1149483672
+>>>>>>> 48c0dc40741c0a046de36c1e5d18016634c5bd4e
 PageIndex3=3
 OF4=include.h
 Active4=0
 EditorPanel4=0
-TimeStamp4=1149416285
+TimeStamp4=1149483951
 PageIndex4=4
 OF5=D:\cvavr\inc\mega2560.h
 Active5=0
@@ -295,7 +308,11 @@ Row=0
 Column=0
 ScrollPosX=0
 ScrollPosY=0
+<<<<<<< HEAD
 TimeStamp=1149471853
+=======
+TimeStamp=1149812266
+>>>>>>> 48c0dc40741c0a046de36c1e5d18016634c5bd4e
 [BookmarksFoldedCode]
 Files=10
 F1=2560Prj.c
@@ -309,11 +326,19 @@ F8=D:\cvavr\inc\mega2560_bits.h
 F9=D:\cvavr\inc\mega2560.h
 F10=motor.c
 [Bookmarks1]
+<<<<<<< HEAD
 TimeStamp=1149468024
 Row=0
 Column=0
 ScrollPosX=0
 ScrollPosY=0
+=======
+TimeStamp=1149810105
+Row=427
+Column=117
+ScrollPosX=0
+ScrollPosY=409
+>>>>>>> 48c0dc40741c0a046de36c1e5d18016634c5bd4e
 BK0=-1
 BK1=-1
 BK2=-1
@@ -325,11 +350,19 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks2]
+<<<<<<< HEAD
 TimeStamp=1149467565
 Row=0
 Column=0
 ScrollPosX=0
 ScrollPosY=0
+=======
+TimeStamp=1149484076
+Row=674
+Column=34
+ScrollPosX=0
+ScrollPosY=653
+>>>>>>> 48c0dc40741c0a046de36c1e5d18016634c5bd4e
 BK0=-1
 BK1=-1
 BK2=-1
@@ -357,11 +390,19 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks4]
+<<<<<<< HEAD
 TimeStamp=1149467608
 Row=0
 Column=0
 ScrollPosX=0
 ScrollPosY=0
+=======
+TimeStamp=1149483951
+Row=65
+Column=68
+ScrollPosX=0
+ScrollPosY=138
+>>>>>>> 48c0dc40741c0a046de36c1e5d18016634c5bd4e
 BK0=-1
 BK1=-1
 BK2=-1
@@ -459,11 +500,19 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks10]
+<<<<<<< HEAD
 TimeStamp=1149471840
 Row=0
 Column=0
 ScrollPosX=0
 ScrollPosY=0
+=======
+TimeStamp=1149483672
+Row=33
+Column=31
+ScrollPosX=0
+ScrollPosY=18
+>>>>>>> 48c0dc40741c0a046de36c1e5d18016634c5bd4e
 BK0=-1
 BK1=-1
 BK2=-1
