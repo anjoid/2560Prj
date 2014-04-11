@@ -2,6 +2,14 @@
 *.h~
 *.txt
 *.prj
+*.prj~
+*.cci
+*.cbi
+*.cwp
+*.cof
+*.fct
+*.hci
+*.bak
 Exe/*
 Linker/*
 List/*
