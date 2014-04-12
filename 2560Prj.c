@@ -435,9 +435,14 @@ void main(void)
                        else if(uchar == 'R')
                          Xmove(200,5);
                        else if(uchar == 'L')
-                         Ymove(-200,5);
+                         Ymove(-200,5);    
+                       else if(uchar == 'T')
+                         motorTest(0xA0);  
                        else 
-                         motorTest(uchar);
+                         {
+                            Xstop();
+                            Ystop();
+                         }
                     }
                     break;              
                 case 'L': 
