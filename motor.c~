@@ -24,7 +24,53 @@ interrupt [TIM3_OVF] void timer3_ovf_isr(void)
         }  
 }
 
+
+
+
+
+
+
+
+void motorInit(void)
+{
+	XSTEPL; 
+	YSTEPL;
+	
+	XDIRL;
+	YDIRL;
+	
+	XRSTL;
+	YRSTL;
+	delay_us(20);
+	XRSTH;
+	YRSTH;
+	
+	XSYNCL;   //disable sync
+	YSYNCL;	
+}
+
+
 /***************************************/
+void motorInit()
+{
+	XSTEPL; 
+	YSTEPL;
+	
+	XDIRL;
+	YDIRL;
+	
+	XRSTL;
+	YRSTL;
+	delay_us(20);
+	XRSTH;
+	YRSTH;
+	
+	XSYNCL;   //disable sync
+	YSYNCL;	
+}
+
+
+
 
 void Xcycle(char speed)
 {
@@ -82,7 +128,7 @@ void Ymove(int steps,char speed)
     OCR4CH=0x00;
     OCR4CL=0x00;     
     
-    TCCR4A=0x80;
+    TCCR4A=0x80;      //
     TCCR4B=0x13;
     
     TIMSK4=0x01;        

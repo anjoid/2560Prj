@@ -671,7 +671,7 @@ char locked(void)
     addr[0] = AGC.reg[0];
     AGC.reg[0] = AGC.reg[1];
     AGC.reg[1] = addr[0];
-    uprintf("AGC %d 0x%x%x",AGC.numb,AGC.reg[1],AGC.reg[0]);
+    //uprintf("AGC %d 0x%x%x",AGC.numb,AGC.reg[1],AGC.reg[0]);
     return AGC.numb;         
  }
               

@@ -393,20 +393,52 @@ void main(void)
             {
                 case 'H': 
                     {     
-                        PORTE.3 = 1;
-                        PORTH |= 0x01;          
+                    	uprintf("tuner init and read AGC analog number and AGC register number:");
+                        //tuner(TunerFreq,symbol_rate);          
+                        uint = AGC_ORG;
+                        uprintf("%d",uint);
+                        uint = GetAGC();
+                        uprintf("%d",uint);
                     }
                     break;    
                 case 'A': 
                     {
+                        uchar = getchar1();
+                        Xcycle(uchar);
+                       	uint = 1000;
+                       	while(uint--)
+                        	{
+                        		delay_ms(5);
+                        		uprintf("gyro1:%d gyro2:%d gyro3:%d AGC:%d\n",GYRO1,GYRO2,GYRO3); 
+                    		}
+                    	Xstop();	
+                    }
+                    break;   
+                case 'B': 
+                    {
                         uprintf("gyro1:%d gyro2:%d gyro3:%d AGC:%d\n",GYRO1,GYRO2,GYRO3,AGC_ORG); 
                     }
                     break;   
-                 case 'M': 
+                
+                case 'M': 
                     {
                        uchar = getchar1();
-                       uprintf("motor test with %x\n",uchar);  
-                       motorTest(uchar);
+                       uprintf("motor test with %x\n",uchar); 
+                       if(uchar == 'U')   
+                         Ymove(200,5);
+                       else if(uchar == 'D')
+                         Ymove(-200,5);
+                       else if(uchar == 'R')
+                         Xmove(200,5);
+                       else if(uchar == 'L')
+                         Ymove(-200,5);    
+                       else if(uchar == 'T')
+                         motorTest(0xA0);  
+                       else 
+                         {
+                            Xstop();
+                            Ystop();
+                         }
                     }
                     break;              
                 case 'L': 

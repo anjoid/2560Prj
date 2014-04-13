@@ -138,8 +138,8 @@ void STV0288Init(void);
 unsigned char tuner(unsigned long F,float S); 
 void SetSymbolRate(float sym_rate);    
 char Get0288Register(char addr);
-char tunerTest(char para);
-
+char tunerTest(char para); 
+unsigned int GetAGC(void);
 void Xcycle(char speed);
 void Ymove(int steps,char speed);
 void Xmove(int steps,char speed);
