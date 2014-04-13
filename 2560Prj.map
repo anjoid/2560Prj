@@ -1,9 +1,15 @@
 RAM Allocation
 Variable                                                          Address   Size
 --------------------------------------------------------------------------------
+<<<<<<< HEAD
 Xsteps                                                            0x077B       2
 Ysteps                                                            0x077D       2
 _seed                                                             0x077F       4
+=======
+Xsteps                                                            0x0B7B       2
+Ysteps                                                            0x0B7D       2
+_seed                                                             0x0B7F       4
+>>>>>>> a08cdac9901df0033305b839851de249d8cdf110
 
 EEPROM Allocation
 Variable                                                          Address   Size
