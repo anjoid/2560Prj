@@ -391,17 +391,17 @@ void main(void)
             LED_OFF; 
             switch (getchar1()) 
             {
-                case 'H': 
+                case 'H':  //读取tuner的AGC电压值和AGC2寄存器的值
                     {     
                     	uprintf("tuner init and read AGC analog number and AGC register number:");
                         //tuner(TunerFreq,symbol_rate);          
                         uint = AGC_ORG;
                         uprintf("%d",uint);
                         uint = GetAGC();
-                        uprintf("%d",uint);
+                        uprintf("%d\n",uint);
                     }
                     break;    
-                case 'A': 
+                case 'A':    //read analog voltage from gyro interface every 5 millisecond for 1000 times
                     {
                         uchar = getchar1();
                         Xcycle(uchar);
@@ -420,7 +420,7 @@ void main(void)
                     }
                     break;   
                 
-                case 'M': 
+                case 'M': //motor control commands in 2 bytes 
                     {
                        uchar = getchar1();
                        uprintf("motor test with %x\n",uchar); 
@@ -431,7 +431,7 @@ void main(void)
                        else if(uchar == 'R')
                          Xmove(200,5);
                        else if(uchar == 'L')
-                         Ymove(-200,5);    
+                         Ymove(-200,8);    
                        else if(uchar == 'T')
                          motorTest(0xA0); 
                        if(uchar == 'I')   
@@ -451,7 +451,7 @@ void main(void)
                        putchar1('L'); 
                     }
                     break;   
-                case 'R': 
+                case 'R':   //get register value from stv0288
                     {     
                         LED_ON;
                         uprintf("Enter register addr:");
@@ -467,7 +467,7 @@ void main(void)
                       uprintf("...done\n");                      
                     }
                     break;     
-                case 'T': 
+                case 'T':     //set tuner 
                     {  
                      LED_ON;   
                      putchar1('t');

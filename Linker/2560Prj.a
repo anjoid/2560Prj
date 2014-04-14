@@ -716,7 +716,7 @@
 ; 0000 0188             switch (getchar1())
 ;PCODE: $0000012E VOL: 0
 ; 0000 0189             {
-; 0000 018A                 case 'H':
+; 0000 018A                 case 'H':  //读取tuner的AGC电压值和AGC2寄存器的值
 ;PCODE: $0000012F VOL: 0
 ;PCODE: $00000130 VOL: 0
 ; 0000 018B                     {
@@ -748,7 +748,7 @@
 ; 0000 0190                         uint = GetAGC();
 ;PCODE: $00000146 VOL: 0
 ;PCODE: $00000147 VOL: 0
-; 0000 0191                         uprintf("%d",uint);
+; 0000 0191                         uprintf("%d\n",uint);
 ;PCODE: $00000148 VOL: 0
 ;PCODE: $00000149 VOL: 0
 ;PCODE: $0000014A VOL: 0
@@ -762,7 +762,7 @@
 ; 0000 0192                     }
 ; 0000 0193                     break;
 ;PCODE: $00000152 VOL: 0
-; 0000 0194                 case 'A':
+; 0000 0194                 case 'A':    //read analog voltage from gyro interface every 5 millisecond for 1000 times
 ;PCODE: $00000153 VOL: 0
 ;PCODE: $00000154 VOL: 0
 ;PCODE: $00000155 VOL: 0
@@ -856,7 +856,7 @@
 ; 0000 01A5                     break;
 ;PCODE: $0000019D VOL: 0
 ; 0000 01A6 
-; 0000 01A7                 case 'M':
+; 0000 01A7                 case 'M': //motor control commands in 2 bytes
 ;PCODE: $0000019E VOL: 0
 ;PCODE: $0000019F VOL: 0
 ;PCODE: $000001A0 VOL: 0
@@ -915,7 +915,7 @@
 ;PCODE: $000001CB VOL: 0
 ;PCODE: $000001CC VOL: 0
 ;PCODE: $000001CD VOL: 0
-; 0000 01B2                          Ymove(-200,5);
+; 0000 01B2                          Ymove(-200,8);
 ;PCODE: $000001CE VOL: 0
 ;PCODE: $000001CF VOL: 0
 ;PCODE: $000001D0 VOL: 0
@@ -977,7 +977,7 @@
 ; 0000 01C4                     }
 ; 0000 01C5                     break;
 ;PCODE: $000001F7 VOL: 0
-; 0000 01C6                 case 'R':
+; 0000 01C6                 case 'R':   //get register value from stv0288
 ;PCODE: $000001F8 VOL: 0
 ;PCODE: $000001F9 VOL: 0
 ;PCODE: $000001FA VOL: 0
@@ -1031,7 +1031,7 @@
 ; 0000 01D4                     }
 ; 0000 01D5                     break;
 ;PCODE: $0000021D VOL: 0
-; 0000 01D6                 case 'T':
+; 0000 01D6                 case 'T':     //set tuner
 ;PCODE: $0000021E VOL: 0
 ;PCODE: $0000021F VOL: 0
 ;PCODE: $00000220 VOL: 0
@@ -1181,4 +1181,4 @@
 
 	.DSEG
 _0x19:
-	.BYTE 0x161
+	.BYTE 0x162
