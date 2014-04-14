@@ -138,27 +138,16 @@ void STV0288Init(void);
 unsigned char tuner(unsigned long F,float S); 
 void SetSymbolRate(float sym_rate);    
 char Get0288Register(char addr);
-<<<<<<< HEAD
-char tunerTest(char para); 
-unsigned int GetAGC(void);
-=======
-<<<<<<< HEAD
-char tunerTest(char para);
-unsigned int GetAGC(void);
- 
-=======
 char tunerTest(char para); 
 unsigned int GetAGC(void);
 
->>>>>>> 48c0dc40741c0a046de36c1e5d18016634c5bd4e
->>>>>>> a08cdac9901df0033305b839851de249d8cdf110
 void Xcycle(char speed);
 void Ymove(int steps,char speed);
 void Xmove(int steps,char speed);
 void Ystop(void);
 void Xstop(void);
 char motorTest(char cmd);
-                        
+void motorInit(void);                        
 
 
 #endif

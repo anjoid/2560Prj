@@ -31,34 +31,8 @@ interrupt [TIM3_OVF] void timer3_ovf_isr(void)
 
 
 
-<<<<<<< HEAD
-void motorInit(void)
-=======
-void motorInit()
->>>>>>> a08cdac9901df0033305b839851de249d8cdf110
-{
-	XSTEPL; 
-	YSTEPL;
-	
-	XDIRL;
-	YDIRL;
-	
-	XRSTL;
-	YRSTL;
-	delay_us(20);
-	XRSTH;
-	YRSTH;
-	
-	XSYNCL;   //disable sync
-	YSYNCL;	
-}
-
-
-<<<<<<< HEAD
-
-=======
 /***************************************/
-void motorInit()
+void motorInit(void)
 {
 	XSTEPL; 
 	YSTEPL;
@@ -75,7 +49,6 @@ void motorInit()
 	XSYNCL;   //disable sync
 	YSYNCL;	
 }
->>>>>>> a08cdac9901df0033305b839851de249d8cdf110
 
 void Xcycle(char speed)
 {
