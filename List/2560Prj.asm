@@ -1159,29 +1159,29 @@ _0x0:
 	.DB  0x64,0x20,0x41,0x47,0x43,0x20,0x72,0x65
 	.DB  0x67,0x69,0x73,0x74,0x65,0x72,0x20,0x6E
 	.DB  0x75,0x6D,0x62,0x65,0x72,0x3A,0x0,0x25
-	.DB  0x64,0x0,0x67,0x79,0x72,0x6F,0x31,0x3A
-	.DB  0x25,0x64,0x20,0x67,0x79,0x72,0x6F,0x32
-	.DB  0x3A,0x25,0x64,0x20,0x67,0x79,0x72,0x6F
-	.DB  0x33,0x3A,0x25,0x64,0x20,0x41,0x47,0x43
-	.DB  0x3A,0x25,0x64,0xA,0x0,0x6D,0x6F,0x74
-	.DB  0x6F,0x72,0x20,0x74,0x65,0x73,0x74,0x20
-	.DB  0x77,0x69,0x74,0x68,0x20,0x25,0x78,0xA
-	.DB  0x0,0x45,0x6E,0x74,0x65,0x72,0x20,0x72
-	.DB  0x65,0x67,0x69,0x73,0x74,0x65,0x72,0x20
-	.DB  0x61,0x64,0x64,0x72,0x3A,0x0,0x74,0x75
-	.DB  0x6E,0x65,0x72,0x20,0x74,0x65,0x73,0x74
-	.DB  0x2E,0x2E,0x2E,0x0,0x2E,0x2E,0x2E,0x64
-	.DB  0x6F,0x6E,0x65,0xA,0x0,0x73,0x74,0x72
-	.DB  0x69,0x6E,0x67,0x20,0x6D,0x65,0x61,0x6E
-	.DB  0x73,0x20,0x25,0x73,0xA,0x0,0x68,0x65
-	.DB  0x78,0x20,0x30,0x78,0x25,0x78,0x20,0x30
-	.DB  0x78,0x25,0x78,0xA,0x0,0x68,0x65,0x78
-	.DB  0x20,0x30,0x78,0x25,0x78,0xA,0x0,0x75
-	.DB  0x6E,0x73,0x69,0x67,0x6E,0x65,0x64,0x20
-	.DB  0x26,0x20,0x73,0x69,0x67,0x6E,0x65,0x64
-	.DB  0x20,0x69,0x6E,0x74,0x20,0x6E,0x75,0x6D
-	.DB  0x62,0x65,0x72,0x3A,0x25,0x75,0x20,0x25
-	.DB  0x64,0xA,0x0
+	.DB  0x64,0x0,0x25,0x64,0xA,0x0,0x67,0x79
+	.DB  0x72,0x6F,0x31,0x3A,0x25,0x64,0x20,0x67
+	.DB  0x79,0x72,0x6F,0x32,0x3A,0x25,0x64,0x20
+	.DB  0x67,0x79,0x72,0x6F,0x33,0x3A,0x25,0x64
+	.DB  0x20,0x41,0x47,0x43,0x3A,0x25,0x64,0xA
+	.DB  0x0,0x6D,0x6F,0x74,0x6F,0x72,0x20,0x74
+	.DB  0x65,0x73,0x74,0x20,0x77,0x69,0x74,0x68
+	.DB  0x20,0x0,0x45,0x6E,0x74,0x65,0x72,0x20
+	.DB  0x72,0x65,0x67,0x69,0x73,0x74,0x65,0x72
+	.DB  0x20,0x61,0x64,0x64,0x72,0x3A,0x0,0x74
+	.DB  0x75,0x6E,0x65,0x72,0x20,0x74,0x65,0x73
+	.DB  0x74,0x2E,0x2E,0x2E,0x0,0x2E,0x2E,0x2E
+	.DB  0x64,0x6F,0x6E,0x65,0xA,0x0,0x73,0x74
+	.DB  0x72,0x69,0x6E,0x67,0x20,0x6D,0x65,0x61
+	.DB  0x6E,0x73,0x20,0x25,0x73,0xA,0x0,0x68
+	.DB  0x65,0x78,0x20,0x30,0x78,0x25,0x78,0x20
+	.DB  0x30,0x78,0x25,0x78,0xA,0x0,0x68,0x65
+	.DB  0x78,0x20,0x30,0x78,0x25,0x78,0xA,0x0
+	.DB  0x75,0x6E,0x73,0x69,0x67,0x6E,0x65,0x64
+	.DB  0x20,0x26,0x20,0x73,0x69,0x67,0x6E,0x65
+	.DB  0x64,0x20,0x69,0x6E,0x74,0x20,0x6E,0x75
+	.DB  0x6D,0x62,0x65,0x72,0x3A,0x25,0x75,0x20
+	.DB  0x25,0x64,0xA,0x0
 _0x2004E:
 	.DB  0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0
 	.DB  0x0,0x0
@@ -1205,57 +1205,57 @@ __GLOBAL_INI_TBL:
 	.DW  _0x19+63
 	.DW  _0x0*2+63
 
-	.DW  0x03
+	.DW  0x04
 	.DW  _0x19+66
-	.DW  _0x0*2+63
-
-	.DW  0x23
-	.DW  _0x19+69
 	.DW  _0x0*2+66
 
 	.DW  0x23
-	.DW  _0x19+104
-	.DW  _0x0*2+66
+	.DW  _0x19+70
+	.DW  _0x0*2+70
 
-	.DW  0x14
-	.DW  _0x19+139
-	.DW  _0x0*2+101
-
-	.DW  0x15
-	.DW  _0x19+159
-	.DW  _0x0*2+121
-
-	.DW  0x0E
-	.DW  _0x19+180
-	.DW  _0x0*2+142
-
-	.DW  0x09
-	.DW  _0x19+194
-	.DW  _0x0*2+156
+	.DW  0x23
+	.DW  _0x19+105
+	.DW  _0x0*2+70
 
 	.DW  0x11
-	.DW  _0x19+203
-	.DW  _0x0*2+165
+	.DW  _0x19+140
+	.DW  _0x0*2+105
+
+	.DW  0x15
+	.DW  _0x19+157
+	.DW  _0x0*2+122
+
+	.DW  0x0E
+	.DW  _0x19+178
+	.DW  _0x0*2+143
+
+	.DW  0x09
+	.DW  _0x19+192
+	.DW  _0x0*2+157
+
+	.DW  0x11
+	.DW  _0x19+201
+	.DW  _0x0*2+166
 
 	.DW  0x0F
-	.DW  _0x19+220
-	.DW  _0x0*2+182
+	.DW  _0x19+218
+	.DW  _0x0*2+183
 
 	.DW  0x0A
-	.DW  _0x19+235
-	.DW  _0x0*2+197
+	.DW  _0x19+233
+	.DW  _0x0*2+198
 
 	.DW  0x24
-	.DW  _0x19+245
-	.DW  _0x0*2+207
+	.DW  _0x19+243
+	.DW  _0x0*2+208
 
 	.DW  0x24
-	.DW  _0x19+281
-	.DW  _0x0*2+207
+	.DW  _0x19+279
+	.DW  _0x0*2+208
 
 	.DW  0x24
-	.DW  _0x19+317
-	.DW  _0x0*2+207
+	.DW  _0x19+315
+	.DW  _0x0*2+208
 
 	.DW  0x0B
 	.DW  _0x2006F
@@ -1980,7 +1980,7 @@ _0x10:
 ; 0000 0188             switch (getchar1())
 	CALL _getchar1
 ; 0000 0189             {
-; 0000 018A                 case 'H':
+; 0000 018A                 case 'H':  //读取tuner的AGC电压值和AGC2寄存器的值
 	CPI  R30,LOW(0x48)
 	BRNE _0x18
 ; 0000 018B                     {
@@ -2011,7 +2011,7 @@ _0x10:
 ; 0000 0190                         uint = GetAGC();
 	CALL _GetAGC
 	MOVW R16,R30
-; 0000 0191                         uprintf("%d",uint);
+; 0000 0191                         uprintf("%d\n",uint);
 	__POINTW1MN _0x19,66
 	ST   -Y,R31
 	ST   -Y,R30
@@ -2025,7 +2025,7 @@ _0x10:
 ; 0000 0192                     }
 ; 0000 0193                     break;
 	RJMP _0x17
-; 0000 0194                 case 'A':
+; 0000 0194                 case 'A':    //read analog voltage from gyro interface every 5 millisecond for 1000 times
 _0x18:
 	CPI  R30,LOW(0x41)
 	BRNE _0x1A
@@ -2052,7 +2052,7 @@ _0x1B:
 	ST   -Y,R30
 	CALL _delay_ms
 ; 0000 019C                         		uprintf("gyro1:%d gyro2:%d gyro3:%d AGC:%d\n",GYRO1,GYRO2,GYRO3);
-	__POINTW1MN _0x19,69
+	__POINTW1MN _0x19,70
 	ST   -Y,R31
 	ST   -Y,R30
 	LDI  R30,LOW(13)
@@ -2090,7 +2090,7 @@ _0x1A:
 	BRNE _0x1E
 ; 0000 01A2                     {
 ; 0000 01A3                         uprintf("gyro1:%d gyro2:%d gyro3:%d AGC:%d\n",GYRO1,GYRO2,GYRO3,AGC_ORG);
-	__POINTW1MN _0x19,104
+	__POINTW1MN _0x19,105
 	ST   -Y,R31
 	ST   -Y,R30
 	LDI  R30,LOW(13)
@@ -2124,31 +2124,35 @@ _0x1A:
 ; 0000 01A5                     break;
 	RJMP _0x17
 ; 0000 01A6 
-; 0000 01A7                 case 'M':
+; 0000 01A7                 case 'M': //motor control commands in 2 bytes
 _0x1E:
 	CPI  R30,LOW(0x4D)
 	BREQ PC+3
 	JMP _0x1F
 ; 0000 01A8                     {
-; 0000 01A9                        uchar = getchar1();
+; 0000 01A9                        LED_ON;
+	CBI  0xB,7
+; 0000 01AA                        uchar = getchar1();
 	CALL _getchar1
 	MOV  R21,R30
-; 0000 01AA                        uprintf("motor test with %x\n",uchar);
-	__POINTW1MN _0x19,139
+; 0000 01AB                        uprintf("motor test with ");
+	__POINTW1MN _0x19,140
 	ST   -Y,R31
 	ST   -Y,R30
-	MOV  R30,R21
-	CLR  R31
-	CLR  R22
-	CLR  R23
-	CALL __PUTPARD1
-	LDI  R24,4
+	LDI  R24,0
 	CALL _uprintf
-	ADIW R28,6
-; 0000 01AB                        if(uchar == 'U')
+	ADIW R28,2
+; 0000 01AC                        putchar1(uchar);
+	ST   -Y,R21
+	CALL _putchar1
+; 0000 01AD                        putchar1('\n');
+	LDI  R30,LOW(10)
+	ST   -Y,R30
+	CALL _putchar1
+; 0000 01AE                        if(uchar == 'U')
 	CPI  R21,85
-	BRNE _0x20
-; 0000 01AC                          Ymove(200,5);
+	BRNE _0x22
+; 0000 01AF                          Ymove(200,5);
 	LDI  R30,LOW(200)
 	LDI  R31,HIGH(200)
 	ST   -Y,R31
@@ -2156,12 +2160,12 @@ _0x1E:
 	LDI  R30,LOW(5)
 	ST   -Y,R30
 	CALL _Ymove
-; 0000 01AD                        else if(uchar == 'D')
-	RJMP _0x21
-_0x20:
+; 0000 01B0                        else if(uchar == 'D')
+	RJMP _0x23
+_0x22:
 	CPI  R21,68
-	BRNE _0x22
-; 0000 01AE                          Ymove(-200,5);
+	BRNE _0x24
+; 0000 01B1                          Ymove(-200,5);
 	LDI  R30,LOW(65336)
 	LDI  R31,HIGH(65336)
 	ST   -Y,R31
@@ -2169,12 +2173,12 @@ _0x20:
 	LDI  R30,LOW(5)
 	ST   -Y,R30
 	CALL _Ymove
-; 0000 01AF                        else if(uchar == 'R')
-	RJMP _0x23
-_0x22:
+; 0000 01B2                        else if(uchar == 'R')
+	RJMP _0x25
+_0x24:
 	CPI  R21,82
-	BRNE _0x24
-; 0000 01B0                          Xmove(200,5);
+	BRNE _0x26
+; 0000 01B3                          Xmove(200,5);
 	LDI  R30,LOW(200)
 	LDI  R31,HIGH(200)
 	ST   -Y,R31
@@ -2182,143 +2186,149 @@ _0x22:
 	LDI  R30,LOW(5)
 	ST   -Y,R30
 	CALL _Xmove
-; 0000 01B1                        else if(uchar == 'L')
-	RJMP _0x25
-_0x24:
+; 0000 01B4                        else if(uchar == 'L')
+	RJMP _0x27
+_0x26:
 	CPI  R21,76
-	BRNE _0x26
-; 0000 01B2                          Ymove(-200,5);
+	BRNE _0x28
+; 0000 01B5                          Ymove(-200,8);
 	LDI  R30,LOW(65336)
 	LDI  R31,HIGH(65336)
 	ST   -Y,R31
 	ST   -Y,R30
-	LDI  R30,LOW(5)
+	LDI  R30,LOW(8)
 	ST   -Y,R30
 	CALL _Ymove
-; 0000 01B3                        else if(uchar == 'T')
-	RJMP _0x27
-_0x26:
-	CPI  R21,84
-	BRNE _0x28
-; 0000 01B4                          motorTest(0xA0);
-	LDI  R30,LOW(160)
-	ST   -Y,R30
-	CALL _motorTest
-; 0000 01B5                        else
+; 0000 01B6                        else if(uchar == 'T')
 	RJMP _0x29
 _0x28:
-; 0000 01B6                          {
-; 0000 01B7                             Xstop();
-	CALL _Xstop
-; 0000 01B8                             Ystop();
-	CALL _Ystop
-; 0000 01B9                          }
+	CPI  R21,84
+	BRNE _0x2A
+; 0000 01B7                          motorTest(0x86);
+	LDI  R30,LOW(134)
+	ST   -Y,R30
+	CALL _motorTest
+; 0000 01B8                        if(uchar == 'I')
+_0x2A:
 _0x29:
 _0x27:
 _0x25:
 _0x23:
-_0x21:
-; 0000 01BA                     }
-; 0000 01BB                     break;
+	CPI  R21,73
+	BRNE _0x2B
+; 0000 01B9                          motorInit();
+	CALL _motorInit
+; 0000 01BA                        else
+	RJMP _0x2C
+_0x2B:
+; 0000 01BB                          {
+; 0000 01BC                             Xstop();
+	CALL _Xstop
+; 0000 01BD                             Ystop();
+	CALL _Ystop
+; 0000 01BE                          }
+_0x2C:
+; 0000 01BF                     }
+; 0000 01C0                     break;
 	RJMP _0x17
-; 0000 01BC                 case 'L':
+; 0000 01C1                 case 'L':
 _0x1F:
 	CPI  R30,LOW(0x4C)
-	BRNE _0x2A
-; 0000 01BD                     {
-; 0000 01BE                        DDRE |= 0x30;
+	BRNE _0x2D
+; 0000 01C2                     {
+; 0000 01C3                        DDRE |= 0x30;
 	IN   R30,0xD
 	ORI  R30,LOW(0x30)
 	OUT  0xD,R30
-; 0000 01BF                        SCLL;
+; 0000 01C4                        SCLL;
 	CBI  0xE,5
-; 0000 01C0                        SDAH;
+; 0000 01C5                        SDAH;
 	SBI  0xE,4
-; 0000 01C1                        putchar1('L');
+; 0000 01C6                        putchar1('L');
 	LDI  R30,LOW(76)
 	ST   -Y,R30
 	CALL _putchar1
-; 0000 01C2                     }
-; 0000 01C3                     break;
+; 0000 01C7                     }
+; 0000 01C8                     break;
 	RJMP _0x17
-; 0000 01C4                 case 'R':
-_0x2A:
+; 0000 01C9                 case 'R':   //get register value from stv0288
+_0x2D:
 	CPI  R30,LOW(0x52)
-	BRNE _0x2F
-; 0000 01C5                     {
-; 0000 01C6                         LED_ON;
+	BRNE _0x32
+; 0000 01CA                     {
+; 0000 01CB                         LED_ON;
 	CBI  0xB,7
-; 0000 01C7                         uprintf("Enter register addr:");
-	__POINTW1MN _0x19,159
+; 0000 01CC                         uprintf("Enter register addr:");
+	__POINTW1MN _0x19,157
 	ST   -Y,R31
 	ST   -Y,R30
 	LDI  R24,0
 	CALL _uprintf
 	ADIW R28,2
-; 0000 01C8                         uchar = getchar1();
+; 0000 01CD                         uchar = getchar1();
 	CALL _getchar1
 	MOV  R21,R30
-; 0000 01C9                         Get0288Register(uchar);
+; 0000 01CE                         Get0288Register(uchar);
 	ST   -Y,R21
 	CALL _Get0288Register
-; 0000 01CA                         //uprintf("Register 0x%x value is 0x%x\n",uchar,Get0288Register(uchar));
-; 0000 01CB                     }
-; 0000 01CC                     break;
+; 0000 01CF                         //uprintf("Register 0x%x value is 0x%x\n",uchar,Get0288Register(uchar));
+; 0000 01D0                     }
+; 0000 01D1                     break;
 	RJMP _0x17
-; 0000 01CD                 case 'S':
-_0x2F:
+; 0000 01D2                 case 'S':
+_0x32:
 	CPI  R30,LOW(0x53)
-	BRNE _0x32
-; 0000 01CE                     {
-; 0000 01CF                       uprintf("tuner test...");
-	__POINTW1MN _0x19,180
+	BRNE _0x35
+; 0000 01D3                     {
+; 0000 01D4                       uprintf("tuner test...");
+	__POINTW1MN _0x19,178
 	ST   -Y,R31
 	ST   -Y,R30
 	LDI  R24,0
 	CALL _uprintf
 	ADIW R28,2
-; 0000 01D0                       tunerTest(0);
+; 0000 01D5                       tunerTest(0);
 	LDI  R30,LOW(0)
 	ST   -Y,R30
 	CALL _tunerTest
-; 0000 01D1                       uprintf("...done\n");
-	__POINTW1MN _0x19,194
+; 0000 01D6                       uprintf("...done\n");
+	__POINTW1MN _0x19,192
 	ST   -Y,R31
 	ST   -Y,R30
 	LDI  R24,0
 	CALL _uprintf
 	ADIW R28,2
-; 0000 01D2                     }
-; 0000 01D3                     break;
+; 0000 01D7                     }
+; 0000 01D8                     break;
 	RJMP _0x17
-; 0000 01D4                 case 'T':
-_0x32:
+; 0000 01D9                 case 'T':     //set tuner
+_0x35:
 	CPI  R30,LOW(0x54)
-	BRNE _0x33
-; 0000 01D5                     {
-; 0000 01D6                      LED_ON;
+	BRNE _0x36
+; 0000 01DA                     {
+; 0000 01DB                      LED_ON;
 	CBI  0xB,7
-; 0000 01D7                      putchar1('t');
+; 0000 01DC                      putchar1('t');
 	LDI  R30,LOW(116)
 	ST   -Y,R30
 	CALL _putchar1
-; 0000 01D8                      tuner(TunerFreq,symbol_rate);
+; 0000 01DD                      tuner(TunerFreq,symbol_rate);
 	__GETD1S 20
 	CALL __PUTPARD1
 	__GETD1S 20
 	CALL __PUTPARD1
 	CALL _tuner
-; 0000 01D9                     }
-; 0000 01DA                     break;
+; 0000 01DE                     }
+; 0000 01DF                     break;
 	RJMP _0x17
-; 0000 01DB                 case 'U':
-_0x33:
+; 0000 01E0                 case 'U':
+_0x36:
 	CPI  R30,LOW(0x55)
 	BREQ PC+3
-	JMP _0x37
-; 0000 01DC                     {
-; 0000 01DD                        uprintf("string means %s\n",str);
-	__POINTW1MN _0x19,203
+	JMP _0x3A
+; 0000 01E1                     {
+; 0000 01E2                        uprintf("string means %s\n",str);
+	__POINTW1MN _0x19,201
 	ST   -Y,R31
 	ST   -Y,R30
 	MOVW R30,R28
@@ -2329,10 +2339,10 @@ _0x33:
 	LDI  R24,4
 	CALL _uprintf
 	ADIW R28,6
-; 0000 01DE                        uchar = 0x33;
+; 0000 01E3                        uchar = 0x33;
 	LDI  R21,LOW(51)
-; 0000 01DF                        uprintf("hex 0x%x 0x%x\n",uchar,uchar+16);
-	__POINTW1MN _0x19,220
+; 0000 01E4                        uprintf("hex 0x%x 0x%x\n",uchar,uchar+16);
+	__POINTW1MN _0x19,218
 	ST   -Y,R31
 	ST   -Y,R30
 	MOV  R30,R21
@@ -2348,10 +2358,10 @@ _0x33:
 	LDI  R24,8
 	CALL _uprintf
 	ADIW R28,10
-; 0000 01E0                        uchar = 0xEC;
+; 0000 01E5                        uchar = 0xEC;
 	LDI  R21,LOW(236)
-; 0000 01E1                        uprintf("hex 0x%x\n",uchar);
-	__POINTW1MN _0x19,235
+; 0000 01E6                        uprintf("hex 0x%x\n",uchar);
+	__POINTW1MN _0x19,233
 	ST   -Y,R31
 	ST   -Y,R30
 	MOV  R30,R21
@@ -2362,13 +2372,13 @@ _0x33:
 	LDI  R24,4
 	CALL _uprintf
 	ADIW R28,6
-; 0000 01E2 
-; 0000 01E3                        uint = 32879;
+; 0000 01E7 
+; 0000 01E8                        uint = 32879;
 	__GETWRN 16,17,-32657
-; 0000 01E4                        sint = -23456;
+; 0000 01E9                        sint = -23456;
 	__GETWRN 18,19,-23456
-; 0000 01E5                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
-	__POINTW1MN _0x19,245
+; 0000 01EA                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
+	__POINTW1MN _0x19,243
 	ST   -Y,R31
 	ST   -Y,R30
 	MOVW R30,R16
@@ -2381,12 +2391,12 @@ _0x33:
 	LDI  R24,8
 	CALL _uprintf
 	ADIW R28,10
-; 0000 01E6                        uint = -2561;
+; 0000 01EB                        uint = -2561;
 	__GETWRN 16,17,-2561
-; 0000 01E7                        sint = 13456;
+; 0000 01EC                        sint = 13456;
 	__GETWRN 18,19,13456
-; 0000 01E8                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
-	__POINTW1MN _0x19,281
+; 0000 01ED                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
+	__POINTW1MN _0x19,279
 	ST   -Y,R31
 	ST   -Y,R30
 	MOVW R30,R16
@@ -2399,12 +2409,12 @@ _0x33:
 	LDI  R24,8
 	CALL _uprintf
 	ADIW R28,10
-; 0000 01E9                        uint = 105;
+; 0000 01EE                        uint = 105;
 	__GETWRN 16,17,105
-; 0000 01EA                        sint = -123;
+; 0000 01EF                        sint = -123;
 	__GETWRN 18,19,-123
-; 0000 01EB                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
-	__POINTW1MN _0x19,317
+; 0000 01F0                        uprintf("unsigned & signed int number:%u %d\n",uint,sint);
+	__POINTW1MN _0x19,315
 	ST   -Y,R31
 	ST   -Y,R30
 	MOVW R30,R16
@@ -2417,22 +2427,22 @@ _0x33:
 	LDI  R24,8
 	CALL _uprintf
 	ADIW R28,10
-; 0000 01EC                     }
-; 0000 01ED                     break;
-; 0000 01EE             default:
-_0x37:
-; 0000 01EF             };
+; 0000 01F1                     }
+; 0000 01F2                     break;
+; 0000 01F3             default:
+_0x3A:
+; 0000 01F4             };
 _0x17:
-; 0000 01F0 
-; 0000 01F1           }
+; 0000 01F5 
+; 0000 01F6           }
 	RJMP _0x10
-; 0000 01F2 }
-_0x38:
-	RJMP _0x38
+; 0000 01F7 }
+_0x3B:
+	RJMP _0x3B
 
 	.DSEG
 _0x19:
-	.BYTE 0x161
+	.BYTE 0x15F
 ;#include "include.h"
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
@@ -4787,103 +4797,111 @@ _0x60004:
 ;
 ;
 ;
+;/***************************************/
 ;void motorInit(void)
-; 0003 0023 {
-; 0003 0024 	XSTEPL;
-; 0003 0025 	YSTEPL;
-; 0003 0026 
-; 0003 0027 	XDIRL;
-; 0003 0028 	YDIRL;
-; 0003 0029 
-; 0003 002A 	XRSTL;
-; 0003 002B 	YRSTL;
-; 0003 002C 	delay_us(20);
-; 0003 002D 	XRSTH;
-; 0003 002E 	YRSTH;
-; 0003 002F 
-; 0003 0030 	XSYNCL;   //disable sync
-; 0003 0031 	YSYNCL;
-; 0003 0032 }
-;
-;
-;
+; 0003 0024 {
+_motorInit:
+; 0003 0025 	XSTEPL;
+	CBI  0xE,3
+; 0003 0026 	YSTEPL;
+	LDS  R30,258
+	ANDI R30,0XF7
+	STS  258,R30
+; 0003 0027 
+; 0003 0028 	XDIRL;
+	CBI  0xE,7
+; 0003 0029 	YDIRL;
+	LDS  R30,258
+	ANDI R30,0x7F
+	STS  258,R30
+; 0003 002A 
+; 0003 002B 	XRSTL;
+	CBI  0xE,6
+; 0003 002C 	YRSTL;
+	LDS  R30,258
+	ANDI R30,0xBF
+	STS  258,R30
+; 0003 002D 	delay_us(20);
+	__DELAY_USB 107
+; 0003 002E 	XRSTH;
+	SBI  0xE,6
+; 0003 002F 	YRSTH;
+	LDS  R30,258
+	ORI  R30,0x40
+	STS  258,R30
+; 0003 0030 
+; 0003 0031 	XSYNCL;   //disable sync
+	LDS  R30,258
+	ANDI R30,0xDF
+	STS  258,R30
+; 0003 0032 	YSYNCL;
+	SBI  0x14,3
+; 0003 0033 }
+	RET
 ;
 ;void Xcycle(char speed)
-; 0003 0038 {
+; 0003 0036 {
 _Xcycle:
-; 0003 0039     //int steps;
-; 0003 003A /* Timer/Counter 3 initialization
-; 0003 003B Clock value: 250.000 kHz
-; 0003 003C Mode: CTC top=OCR3A
-; 0003 003D OC3A output: Set
-; 0003 003E Compare A Match Interrupt: On  */
-; 0003 003F     TCCR3A=0x80;
+; 0003 0037     //int steps;
+; 0003 0038 /* Timer/Counter 3 initialization
+; 0003 0039 Clock value: 250.000 kHz
+; 0003 003A Mode: CTC top=OCR3A
+; 0003 003B OC3A output: Set
+; 0003 003C Compare A Match Interrupt: On  */
+; 0003 003D     TCCR3A=0x80;
 ;	speed -> Y+0
 	LDI  R30,LOW(128)
 	STS  144,R30
-; 0003 0040     TCCR3B=0x13;
+; 0003 003E     TCCR3B=0x13;
 	LDI  R30,LOW(19)
 	STS  145,R30
-; 0003 0041     TCNT3H=0x00;
+; 0003 003F     TCNT3H=0x00;
 	LDI  R30,LOW(0)
 	STS  149,R30
-; 0003 0042     TCNT3L=0x00;
+; 0003 0040     TCNT3L=0x00;
 	STS  148,R30
-; 0003 0043     ICR3H=0x00;
+; 0003 0041     ICR3H=0x00;
 	STS  151,R30
-; 0003 0044     ICR3L=speed<<2;
+; 0003 0042     ICR3L=speed<<2;
 	LD   R30,Y
 	LSL  R30
 	LSL  R30
 	STS  150,R30
-; 0003 0045     OCR3AH=0x00;
+; 0003 0043     OCR3AH=0x00;
 	LDI  R30,LOW(0)
 	STS  153,R30
-; 0003 0046     OCR3AL=0x02;
+; 0003 0044     OCR3AL=0x02;
 	LDI  R30,LOW(2)
 	STS  152,R30
-; 0003 0047     OCR3BH=0x00;
+; 0003 0045     OCR3BH=0x00;
 	LDI  R30,LOW(0)
 	STS  155,R30
-; 0003 0048     OCR3BL=0x00;
+; 0003 0046     OCR3BL=0x00;
 	STS  154,R30
-; 0003 0049     OCR3CH=0x00;
+; 0003 0047     OCR3CH=0x00;
 	STS  157,R30
-; 0003 004A     OCR3CL=0x00;
+; 0003 0048     OCR3CL=0x00;
 	STS  156,R30
-; 0003 004B }
+; 0003 0049 }
 	RJMP _0x20A0001
 ;
 ;
 ;void Ymove(int steps,char speed)
-; 0003 004F {
+; 0003 004D {
 _Ymove:
-; 0003 0050     Ysteps = abs(steps);
+; 0003 004E //    Ysteps = abs(steps);
+; 0003 004F //    if(steps>0)
+; 0003 0050 //        YDIRH;
+; 0003 0051 //    else
+; 0003 0052 //        YDIRL;
+; 0003 0053 Ysteps = steps;
 ;	steps -> Y+1
 ;	speed -> Y+0
 	LDD  R30,Y+1
 	LDD  R31,Y+1+1
-	ST   -Y,R31
-	ST   -Y,R30
-	CALL _abs
 	STS  _Ysteps,R30
 	STS  _Ysteps+1,R31
-; 0003 0051     if(steps>0)
-	LDD  R26,Y+1
-	LDD  R27,Y+1+1
-	CALL __CPW02
-	BRGE _0x6000F
-; 0003 0052         YDIRH;
-	LDS  R30,258
-	ORI  R30,0x80
-	RJMP _0x6001B
-; 0003 0053     else
-_0x6000F:
-; 0003 0054         YDIRL;
-	LDS  R30,258
-	ANDI R30,0x7F
-_0x6001B:
-	STS  258,R30
+; 0003 0054 
 ; 0003 0055 // Timer/Counter 4 initialization
 ; 0003 0056 // Clock source: System Clock
 ; 0003 0057 // Clock value: 250.000 kHz
@@ -4959,16 +4977,16 @@ _Xmove:
 	LDD  R26,Y+1
 	LDD  R27,Y+1+1
 	CALL __CPW02
-	BRGE _0x60011
+	BRGE _0x6000F
 ; 0003 007B         XDIRH;
 	SBI  0xE,7
 ; 0003 007C     else
-	RJMP _0x60014
-_0x60011:
+	RJMP _0x60012
+_0x6000F:
 ; 0003 007D         XDIRL;
 	CBI  0xE,7
 ; 0003 007E     TCNT3H=0x00;
-_0x60014:
+_0x60012:
 	LDI  R30,LOW(0)
 	STS  149,R30
 ; 0003 007F     TCNT3L=0x00;
@@ -5047,7 +5065,7 @@ _motorTest:
 ;	cmd -> Y+0
 	LD   R30,Y
 	ANDI R30,LOW(0x80)
-	BREQ _0x60017
+	BREQ _0x60015
 ; 0003 00A3             {
 ; 0003 00A4              Xcycle(cmd & 0x0F);
 	LD   R30,Y
@@ -5056,10 +5074,10 @@ _motorTest:
 	RCALL _Xcycle
 ; 0003 00A5             }
 ; 0003 00A6     if(cmd & 0x40)
-_0x60017:
+_0x60015:
 	LD   R30,Y
 	ANDI R30,LOW(0x40)
-	BREQ _0x60018
+	BREQ _0x60016
 ; 0003 00A7             {
 ; 0003 00A8              Ymove(200,cmd & 0x0F);
 	LDI  R30,LOW(200)
@@ -5072,10 +5090,10 @@ _0x60017:
 	RCALL _Ymove
 ; 0003 00A9             }
 ; 0003 00AA     if(cmd & 0x20)
-_0x60018:
+_0x60016:
 	LD   R30,Y
 	ANDI R30,LOW(0x20)
-	BREQ _0x60019
+	BREQ _0x60017
 ; 0003 00AB             {
 ; 0003 00AC              Xmove(300,cmd & 0x0F);
 	LDI  R30,LOW(300)
@@ -5088,10 +5106,10 @@ _0x60018:
 	RCALL _Xmove
 ; 0003 00AD             }
 ; 0003 00AE     if(cmd & 0x10)
-_0x60019:
+_0x60017:
 	LD   R30,Y
 	ANDI R30,LOW(0x10)
-	BREQ _0x6001A
+	BREQ _0x60018
 ; 0003 00AF             {
 ; 0003 00B0              Xstop();
 	RCALL _Xstop
@@ -5099,7 +5117,7 @@ _0x60019:
 	RCALL _Ystop
 ; 0003 00B2             }
 ; 0003 00B3     return 1;
-_0x6001A:
+_0x60018:
 	LDI  R30,LOW(1)
 _0x20A0001:
 	ADIW R28,1

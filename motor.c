@@ -75,11 +75,13 @@ Compare A Match Interrupt: On  */
 
 void Ymove(int steps,char speed)
 {
-    Ysteps = abs(steps); 
-    if(steps>0)
-        YDIRH;
-    else
-        YDIRL;
+//    Ysteps = abs(steps); 
+//    if(steps>0)
+//        YDIRH;
+//    else
+//        YDIRL;
+Ysteps = steps;        
+        
 // Timer/Counter 4 initialization
 // Clock source: System Clock
 // Clock value: 250.000 kHz

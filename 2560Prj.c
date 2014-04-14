@@ -422,8 +422,11 @@ void main(void)
                 
                 case 'M': //motor control commands in 2 bytes 
                     {
+                       LED_ON;
                        uchar = getchar1();
-                       uprintf("motor test with %x\n",uchar); 
+                       uprintf("motor test with ");
+                       putchar1(uchar);
+                       putchar1('\n'); 
                        if(uchar == 'U')   
                          Ymove(200,5);
                        else if(uchar == 'D')
@@ -433,7 +436,7 @@ void main(void)
                        else if(uchar == 'L')
                          Ymove(-200,8);    
                        else if(uchar == 'T')
-                         motorTest(0xA0); 
+                         motorTest(0x86); 
                        if(uchar == 'I')   
                          motorInit();   
                        else 
