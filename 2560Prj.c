@@ -426,24 +426,29 @@ void main(void)
                        uchar = getchar1();
                        uprintf("motor test with ");
                        putchar1(uchar);
-                       putchar1('\n'); 
+                       uprintf("1-%d ",Ysteps); 
                        if(uchar == 'U')   
-                         Ymove(200,5);
+                         Ymove(120,8);
                        else if(uchar == 'D')
-                         Ymove(-200,5);
+                         Ymove(-220,8);
                        else if(uchar == 'R')
                          Xmove(200,5);
                        else if(uchar == 'L')
-                         Ymove(-200,8);    
+                         Xmove(-200,8);    
                        else if(uchar == 'T')
-                         motorTest(0x86); 
+                         motorTest(0x69); 
                        if(uchar == 'I')   
                          motorInit();   
                        else 
                          {
                             Xstop();
                             Ystop();
-                         }
+                         } 
+                         
+                       delay_ms(2);
+                       uprintf("3-%d ",Ysteps);     
+                       delay_ms(5);
+                       uprintf("4-%d\n",Ysteps); 
                     }
                     break;              
                 case 'L': 

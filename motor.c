@@ -8,7 +8,7 @@ Apr 2
 interrupt [TIM4_OVF] void timer4_ovf_isr(void)
 {
 // Place your code here
-   if(Ysteps-- == 0)
+   if(Ysteps-- == 1)
         {
            Ystop();
         }  
@@ -75,13 +75,13 @@ Compare A Match Interrupt: On  */
 
 void Ymove(int steps,char speed)
 {
-//    Ysteps = abs(steps); 
-//    if(steps>0)
-//        YDIRH;
-//    else
-//        YDIRL;
-Ysteps = steps;        
-        
+    Ysteps = abs(steps); 
+    if(steps>0)
+        YDIRH;
+    else
+        YDIRL;
+//Ysteps = steps;        
+   //uprintf("%d ",Ysteps);    
 // Timer/Counter 4 initialization
 // Clock source: System Clock
 // Clock value: 250.000 kHz
@@ -112,7 +112,14 @@ Ysteps = steps;
     TCCR4B=0x13;
     
     TIMSK4=0x01;        
-      
+     
+    delay_ms(20);                    
+    uprintf("2-%d ",Ysteps);
+//    delay_ms(5);
+//    uprintf("%d ",Ysteps);
+//    delay_ms(5);
+//    uprintf("%d ",Ysteps);
+    return;
 }
 
 
@@ -161,7 +168,7 @@ char motorTest(char cmd)
 {
     if(cmd & 0x80)
             {
-             Xcycle(cmd & 0x0F);
+             Xcycle(0x08);
             }        
     if(cmd & 0x40)
             {

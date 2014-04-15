@@ -5,9 +5,9 @@ Active0=0
 EditorPanel0=0
 PageIndex0=0
 OF1=2560Prj.c
-Active1=1
+Active1=0
 EditorPanel1=0
-TimeStamp1=1150222895
+TimeStamp1=1150288185
 PageIndex1=1
 OF2=include.h
 Active2=0
@@ -15,9 +15,9 @@ EditorPanel2=0
 TimeStamp2=1150202133
 PageIndex2=2
 OF3=motor.c
-Active3=0
+Active3=1
 EditorPanel3=0
-TimeStamp3=1150222483
+TimeStamp3=1150288246
 PageIndex3=3
 OF4=7395.c
 Active4=0
@@ -25,7 +25,7 @@ EditorPanel4=0
 TimeStamp4=1149484076
 PageIndex4=4
 AllowDisplayFunctionCallTree=1
-OpenedFiles=5
+OpenedFiles=3
 Toolset=AVR
 FormatVersion=2
 CV=2.05.0 Professional
@@ -52,11 +52,11 @@ Row=0
 Column=0
 ScrollPosX=0
 ScrollPosY=0
-TimeStamp=1150222925
+TimeStamp=1150288381
 [Compiler]
 RebuildAll=0
 LinkageInformationPresent=1
-Build=12
+Build=34
 UseEEPROMLocation0=1
 Chip=ATmega2560
 CPUClock=16000000
@@ -286,11 +286,11 @@ F3=motor.c
 F4=include.h
 F5=io.c
 [Bookmarks1]
-TimeStamp=1150222895
-Row=438
-Column=38
+TimeStamp=1150288185
+Row=25
+Column=77
 ScrollPosX=0
-ScrollPosY=417
+ScrollPosY=294
 BK0=-1
 BK1=-1
 BK2=-1
@@ -318,11 +318,11 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks3]
-TimeStamp=1150222483
-Row=31
-Column=47
+TimeStamp=1150288246
+Row=35
+Column=58
 ScrollPosX=0
-ScrollPosY=150
+ScrollPosY=102
 BK0=-1
 BK1=-1
 BK2=-1
@@ -335,10 +335,10 @@ BK8=-1
 BK9=-1
 [Bookmarks4]
 TimeStamp=1150202133
-Row=24
-Column=54
+Row=20
+Column=37
 ScrollPosX=0
-ScrollPosY=129
+ScrollPosY=58
 BK0=-1
 BK1=-1
 BK2=-1
@@ -365,7 +365,7 @@ UserProgWorkDir=
 [Bookmarks5]
 TimeStamp=1148892074
 Row=0
-Column=0
+Column=10
 ScrollPosX=0
 ScrollPosY=0
 BK0=-1
@@ -378,6 +378,10 @@ BK6=-1
 BK7=-1
 BK8=-1
 BK9=-1
+[FoldedCode5]
+Blocks=0
+[FoldedCode2]
+Blocks=0
 [HeadersList]
 Files=4
 F1=G:\My Documents\GitHub\2560Prj\2560Prj.c
@@ -429,10 +433,6 @@ F7=D:\cvavr\inc\stdarg.h
 F8=D:\cvavr\inc\mega2560.h
 F9=D:\cvavr\inc\mega2560_bits.h
 [FoldedCode1]
-Blocks=0
-[FoldedCode2]
-Blocks=0
-[FoldedCode5]
 Blocks=0
 [FoldedCode3]
 Blocks=0
