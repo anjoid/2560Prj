@@ -3,7 +3,24 @@
 可以发送数量可调的脉冲，但会多一个
 Apr 2
 */
-                                                                                    
+          
+
+void Ystop(void)
+{
+    TIMSK4 =0;
+    TCCR4A=0x0;
+    TCCR4B=0x0;
+}
+
+void Xstop(void)
+{
+    TCCR3A=0x0;
+    TCCR3B=0x0;  
+    TIMSK4 =0;
+}
+
+
+                                                                          
 // Timer4 overflow interrupt service routine
 interrupt [TIM4_OVF] void timer4_ovf_isr(void)
 {
@@ -28,9 +45,6 @@ interrupt [TIM3_OVF] void timer3_ovf_isr(void)
 
 
 
-
-
-
 /***************************************/
 void motorInit(void)
 {
@@ -40,11 +54,11 @@ void motorInit(void)
 	XDIRL;
 	YDIRL;
 	
-	XRSTL;
-	YRSTL;
-	delay_us(20);
 	XRSTH;
 	YRSTH;
+	delay_us(20);   //reset 
+	XRSTL;
+	YRSTL;
 	
 	XSYNCL;   //disable sync
 	YSYNCL;	
@@ -72,16 +86,37 @@ Compare A Match Interrupt: On  */
     OCR3CL=0x00;
 }
 
+void Xmove(int steps,char speed)
+{
+    Xsteps = abs(steps);
+    if(steps>0)
+        XDIRH;
+    else
+        XDIRL;
+    TCNT3H=0x00;
+    TCNT3L=0x00;
+    ICR3H=0x00;
+    ICR3L=speed<<2;
+    OCR3AH=0x00;
+    OCR3AL=0x04;
+    OCR3BH=0x00;
+    OCR3BL=0x00;
+    OCR3CH=0x00;
+    OCR3CL=0x00;     
+    
+    TCCR3A=0x80;
+    TCCR3B=0x13;
+    
+    TIMSK3=0x01;
+}
 
 void Ymove(int steps,char speed)
 {
     Ysteps = abs(steps); 
     if(steps>0)
-        YDIRH;
-    else
         YDIRL;
-//Ysteps = steps;        
-   //uprintf("%d ",Ysteps);    
+    else
+        YDIRH;                  
 // Timer/Counter 4 initialization
 // Clock source: System Clock
 // Clock value: 250.000 kHz
@@ -111,56 +146,8 @@ void Ymove(int steps,char speed)
     TCCR4A=0x80;      //
     TCCR4B=0x13;
     
-    TIMSK4=0x01;        
-     
-    delay_ms(20);                    
-    uprintf("2-%d ",Ysteps);
-//    delay_ms(5);
-//    uprintf("%d ",Ysteps);
-//    delay_ms(5);
-//    uprintf("%d ",Ysteps);
-    return;
+    TIMSK4=0x01;     
 }
-
-
-void Xmove(int steps,char speed)
-{
-    Xsteps = abs(steps);
-    if(steps>0)
-        XDIRH;
-    else
-        XDIRL;
-    TCNT3H=0x00;
-    TCNT3L=0x00;
-    ICR3H=0x00;
-    ICR3L=speed<<2;
-    OCR3AH=0x00;
-    OCR3AL=0x04;
-    OCR3BH=0x00;
-    OCR3BL=0x00;
-    OCR3CH=0x00;
-    OCR3CL=0x00;     
-    
-    TCCR3A=0x80;
-    TCCR3B=0x13;
-    
-    TIMSK3=0x01;
-}
-
-void Ystop(void)
-{
-    TIMSK4 =0;
-    TCCR4A=0x0;
-    TCCR4B=0x0;
-}
-
-void Xstop(void)
-{
-    TCCR3A=0x0;
-    TCCR3B=0x0;  
-    TIMSK4 =0;
-}
-
 
 
 

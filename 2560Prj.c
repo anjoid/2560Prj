@@ -424,39 +424,37 @@ void main(void)
                     {
                        LED_ON;
                        uchar = getchar1();
-                       uprintf("motor test with ");
+                       uprintf("motor test with \"");
                        putchar1(uchar);
-                       uprintf("1-%d ",Ysteps); 
+                       uprintf("\"\n"); 
                        if(uchar == 'U')   
-                         Ymove(120,8);
+                         Ymove(190,10);
                        else if(uchar == 'D')
-                         Ymove(-220,8);
+                         Ymove(-220,13);
                        else if(uchar == 'R')
-                         Xmove(200,5);
+                         Xmove(200,13);
                        else if(uchar == 'L')
-                         Xmove(-200,8);    
+                         Xmove(-200,13);    
                        else if(uchar == 'T')
                          motorTest(0x69); 
-                       if(uchar == 'I')   
+                       else if(uchar == 'I')   
                          motorInit();   
                        else 
                          {
                             Xstop();
                             Ystop();
                          } 
-                         
-                       delay_ms(2);
-                       uprintf("3-%d ",Ysteps);     
-                       delay_ms(5);
-                       uprintf("4-%d\n",Ysteps); 
                     }
                     break;              
                 case 'L': 
                     {     
-                       DDRE |= 0x30;       
-                       SCLL;
-                       SDAH; 
-                       putchar1('L'); 
+                       Ymove(-220,8);
+                       delay_ms(5);
+                       uprintf("4-%d ",Ysteps); 
+                       delay_ms(5);
+                       uprintf("5-%d ",Ysteps);
+                       delay_ms(5);
+                       uprintf("6-%d.TCCR4-0x%x0x%x,TIMSK4-0x%x \n",Ysteps,TCCR4A,TCCR4B,TIMSK4); 
                     }
                     break;   
                 case 'R':   //get register value from stv0288
