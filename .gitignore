@@ -1,6 +1,7 @@
 *~
 *.sym*
 *.map
+*.prj
 *.cci
 *.cbi
 *.cwp

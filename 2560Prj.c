@@ -393,12 +393,12 @@ void main(void)
             {
                 case 'H':  //读取tuner的AGC电压值和AGC2寄存器的值
                     {     
-                    	uprintf("tuner init and read AGC analog number and AGC register number:");
+                    	uprintf("AGC analog number & AGC register number %lock: ");
                         //tuner(TunerFreq,symbol_rate);          
                         uint = AGC_ORG;
-                        uprintf("%d",uint);
+                        uprintf("%d ",uint);
                         uint = GetAGC();
-                        uprintf("%d\n",uint);
+                        uprintf("%d %x\n",uint,tunerTest(0));
                     }
                     break;    
                 case 'A':    //read analog voltage from gyro interface every 5 millisecond for 1000 times
@@ -419,7 +419,24 @@ void main(void)
                         uprintf("gyro1:%d gyro2:%d gyro3:%d AGC:%d\n",GYRO1,GYRO2,GYRO3,AGC_ORG); 
                     }
                     break;   
-                
+                case 'C': 
+                    {
+                        uprintf("tuner initiation..."); 
+                        tuner(TunerFreq,symbol_rate);                         
+                        uprintf("lock = %x...done!\n",tunerTest(0));
+                        for(uchar=0;uchar<25;uchar++)
+                            {
+                                Xmove(100,10);
+                                for(sint=0;sint<25;sint++)
+                                    {
+                                        Ymove(100,10);
+                                        uprintf("AGCreg-AGCvoltage-lock:%d %d %x\n",GetAGC,AGC_ORG,tunerTest(0));   
+                                        delay_ms(300);       
+                                    }    
+                                Ymove(-2500,10);    
+                            }
+                    }
+                    break;
                 case 'M': //motor control commands in 2 bytes 
                     {
                        LED_ON;

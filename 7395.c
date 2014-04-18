@@ -139,51 +139,6 @@ char i2c_send(unsigned char data)
 
 } 
 
-///****************************************
-//读取一个字节的数据并返回该字节
-//****************************************/
-//unsigned char i2c_byte_read(void)
-//{
-//
-//}                                                
-
-
-
-///******************************************************    
-//主机读取I2C  参数分别为 从机地址，读回的字节存放的数组指针，读回的字节数   
-//slave address,pointer to be written,number to be read   
-//从机响应了地址返回1 否则返回0
-//*******************************************************/            
-//char i2c_rd(unsigned char addr,unsigned char *ddata,unsigned char counter)     
-//{
-// unsigned char i;
-// unsigned char *pdata;
-// i=counter;  
-// pdata=ddata;
-// i2c_sta();
-// if(i2c_send(addr|0x01)==1)
-//   {    
-//         while(i)
-//            {
-//                *pdata=i2c_byte_read();
-//                pdata++;
-//                if(i--)
-//                    {
-//                        DDRE.4=1;
-//                        SDAL;     //ACK to slave
-//                        SCLH;
-//                        delay_us(2);
-//                        SCLL;               
-//                        delay_us(4);    
-//                    }
-//            }            
-//         i2c_stp(); 
-//         return 1;
-//    }
-// else 
-//        return 0;   
-//    
-//}
   
 /******************************************************    
 主机读取I2C  参数分别为 从机地址，读回的字节存放的数组指针，读回的字节数   
@@ -229,22 +184,9 @@ char i2c_rd(unsigned char addr,unsigned char *ddata,unsigned char counter)
                 SCLL;  
                 DDRE.4=0;     
                 //uprintf("*%x*",data);                          
-                delay_us(10);  
-                /*if(i--) //if not the last byte,send ack
-                    {                        
-                        SDAL;     //ACK to slave
-                        DDRE.4=1;                        
-                        SCLH;
-                        delay_us(4);
-                        SCLL;               
-                        delay_us(6);    
-                    }  */
+                delay_us(10);                          
             }            
-//         SCLH;
-//         DDRE.4=1;
-//         SDAL;
-//         delay_us(2);        //stop
-//         SDAH;   
+
          i2c_stp();
          return 1;
     }
@@ -312,7 +254,6 @@ unsigned char TFC(unsigned long _TunerFrequency) //TunerFrequencyCalculate  KHZ
         unsigned int i;
         unsigned char B[5] = {0x00},temp[5] = {0x00};
         unsigned int ddata,pd2,pd3,pd4,pd5 ;
-        //printf("TunerFreq %ld.\n",_TunerFrequency);
 
         B[0] = 0xc0;
         if ((_TunerFrequency>=900000)&&(_TunerFrequency<1170000))         //
@@ -343,12 +284,10 @@ unsigned char TFC(unsigned long _TunerFrequency) //TunerFrequencyCalculate  KHZ
          B[1] = (int)((long_tmp>>3)&0x000000ff);
         B[2] = (int)((long_tmp<<5)&0x000000ff);
         B[2] = (int)(B[2] + i);
-        i=0;  
-        ////printf("TFC byte1~5:0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);         
+        i=0;       
     do
       {   
 //             temp_para = 0;
-//             //printf("the cation of i2c acknowlede in function TFC\n");
             temp[0] = B[0];
             temp[1] = B[1];
             temp[2] = B[2];
@@ -356,8 +295,6 @@ unsigned char TFC(unsigned long _TunerFrequency) //TunerFrequencyCalculate  KHZ
 
             temp[3] = 0xe1;
             temp[4] = B[4] & 0xf3;
-//             //printf("B1. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
-             ////printf("temp1. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",temp[0],temp[1],temp[2],temp[3],temp[4]);
 
             EnableTunerOperation();
             i2c_SendStr(temp,5);                   //write byte1 byte2 byte3 byte4 byte5
@@ -381,11 +318,10 @@ unsigned char TFC(unsigned long _TunerFrequency) //TunerFrequencyCalculate  KHZ
             B[3] |= (pd5|pd4)        ;
             B[4] |= (pd3|pd2)        ; 
             
-//             //printf("B2. byte1~5  0x%x,0x%x,0x%x,0x%x,0x%x\n",B[0],B[1],B[2],B[3],B[4]);
             
             temp[1] = B[3] | 0x04;
             temp[2] = B[4];
-            // //printf("temp3. byte1,4,5  0x%x,0x%x,0x%x\n",temp[0],temp[1],temp[2]);
+            
             //EnableTunerOperation();
             i2c_SendStr(temp,3);                   //write byte1 byte4 byte5
             DisableTunerOperation();
@@ -425,16 +361,12 @@ void STV0288Init(void)
         byte[1]= 0x40;    
         byte[2]= 0x64;             //PLLCTRL
         byte[3]= 0x04;             //SYNTCTRL
-        i2c_SendStr(pointer,4); 
-                                           
+        i2c_SendStr(pointer,4);                                      
         
                   
         byte[1]=0x02;                 //ACR
         byte[2]=0x20; 
         i2c_SendStr(pointer,3); 
-        
-        
-        
         
         /*********************
         set register about AGC
@@ -650,14 +582,15 @@ char locked(void)
        //LED_OFF;
        return 1;         
     }
-
- }
+ }   
+ 
+ 
  unsigned int GetAGC(void)
  {
     union
-            {        
+        {        
             unsigned int numb;
-               char reg[2];
+            char reg[2];
         } AGC;
     char addr[2];
     
@@ -703,7 +636,7 @@ unsigned char pll_lk(void)
       do 
       {
           i2c_rd(byte[0],byte,1);       
-          uprintf("read tuner:%x\n",byte[0]);
+          uprintf("read tuner byte:%x\n",byte[0]);
           i++;
           if((byte[0] & 0x40) != 0)
           {
@@ -718,10 +651,10 @@ unsigned char pll_lk(void)
 char tunerTest(char para)
 {
    char byte=para;
-   //pll_lk(); 
-   GetAGC();
-   //uprintf("AGC2 %d 0x%x%x\n",GetAGC());
-   return byte; 
+   if(locked() == 0xFF)
+        return 1;
+   else
+        return byte; 
 }
 
 
