@@ -93,7 +93,7 @@ char uprintf(const char *fmt, ...)
 
 
 // Read the AD conversion result
-unsigned int read_adc(unsigned char adc_input)
+unsigned char read_adc(unsigned char adc_input)
 {
     ADMUX=(adc_input & 0x1f) | (ADC_VREF_TYPE & 0xff);
     if (adc_input & 0x20) ADCSRB |= 0x08;
@@ -105,7 +105,7 @@ unsigned int read_adc(unsigned char adc_input)
     // Wait for the AD conversion to complete
     while ((ADCSRA & 0x10)==0);
     ADCSRA|=0x10;
-    return ADCW;
+    return ADCH;
 }   
 
                             

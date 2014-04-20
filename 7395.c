@@ -528,8 +528,7 @@ unsigned char tuner(unsigned long F,float S)
 
         char i;                   
         TunerRst();
-        delay_ms(50);        
-        
+        delay_ms(50);     
                  
         TFC(F);                           
         STV0288Init();                          
@@ -563,9 +562,9 @@ char locked(void)
     if(i2c_rd(addr[0],reg,1) == 0)   //save reg1E value to reg[0]
         return 0;
     
-    reg[1] = reg[0];  //move reg1E value to reg[1]
-    addr[1] = 0x24;   //next reg 24 
+    reg[1] = reg[0];  //move reg1E value to reg[1] 
     
+    addr[1] = 0x24;   //next reg 24         
     if (i2c_SendStr(addr,2) == 0)        //send register address 24
             return 0;
     if(i2c_rd(addr[0],reg,1) == 0)   //save reg24 value to reg[0]
@@ -622,7 +621,7 @@ char Get0288Register(unsigned char addr)
       {   
        if(i2c_rd(data[0],pdata,2))   
           {   
-           uprintf("0x%x,0x%x\n",data[0],data[1]);
+           //uprintf("0x%x,0x%x\n",data[0],data[1]);
            return data[0];
           }
       }

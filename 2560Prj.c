@@ -330,10 +330,12 @@ void init(void)
     ACSR=0x80;
     ADCSRB=0x00;
     DIDR1=0x00;
-
-    // ADC initialization
-    // ADC disabled
-    ADCSRA=0x00;
+    DIDR0=0x00;
+    // Digital input buffers on ADC8: On, ADC9: On, ADC10: On, ADC11: Off
+    // ADC12: Off, ADC13: Off, ADC14: On, ADC15: On
+    DIDR2=0xFF;
+    ADMUX=ADC_VREF_TYPE & 0xff;
+    ADCSRA=0x87;
 
     // SPI initialization
     // SPI disabled
@@ -393,7 +395,7 @@ void main(void)
             {
                 case 'H':  //读取tuner的AGC电压值和AGC2寄存器的值
                     {     
-                    	uprintf("AGC analog number & AGC register number %lock: ");
+                    	uprintf("AGC analog number & AGC register number & lock: ");
                         //tuner(TunerFreq,symbol_rate);          
                         uint = AGC_ORG;
                         uprintf("%d ",uint);
@@ -403,37 +405,61 @@ void main(void)
                     break;    
                 case 'A':    //read analog voltage from gyro interface every 5 millisecond for 1000 times
                     {
+                        LED_ON;
                         uchar = getchar1();
-                        Xcycle(uchar);
-                       	uint = 1000;
-                       	while(uint--)
-                        	{
-                        		delay_ms(5);
-                        		uprintf("gyro1:%d gyro2:%d gyro3:%d AGC:%d\n",GYRO1,GYRO2,GYRO3); 
-                    		}
-                    	Xstop();	
+                        if(uchar == 'A')   
+                         {
+                                uint = AGC_ORG;
+                                uprintf("AGC:%d\n",uint);
+                         }
+                       else if(uchar == 'X')
+                         {
+                               uint = GYRO1;
+                               uprintf("X:%d\n",uint);       
+                         }
+                       else if(uchar == 'Y')
+                         {
+                               uint = GYRO2;
+                               uprintf("Y:%d\n",uint);       
+                         }  
+                         
+//                        Xcycle(uchar);
+//                       	uint = 1000;
+//                       	while(uint--)
+//                        	{
+//                        		delay_ms(5);
+//                        		uprintf("gyro1:%d gyro2:%d AGC:%d\n",GYRO1,GYRO2,AGC_ORG); 
+//                    		}
+//                    	Xstop();	
                     }
                     break;   
                 case 'B': 
                     {
-                        uprintf("gyro1:%d gyro2:%d gyro3:%d AGC:%d\n",GYRO1,GYRO2,GYRO3,AGC_ORG); 
+                        LED_ON;
+                        uprintf("gyro1:%d gyro2:%d AGC:%d\n",GYRO1,GYRO2,AGC_ORG); 
                     }
                     break;   
                 case 'C': 
                     {
+                        LED_ON;
                         uprintf("tuner initiation..."); 
                         tuner(TunerFreq,symbol_rate);                         
                         uprintf("lock = %x...done!\n",tunerTest(0));
                         for(uchar=0;uchar<25;uchar++)
                             {
-                                Xmove(100,10);
+                               //putchar1('A');
+                                uprintf("%d:",uchar);
                                 for(sint=0;sint<25;sint++)
                                     {
+                                        //putchar1('B');
                                         Ymove(100,10);
-                                        uprintf("AGCreg-AGCvoltage-lock:%d %d %x\n",GetAGC,AGC_ORG,tunerTest(0));   
+                                        uprintf("%d ",GetAGC);   
                                         delay_ms(300);       
                                     }    
-                                Ymove(-2500,10);    
+                                Ymove(-1500,13);  
+                                Xmove(100,10);
+                                delay_ms(1600);  
+                                putchar1('\n');
                             }
                     }
                     break;
@@ -455,7 +481,15 @@ void main(void)
                        else if(uchar == 'T')
                          motorTest(0x69); 
                        else if(uchar == 'I')   
-                         motorInit();   
+                         motorInit();
+                       else if(uchar == '1')
+                         Ymove(1220,13);   
+                       else if(uchar == '2')
+                         Ymove(-1220,5);   
+                       else if(uchar == '3')
+                         Xmove(1220,13);   
+                       else if(uchar == '4')
+                         Xmove(-1220,5);   
                        else 
                          {
                             Xstop();
@@ -493,8 +527,10 @@ void main(void)
                 case 'T':     //set tuner 
                     {  
                      LED_ON;   
-                     putchar1('t');
-                     tuner(TunerFreq,symbol_rate);
+                     if(tuner(TunerFreq,symbol_rate))
+                        putchar1('L');
+                     else
+                        putchar1('l');   
                     }
                     break;               
                 case 'U': 

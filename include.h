@@ -58,7 +58,7 @@ MACROS
 
 
 
-#define ADC_VREF_TYPE 0x40
+#define ADC_VREF_TYPE 0x60
 
 
 
@@ -117,16 +117,16 @@ IO Operating
 
 
 #define AGC_ORG read_adc(11)
-#define GYRO1 read_adc(13)
+#define GYRO3 read_adc(13)
 #define GYRO2 read_adc(14)
-#define GYRO3 read_adc(15)
+#define GYRO1 read_adc(15)
 
                                       
 /*
 各功能函数声明
 functions declaration
 */
-unsigned int read_adc(unsigned char adc_input);
+unsigned char read_adc(unsigned char adc_input);
 char getchar1(void);
 void putchar1(char c);              
 char uprintf(const char *fmt, ...);
