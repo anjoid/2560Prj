@@ -329,7 +329,7 @@ void init(void)
     // Analog Comparator Input Capture by Timer/Counter 1: Off
     ACSR=0x80;
     ADCSRB=0x00;
-    DIDR1=0x00;
+    //DIDR1=0x00;
     DIDR0=0x00;
     // Digital input buffers on ADC8: On, ADC9: On, ADC10: On, ADC11: Off
     // ADC12: Off, ADC13: Off, ADC14: On, ADC15: On

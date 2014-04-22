@@ -58,7 +58,7 @@ MACROS
 
 
 
-#define ADC_VREF_TYPE 0x60
+#define ADC_VREF_TYPE 0x00
 
 
 
@@ -126,7 +126,7 @@ IO Operating
 各功能函数声明
 functions declaration
 */
-unsigned char read_adc(unsigned char adc_input);
+unsigned int read_adc(unsigned char adc_input);
 char getchar1(void);
 void putchar1(char c);              
 char uprintf(const char *fmt, ...);
