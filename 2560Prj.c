@@ -436,7 +436,17 @@ void main(void)
                 case 'B': 
                     {
                         LED_ON;
-                        uprintf("gyro1:%d gyro2:%d AGC:%d\n",GYRO1,GYRO2,AGC_ORG); 
+                        uchar = getchar1(); //0~9
+                        if(uchar < '5')
+                                Xmove(2300,(uchar-0x2A));
+                        else
+                                Xmove(-2300,(uchar-0x2F));
+                        uchar=50;
+                        while(uchar--)
+                            {
+                                delay_ms(10);
+                                uprintf("gyro1/gyro2: %d %d \n",GYRO1,GYRO2);   
+                            }
                     }
                     break;   
                 case 'C': 

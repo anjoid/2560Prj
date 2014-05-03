@@ -118,8 +118,8 @@ IO Operating
 
 #define AGC_ORG read_adc(11)
 #define GYRO3 read_adc(13)
-#define GYRO2 read_adc(14)
-#define GYRO1 read_adc(15)
+#define GYRO2 read_adc(14)   //Y
+#define GYRO1 read_adc(15)   //X
 
                                       
 /*
