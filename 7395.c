@@ -598,7 +598,7 @@ char locked(void)
     
     if (i2c_SendStr(addr,2) == 0)        //send register address 20
             return 0;
-    if(i2c_rd(addr[0],AGC.reg,2) == 0)   //save reg1E value to reg[0] and reg[1]
+    if(i2c_rd(addr[0],AGC.reg,2) == 0)   //save reg20 value to reg[0] and reg[1]
         return 0; 
     addr[0] = AGC.reg[0];
     AGC.reg[0] = AGC.reg[1];

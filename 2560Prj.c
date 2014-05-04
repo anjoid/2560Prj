@@ -365,10 +365,15 @@ void main(void)
     unsigned int uint;
     signed int sint;       
     unsigned char uchar;    
-    LNB_frequence =10750;//11300;      
-    sate_frequence =11880; //92.2
-    symbol_rate  =28800;   //
-    TunerFreq = (labs(LNB_frequence-sate_frequence))*1000; 
+    LNB_frequence =10750;//11300;     
+    /*
+    11892 08800   L    
+    12100 28800   R
+    12140 28800   R
+    */ 
+    sate_frequence =11892;//11880; //92.2
+    symbol_rate  =8800;//28800;   //
+    
     init();          
     
     LED_ON;
@@ -536,7 +541,28 @@ void main(void)
                     break;     
                 case 'T':     //set tuner 
                     {  
-                     LED_ON;   
+                     LED_ON; 
+                     uchar = getchar1();
+                     uprintf("\"\n"); 
+                     if(uchar == '1')    
+                         {
+                                sate_frequence =11892;
+                                symbol_rate  =8800;   
+                         }
+                     else if(uchar == '2')
+                         {
+                                sate_frequence =11880;
+                                symbol_rate  =28800;   
+                         }                                                                 
+                     else if(uchar == '3')                            
+                         {
+                                sate_frequence =12140;
+                                symbol_rate  =28800;   
+                         }
+                     
+                     uprintf("tuner set %d - %d\n",sate_frequence,symbol_rate);
+                        
+                     TunerFreq = (labs(LNB_frequence-sate_frequence))*1000;  
                      if(tuner(TunerFreq,symbol_rate))
                         putchar1('L');
                      else
