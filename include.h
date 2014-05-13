@@ -118,8 +118,8 @@ IO Operating
 
 #define AGC_ORG read_adc(11)
 #define GYRO3 read_adc(13)
-#define GYRO2 read_adc(14)   //Y
-#define GYRO1 read_adc(15)   //X
+#define GYROY read_adc(14)   //Y  larger than 512 downwards, smaller than 512 upwards
+#define GYROX read_adc(15)   //X  larger than 512 counterclock wise,smaller than 512  clockwise
 
                                       
 /*
@@ -135,8 +135,8 @@ unsigned char locked(void);
 void TunerRst(void);
 unsigned char pll_lk(void); 
 void STV0288Init(void);
-unsigned char tuner(unsigned long F,float S); 
-void SetSymbolRate(float sym_rate);    
+unsigned char tuner(unsigned long F,long int S); 
+void SetSymbolRate(long int sym_rate);    
 char Get0288Register(char addr);
 char tunerTest(char para); 
 unsigned int GetAGC(void);

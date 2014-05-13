@@ -469,7 +469,7 @@ void STV0288Init(void)
 /**********************************          
 设定符号率
 **********************************/
-void SetSymbolRate(float sym_rate)
+void SetSymbolRate(long int sym_rate)
 {
         char byte[8];
         char *pointer; 
@@ -523,7 +523,7 @@ master clock设置为100M
 12395-10750=1645=fvco=32*51+13
 11880-10750=1030
 ****************************************************************/
-unsigned char tuner(unsigned long F,float S)
+unsigned char tuner(unsigned long F,long int S)
 {
 
         char i;                   
@@ -592,6 +592,22 @@ char locked(void)
             char reg[2];
         } AGC;
     char addr[2];
+    
+//    addr[0] = 0xD0;
+//    addr[1] = 0x0;
+//    do
+//    {
+//        if (i2c_SendStr(addr,2) == 0)        //send register address 0
+//                return 0;
+//        if(i2c_rd(addr[0],AGC.reg,1) == 0)   //save reg 0 value to reg[0]
+//            return 0; 
+//        addr[0] = AGC.reg[0];
+//     }
+//     while(AGC.reg[0] == 0x11);   
+//    /*
+//    above codes avoid error reading operation ,should be removed in normal driver  
+//    */
+    
     
     addr[0] = 0xD0;
     addr[1] = 0x20;

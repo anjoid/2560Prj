@@ -27,7 +27,8 @@ Data Stack size         : 2048
 // Declare your global variables here
 unsigned int Xsteps;
 unsigned int Ysteps;
-
+unsigned int AGCdata,last_AGCdata;
+unsigned int Xdata,last_Xdata,Ydata,last_Ydata;
 
 void init(void)
 {
@@ -349,8 +350,31 @@ void init(void)
 }
 
 
-
-
+void track(void)
+{
+ char cnt;   
+ 
+ 
+ for(cnt=0;cnt<50;cnt++)
+ {
+   AGCdata = AGCdata + AGC_ORG;     
+ }
+ for(cnt=0;cnt<50;cnt++)
+ {
+   Xdata = Xdata + GYROX;     
+ }
+ for(cnt=0;cnt<50;cnt++)
+ {
+   Ydata = Ydata + GYROY;     
+ }
+ 
+ 
+ 
+ 
+ last_Xdata = Xdata;
+ last_Ydata = Ydata;
+ last_AGCdata = AGCdata;
+}
 
 
 void main(void)
@@ -360,12 +384,19 @@ void main(void)
     long int LNB_frequence; 
     long int sate_frequence;//
     unsigned long TunerFreq;
-    float symbol_rate;    
+    long int symbol_rate;    
     char str[16] = "jingle bells"; 
     unsigned int uint;
     signed int sint;       
     unsigned char uchar;    
+    
+    
+    
+    
     LNB_frequence =10750;//11300;     
+    
+    
+    
     /*
     11892 08800   L    
     12100 28800   R
@@ -400,12 +431,14 @@ void main(void)
             {
                 case 'H':  //读取tuner的AGC电压值和AGC2寄存器的值
                     {     
-                    	uprintf("AGC analog number & AGC register number & lock: ");
+                    	uprintf("AGC/AGC1/AGC2: ");
                         //tuner(TunerFreq,symbol_rate);          
                         uint = AGC_ORG;
                         uprintf("%d ",uint);
+                        uint = Get0288Register(0x10);
+                        uprintf("%d ",uint);
                         uint = GetAGC();
-                        uprintf("%d %x\n",uint,tunerTest(0));
+                        uprintf("%d\n",uint);
                     }
                     break;    
                 case 'A':    //read analog voltage from gyro interface every 5 millisecond for 1000 times
@@ -419,15 +452,24 @@ void main(void)
                          }
                        else if(uchar == 'X')
                          {
-                               uint = GYRO1;
+                               uint = GYROX;
                                uprintf("X:%d\n",uint);       
                          }
                        else if(uchar == 'Y')
                          {
-                               uint = GYRO2;
+                               uint = GYROY;
                                uprintf("Y:%d\n",uint);       
                          }  
-                         
+                       else if(uchar == 'W')
+                         {
+                               uprintf("AGC/X/Y:");
+                               uint = AGC_ORG;
+                               uprintf(" %d",uint); 
+                               uint = GYROX;
+                               uprintf(" %d",uint);
+                               uint = GYROY;
+                               uprintf(" %d\n",uint);      
+                         }  
 //                        Xcycle(uchar);
 //                       	uint = 1000;
 //                       	while(uint--)
@@ -450,32 +492,45 @@ void main(void)
                         while(uchar--)
                             {
                                 delay_ms(10);
-                                uprintf("gyro1/gyro2: %d %d \n",GYRO1,GYRO2);   
+                                uprintf("gyroX/gyroY: %d %d \n",GYROX,GYROY);   
                             }
                     }
                     break;   
                 case 'C': 
                     {
+
                         LED_ON;
-                        uprintf("tuner initiation..."); 
-                        tuner(TunerFreq,symbol_rate);                         
-                        uprintf("lock = %x...done!\n",tunerTest(0));
-                        for(uchar=0;uchar<25;uchar++)
+                        uchar = getchar1(); //0~9
+                        if(uchar < '5')
+                                Ymove(2300,(uchar-0x2A));
+                        else
+                                Ymove(-2300,(uchar-0x2F));
+                        uchar=50;
+                        while(uchar--)
                             {
-                               //putchar1('A');
-                                uprintf("%d:",uchar);
-                                for(sint=0;sint<25;sint++)
-                                    {
-                                        //putchar1('B');
-                                        Ymove(100,10);
-                                        uprintf("%d ",GetAGC);   
-                                        delay_ms(300);       
-                                    }    
-                                Ymove(-1500,13);  
-                                Xmove(100,10);
-                                delay_ms(1600);  
-                                putchar1('\n');
+                                delay_ms(10);
+                                uprintf("gyroX/gyroY: %d %d \n",GYROX,GYROY);   
                             }
+//                        LED_ON;
+//                        uprintf("tuner initiation..."); 
+//                        tuner(TunerFreq,symbol_rate);                         
+//                        uprintf("lock = %x...done!\n",tunerTest(0));
+//                        for(uchar=0;uchar<25;uchar++)
+//                            {
+//                               //putchar1('A');
+//                                uprintf("%d:",uchar);
+//                                for(sint=0;sint<25;sint++)
+//                                    {
+//                                        //putchar1('B');
+//                                        Ymove(100,10);
+//                                        uprintf("%d ",GetAGC);   
+//                                        delay_ms(300);       
+//                                    }    
+//                                Ymove(-1500,13);  
+//                                Xmove(100,10);
+//                                delay_ms(1600);  
+//                                putchar1('\n');
+//                            }
                     }
                     break;
                 case 'M': //motor control commands in 2 bytes 
@@ -528,22 +583,25 @@ void main(void)
                         LED_ON;
                         uprintf("Enter register addr:");
                         uchar = getchar1();  
-                        Get0288Register(uchar);
-                        //uprintf("Register 0x%x value is 0x%x\n",uchar,Get0288Register(uchar));                             
+                        //Get0288Register(uchar);
+                        uprintf("Register 0x%x value is 0x%x\n",uchar,Get0288Register(uchar));                             
                     }
                     break; 
                 case 'S': 
                     { 
-                      uprintf("tuner test...");   
-                      tunerTest(0);         
-                      uprintf("...done\n");                      
+                      tunerTest(0x0A);                   
                     }
-                    break;     
+                    break;   
+                case 'F': 
+                    { 
+                      track();                   
+                    }
+                    break;    
                 case 'T':     //set tuner 
                     {  
                      LED_ON; 
                      uchar = getchar1();
-                     uprintf("\"\n"); 
+                     //uprintf("\"\n"); 
                      if(uchar == '1')    
                          {
                                 sate_frequence =11892;
@@ -562,7 +620,7 @@ void main(void)
                      
                      uprintf("tuner set %d - %d\n",sate_frequence,symbol_rate);
                         
-                     TunerFreq = (labs(LNB_frequence-sate_frequence))*1000;  
+                     TunerFreq = (labs(sate_frequence-LNB_frequence))*1000;  
                      if(tuner(TunerFreq,symbol_rate))
                         putchar1('L');
                      else
