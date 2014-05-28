@@ -115,7 +115,8 @@ IO Operating
 #define DI        #asm("cli")
 
 
-
+#define XMOVING TCCR3A & 0xFF
+#define YMOVING TCCR4A & 0xFF
 #define AGC_ORG read_adc(11)
 #define GYRO3 read_adc(13)
 #define GYROY read_adc(14)   //Y  larger than 512 downwards, smaller than 512 upwards

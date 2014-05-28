@@ -155,12 +155,18 @@ char i2c_rd(unsigned char addr,unsigned char *ddata,unsigned char counter)
  i2c_sta();
  if(i2c_send(addr|0x01)==1)
    {       
-         DDRE.4=0;
+         i2c_stp();
+         delay_us(20);
+         
+         i2c_sta(); 
+         delay_us(10);
+         DDRE.4=0;  
+         
          while(i--)
             {
               data = 0; 
               delay_us(8);   
-              SDAH;         //pull up
+              //SDAH;         //pull up
               for(bitc=0;bitc<8;bitc++)
                        {
                           delay_us(4); 
@@ -177,17 +183,21 @@ char i2c_rd(unsigned char addr,unsigned char *ddata,unsigned char counter)
                 *pdata=data;  
                 pdata++;
                 delay_us(4);
+                  
+                DDRE.4=1;
                 SDAL;     //ACK to slave
-                DDRE.4=1;                        
+                                        
                 SCLH;
                 delay_us(4);
                 SCLL;  
                 DDRE.4=0;     
-                //uprintf("*%x*",data);                          
+                                        
                 delay_us(10);                          
             }            
 
-         i2c_stp();
+         i2c_stp();   
+         DDRE.4=1;
+         SDAL;     //ACK to slave
          return 1;
     }
  else 
@@ -442,16 +452,16 @@ void STV0288Init(void)
         byte[2]=0x20; 
         i2c_SendStr(pointer,3);                               
         
-        /********************************
-        set clock     
-        PLL_DIV=100
-        clock inputfrom CLKI,Fmclk=4M*PLL_DIV/4=100M                    
-        ********************************/    
-        byte[1]= 0x40;    
-        byte[2]= 0x63;             //PLLCTRL
-        byte[3]= 0x04;             //SYNTCTRL
-        byte[4]= 0x20;             //TSTTNR1
-        i2c_SendStr(pointer,5);   
+//        /********************************
+//        set clock     
+//        PLL_DIV=100
+//        clock inputfrom CLKI,Fmclk=4M*PLL_DIV/4=100M                    
+//        ********************************/    
+//        byte[1]= 0x40;    
+//        byte[2]= 0x63;             //PLLCTRL
+//        byte[3]= 0x04;             //SYNTCTRL
+//        byte[4]= 0x20;             //TSTTNR1
+//        i2c_SendStr(pointer,5);   
                 
         
         byte[1]=0xB2;
@@ -485,10 +495,10 @@ void SetSymbolRate(long int sym_rate)
         PLL_DIV=100
         clock inputfrom CLKI,Fmclk=4M*PLL_DIV/4=100M                    
         ********************************/
-        byte[1]= 0x40;    
-        byte[2]= 0x64;             //PLLCTRL
-        byte[3]= 0x04;             //SYNTCTRL
-        i2c_SendStr(pointer,4); 
+//        byte[1]= 0x40;    
+//        byte[2]= 0x64;             //PLLCTRL
+//        byte[3]= 0x04;             //SYNTCTRL
+//        i2c_SendStr(pointer,4); 
                                            
         
                   
@@ -635,7 +645,7 @@ char Get0288Register(unsigned char addr)
     data[1]= addr;
     if (i2c_SendStr(pdata,2))
       {   
-       if(i2c_rd(data[0],pdata,2))   
+       if(i2c_rd(data[0],pdata,1))   
           {   
            //uprintf("0x%x,0x%x\n",data[0],data[1]);
            return data[0];
@@ -665,11 +675,17 @@ unsigned char pll_lk(void)
         
 char tunerTest(char para)
 {
-   char byte=para;
+   char byte[5]; 
+    byte[0]=0xD0;   
+    byte[1]=0x2B;
+    byte[2]=0xFF;                   //CFRM
+    byte[3]=0xF7;                 //CFRL
+    i2c_SendStr(&byte[0],4); 
+   
    if(locked() == 0xFF)
         return 1;
    else
-        return byte; 
+        return para; 
 }
 
 

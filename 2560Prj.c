@@ -354,21 +354,34 @@ void track(void)
 {
  char cnt;   
  
+ AGCdata= Xdata =Ydata =0;
  
- for(cnt=0;cnt<50;cnt++)
+ for(cnt=0;cnt<50;cnt++)        
  {
-   AGCdata = AGCdata + AGC_ORG;     
- }
- for(cnt=0;cnt<50;cnt++)
- {
-   Xdata = Xdata + GYROX;     
- }
- for(cnt=0;cnt<50;cnt++)
- {
-   Ydata = Ydata + GYROY;     
+   AGCdata = AGCdata + AGC_ORG;        //read  AGC 50 times
+   Xdata = Xdata + GYROX;            //read X gyro 50 times
+   Ydata = Ydata + GYROY;           //read Y gyro 50 times
  }
  
- 
+ if (AGCdata<last_AGCdata)
+  {
+    if(Xdata<last_Xdata)
+        {
+        
+        }
+    else
+        {
+        
+        }
+    if(Ydata<last_Ydata)
+        {
+        
+        }
+    else
+        {
+                
+        } 
+  }
  
  
  last_Xdata = Xdata;
@@ -376,6 +389,114 @@ void track(void)
  last_AGCdata = AGCdata;
 }
 
+void maxAGC(void)
+{
+ char cnt;   
+ 
+ unsigned int AGCpre,AGCpost,AGCprsnt;
+ 
+ do
+ {    
+     AGCpre=AGCpost=AGCprsnt=0; 
+     for(cnt=0;cnt<10;cnt++)        
+       {
+            AGCprsnt = AGCprsnt + AGC_ORG;        //read  pesent AGC 10 times
+       }         
+       
+     Xmove(50,10);          // move left 1 step
+     while(XMOVING)
+            ;                
+            
+     for(cnt=0;cnt<10;cnt++)        
+       {
+            AGCpre = AGCpre + AGC_ORG;        //read  left AGC 10 times
+       }  
+     
+     Xmove(-100,10);          // move right 2 steps
+     while(XMOVING)
+            ; 
+            
+     for(cnt=0;cnt<10;cnt++)        
+       {
+            AGCpost = AGCpost + AGC_ORG;        //read  right AGC 10 times
+       }                           
+                                   
+     /*        
+     ignore sample error  
+     */  
+     AGCprsnt &= AGCprsnt & 0xFFF0;  
+     AGCpre &= AGCpre & 0xFFF0;
+     AGCpost &= AGCpost & 0xFFF0;
+       
+     if(AGCpre>AGCprsnt)         //if left stronger than present,move left 2steps and do this again
+        {
+           Xmove(100,10);
+           cnt = 1;
+        }   
+     else if(AGCpost>AGCprsnt)    //if right stronger than present, do this again
+        {
+           cnt = 1;     
+        }  
+       
+     if(AGCprsnt>AGCpre && AGCprsnt>AGCpost)   //if present is strongest, move left 1 step back
+        {
+           cnt=0;
+           Xmove(50,10);
+        }           
+  }
+  while(cnt);          
+   
+ do
+ {    
+     AGCpre=AGCpost=AGCprsnt=0; 
+     for(cnt=0;cnt<10;cnt++)        
+       {
+            AGCprsnt = AGCprsnt + AGC_ORG;        //read  present AGC 10 times
+       }   
+       
+     Ymove(50,10);          // move up 1 step
+     while(YMOVING)
+            ;            
+            
+     for(cnt=0;cnt<10;cnt++)        
+       {
+            AGCpre = AGCpre + AGC_ORG;        //read  up AGC 10 times
+       }  
+     
+     Ymove(-100,10);          // move down 2 steps
+     while(YMOVING)
+            ;                       
+            
+     for(cnt=0;cnt<10;cnt++)        
+       {
+            AGCpost = AGCpost + AGC_ORG;        //read  down AGC 10 times
+       }                                                                
+     /*        
+     ignore sample error  
+     */  
+     AGCprsnt &= AGCprsnt & 0xFFF0;  
+     AGCpre &= AGCpre & 0xFFF0;
+     AGCpost &= AGCpost & 0xFFF0;       
+       
+     if(AGCpre>AGCprsnt)         //if up stronger than present,move up 2steps back and do this again
+        {
+           Ymove(100,10);
+           cnt = 1;
+        }   
+     else if(AGCpost>AGCprsnt)    //if down stronger than present, do this again
+        {
+           cnt = 1;     
+        }  
+     if(AGCprsnt>AGCpre && AGCprsnt>AGCpost)   //if present is strongest, move up 1 step back
+        {
+           cnt=0;
+           Ymove(50,10);
+        }           
+  }
+  while(cnt);  
+   
+}
+ 
 
 void main(void)
 {
@@ -448,21 +569,21 @@ void main(void)
                         if(uchar == 'A')   
                          {
                                 uint = AGC_ORG;
-                                uprintf("AGC:%d\n",uint);
+                                uprintf("AGC: %d\n",uint);
                          }
                        else if(uchar == 'X')
                          {
                                uint = GYROX;
-                               uprintf("X:%d\n",uint);       
+                               uprintf("X: %d\n",uint);       
                          }
                        else if(uchar == 'Y')
                          {
                                uint = GYROY;
-                               uprintf("Y:%d\n",uint);       
+                               uprintf("Y: %d\n",uint);       
                          }  
                        else if(uchar == 'W')
                          {
-                               uprintf("AGC/X/Y:");
+                               uprintf("AGC/X/Y: ");
                                uint = AGC_ORG;
                                uprintf(" %d",uint); 
                                uint = GYROX;
@@ -532,7 +653,11 @@ void main(void)
 //                                putchar1('\n');
 //                            }
                     }
-                    break;
+                    break;   
+                    case 'F': 
+                    { 
+                      maxAGC();                   
+                    }
                 case 'M': //motor control commands in 2 bytes 
                     {
                        LED_ON;
@@ -541,13 +666,13 @@ void main(void)
                        putchar1(uchar);
                        uprintf("\"\n"); 
                        if(uchar == 'U')   
-                         Ymove(190,10);
+                         Ymove(140,10);
                        else if(uchar == 'D')
-                         Ymove(-220,13);
+                         Ymove(-140,10);
                        else if(uchar == 'R')
-                         Xmove(200,13);
+                         Xmove(140,13);
                        else if(uchar == 'L')
-                         Xmove(-200,13);    
+                         Xmove(-140,13);    
                        else if(uchar == 'T')
                          motorTest(0x69); 
                        else if(uchar == 'I')   
@@ -592,7 +717,7 @@ void main(void)
                       tunerTest(0x0A);                   
                     }
                     break;   
-                case 'F': 
+                case 'K': 
                     { 
                       track();                   
                     }
@@ -601,22 +726,49 @@ void main(void)
                     {  
                      LED_ON; 
                      uchar = getchar1();
-                     //uprintf("\"\n"); 
-                     if(uchar == '1')    
+                     //uprintf("\"\n");            
+                     
+                     if(uchar == '0')    
+                         {
+                                sate_frequence =12100;
+                                symbol_rate  =28800;   
+                         }
+                     else if(uchar == '1')    
                          {
                                 sate_frequence =11892;
                                 symbol_rate  =8800;   
                          }
                      else if(uchar == '2')
                          {
-                                sate_frequence =11880;
+                                sate_frequence =11920;
                                 symbol_rate  =28800;   
                          }                                                                 
                      else if(uchar == '3')                            
                          {
-                                sate_frequence =12140;
+                                sate_frequence =11960;
+                                symbol_rate  =28800;   
+                         }                                                                 
+                     else if(uchar == '4')                            
+                         {
+                                sate_frequence =11980;
+                                symbol_rate  =28800;   
+                         }                                                            
+                     else if(uchar == '5')                            
+                         {
+                                sate_frequence =12020;
+                                symbol_rate  =28800;   
+                         }                                                            
+                     else if(uchar == '6')                            
+                         {
+                                sate_frequence =12060;
+                                symbol_rate  =28800;   
+                         }                                                            
+                     else if(uchar == '7')                            
+                         {
+                                sate_frequence =11940;
                                 symbol_rate  =28800;   
                          }
+                     
                      
                      uprintf("tuner set %d - %d\n",sate_frequence,symbol_rate);
                         
