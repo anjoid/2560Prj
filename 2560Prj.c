@@ -25,10 +25,11 @@ Data Stack size         : 2048
 #include "include.h"      
  
 // Declare your global variables here
+unsigned int tick;
 unsigned int Xsteps;
 unsigned int Ysteps;
 unsigned int AGCdata,last_AGCdata;
-unsigned int Xdata,last_Xdata,Ydata,last_Ydata;
+//unsigned int Xdata,last_Xdata,Ydata,last_Ydata;
 
 void init(void)
 {
@@ -336,7 +337,7 @@ void init(void)
     // ADC12: Off, ADC13: Off, ADC14: On, ADC15: On
     DIDR2=0xFF;
     ADMUX=ADC_VREF_TYPE & 0xff;
-    ADCSRA=0x87;
+    ADCSRA=0x83;      //ADPS=111  division factor 128,adc source clock equals to 125khz
 
     // SPI initialization
     // SPI disabled
@@ -351,43 +352,129 @@ void init(void)
 
 
 void track(void)
-{
- char cnt;   
- 
- AGCdata= Xdata =Ydata =0;
- 
- for(cnt=0;cnt<50;cnt++)        
- {
-   AGCdata = AGCdata + AGC_ORG;        //read  AGC 50 times
-   Xdata = Xdata + GYROX;            //read X gyro 50 times
-   Ydata = Ydata + GYROY;           //read Y gyro 50 times
- }
- 
- if (AGCdata<last_AGCdata)
-  {
-    if(Xdata<last_Xdata)
+{  
+ unsigned int lastTick,firstTick; 
+ unsigned int data[500][3]; 
+ unsigned int kk;
+ /*
+ generate 50 hz interrupt 
+ */
+    // Timer/Counter 1 initialization
+    // Clock source: System Clock
+    // Clock value: 62.500 kHz
+    // Mode: CTC top=OCR1A
+    // OC1A output: Discon.
+    // OC1B output: Discon.
+    // OC1C output: Discon.
+    // Noise Canceler: Off
+    // Input Capture on Falling Edge
+    // Timer1 Overflow Interrupt: Off
+    // Input Capture Interrupt: Off
+    // Compare A Match Interrupt: On
+    // Compare B Match Interrupt: Off
+    // Compare C Match Interrupt: Off
+//    TCCR1A=0x00;
+    TCCR1B=0x0C;
+//    TCNT1H=0x00;
+//    TCNT1L=0x00;
+//    ICR1H=0x00;
+//    ICR1L=0x00;
+    OCR1AH=0x04;       //0x4e2=1250    62.5khz/1250=50hz
+    OCR1AL=0xE2;
+//    OCR1BH=0x00;
+//    OCR1BL=0x00;
+//    OCR1CH=0x00;
+//    OCR1CL=0x00;          
+    
+    // Timer/Counter 1 Interrupt(s) initialization
+    TIMSK1=0x02;
+    tick=5;
+    //AGCdata= Xdata =Ydata =0;  
+    kk = 0;
+    lastTick = tick;
+    firstTick = lastTick;
+    do
         {
-        
+           while(lastTick == tick)
+                ;           
+           data[kk][0] = AGC_ORG;
+           data[kk][1] = GYROX;
+           data[kk][2] = GYROY;     
+           
+           if(tick == (firstTick+50))     //at 1st second
+                {
+                 LED_OFF;
+                 Xmove(5100,10);  
+                }
+           else if(tick == (firstTick+100))//at 2nd second
+                {
+                 LED_ON;
+                 Ymove(4000,10);   
+                 }      
+           else if(tick == (firstTick+250))//at 5th second
+                {
+                 LED_OFF; 
+                 Xmove(-5100,8);
+                 } 
+           else if(tick == (firstTick+300))//at 6th second
+                 {
+                 LED_ON;
+                 Ymove(-4000,8); 
+                 }        
+           kk++;
+           lastTick = tick;    
         }
-    else
+    while(tick<=firstTick+500);       //500 ticks mean 10s     
+    
+    LED_OFF;  
+    TIMSK1=0x00;        //stop timer 1
+    TCCR1B=0x00;
+    uprintf("read done!%d %d\n",firstTick,tick);
+    while(getchar1()!= 'K')
+        ;
+    LED_ON;         
+    for(kk=0;kk<500;kk++)
         {
-        
+            uprintf("AXY %d : %d %d %d\n",kk,data[kk][0],data[kk][1],data[kk][2]);                
         }
-    if(Ydata<last_Ydata)
-        {
-        
-        }
-    else
-        {
-                
-        } 
-  }
- 
- 
- last_Xdata = Xdata;
- last_Ydata = Ydata;
- last_AGCdata = AGCdata;
+    
+//    for(cnt=0;cnt<5;cnt++)        
+//     {
+//       AGCdata = AGCdata + AGC_ORG;        //read  AGC 5 times
+//       Xdata = Xdata + GYROX;            //read X gyro 5 times
+//       Ydata = Ydata + GYROY;           //read Y gyro 5 times
+//     }
+//     
+//    if (AGCdata<last_AGCdata)    //if AGC decreased
+//      {
+//        if(Xdata<512*5)      //clock wise 
+//            {
+//                   Xmove(50,10);
+//            }
+//        else
+//            {
+//            
+//            }
+//        if(Ydata<last_Ydata)
+//            {
+//            
+//            }
+//        else
+//            {
+//                    
+//            } 
+//      }
+//     
+//     
+//    last_Xdata = Xdata;
+//    last_Ydata = Ydata;
+//    last_AGCdata = AGCdata;
 }
+
+
+/*
+在平台静止，已经获取到AGC信号条件下通过上下左右扫描寻找AGC最大位置
+*/
 
 void maxAGC(void)
 {
@@ -403,19 +490,19 @@ void maxAGC(void)
             AGCprsnt = AGCprsnt + AGC_ORG;        //read  pesent AGC 10 times
        }         
        
-     Xmove(50,10);          // move left 1 step
+     Xmove(50,10);          // move RIGHT 1 step
      while(XMOVING)
             ;                
-            
+     delay_ms(100);       
      for(cnt=0;cnt<10;cnt++)        
        {
             AGCpre = AGCpre + AGC_ORG;        //read  left AGC 10 times
        }  
      
-     Xmove(-100,10);          // move right 2 steps
+     Xmove(-100,10);          // move LEFT 2 steps
      while(XMOVING)
-            ; 
-            
+            ;             
+     delay_ms(100);            
      for(cnt=0;cnt<10;cnt++)        
        {
             AGCpost = AGCpost + AGC_ORG;        //read  right AGC 10 times
@@ -431,18 +518,23 @@ void maxAGC(void)
      if(AGCpre>AGCprsnt)         //if left stronger than present,move left 2steps and do this again
         {
            Xmove(100,10);
-           cnt = 1;
+           cnt = 2;
         }   
      else if(AGCpost>AGCprsnt)    //if right stronger than present, do this again
         {
            cnt = 1;     
         }  
        
-     if(AGCprsnt>AGCpre && AGCprsnt>AGCpost)   //if present is strongest, move left 1 step back
+     if(AGCprsnt>=AGCpre && AGCprsnt>=AGCpost)   //if present is strongest, move left 1 step back
         {
            cnt=0;
            Xmove(50,10);
-        }           
+        }   
+      
+     uprintf("RML: %d %d %d %d\n",AGCpre,AGCprsnt,AGCpost,cnt);  
+     if(getchar1()=='X')
+        return ; //wait until next cmd  
+               
   }
   while(cnt);          
    
@@ -456,8 +548,8 @@ void maxAGC(void)
        
      Ymove(50,10);          // move up 1 step
      while(YMOVING)
-            ;            
-            
+            ;           
+     delay_ms(100);
      for(cnt=0;cnt<10;cnt++)        
        {
             AGCpre = AGCpre + AGC_ORG;        //read  up AGC 10 times
@@ -465,8 +557,8 @@ void maxAGC(void)
      
      Ymove(-100,10);          // move down 2 steps
      while(YMOVING)
-            ;                       
-            
+            ;             
+     delay_ms(100);
      for(cnt=0;cnt<10;cnt++)        
        {
             AGCpost = AGCpost + AGC_ORG;        //read  down AGC 10 times
@@ -481,20 +573,23 @@ void maxAGC(void)
      if(AGCpre>AGCprsnt)         //if up stronger than present,move up 2steps back and do this again
         {
            Ymove(100,10);
-           cnt = 1;
+           cnt = 2;
         }   
      else if(AGCpost>AGCprsnt)    //if down stronger than present, do this again
         {
            cnt = 1;     
         }  
-     if(AGCprsnt>AGCpre && AGCprsnt>AGCpost)   //if present is strongest, move up 1 step back
+     if(AGCprsnt>=AGCpre && AGCprsnt>=AGCpost)   //if present is strongest, move up 1 step back
         {
            cnt=0;
            Ymove(50,10);
-        }           
+        } 
+     uprintf("UMD: %d %d %d %d\n",AGCpre,AGCprsnt,AGCpost,cnt);   
+     if(getchar1()=='X')
+        return ; //wait until next cmd                
   }
   while(cnt);  
-   
+  uprintf("Max AGC Found!\n"); 
 }
  
 
@@ -512,10 +607,7 @@ void main(void)
     unsigned char uchar;    
     
     
-    
-    
     LNB_frequence =10750;//11300;     
-    
     
     
     /*
@@ -664,7 +756,6 @@ void main(void)
                        uchar = getchar1();
                        uprintf("motor test with \"");
                        putchar1(uchar);
-                       uprintf("\"\n"); 
                        if(uchar == 'U')   
                          Ymove(140,10);
                        else if(uchar == 'D')
@@ -690,17 +781,13 @@ void main(void)
                             Xstop();
                             Ystop();
                          } 
+                       uint = AGC_ORG;
+                       uprintf("///AGC: %d\n",uint);
                     }
                     break;              
                 case 'L': 
                     {     
-                       Ymove(-220,8);
-                       delay_ms(5);
-                       uprintf("4-%d ",Ysteps); 
-                       delay_ms(5);
-                       uprintf("5-%d ",Ysteps);
-                       delay_ms(5);
-                       uprintf("6-%d.TCCR4-0x%x0x%x,TIMSK4-0x%x \n",Ysteps,TCCR4A,TCCR4B,TIMSK4); 
+                    
                     }
                     break;   
                 case 'R':   //get register value from stv0288
@@ -719,7 +806,8 @@ void main(void)
                     break;   
                 case 'K': 
                     { 
-                      track();                   
+                     LED_ON; 
+                     track();                   
                     }
                     break;    
                 case 'T':     //set tuner 

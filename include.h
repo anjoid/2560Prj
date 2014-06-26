@@ -6,7 +6,7 @@ be included files
 */
 extern unsigned int Xsteps;
 extern unsigned int Ysteps;
-
+extern unsigned int tick;
 
 #include <delay.h>      
 #include <math.h>

@@ -1,6 +1,11 @@
 #include "include.h"      
 #include <stdarg.h>
 
+/*
+printf函数的uart1版本
+还有bug 不能输出long int型
+
+*/
 char uprintf(const char *fmt, ...)
 {
     const char *s;
@@ -141,7 +146,12 @@ UDR1=c;
 #pragma used-
          
          
-         
+  
+interrupt [TIM1_COMPA] void timer1_compa_isr(void)
+{
+// Place your code here
+  tick++;
+}       
          
          
          
