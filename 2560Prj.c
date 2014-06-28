@@ -404,23 +404,28 @@ void track(void)
            if(tick == (firstTick+50))     //at 1st second
                 {
                  LED_OFF;
-                 Xmove(5100,10);  
+                 Xmove(6933,10);      //clockwise 60degree 
                 }
            else if(tick == (firstTick+100))//at 2nd second
                 {
                  LED_ON;
-                 Ymove(4000,10);   
+                 //Ymove(2400,10);          //30degree upward
                  }      
-           else if(tick == (firstTick+250))//at 5th second
+           else if(tick == (firstTick+200))//at 4th second
                 {
                  LED_OFF; 
-                 Xmove(-5100,8);
+                 Xmove(-10400,8);   // 90degree counterclockwise
                  } 
-           else if(tick == (firstTick+300))//at 6th second
+           else if(tick == (firstTick+275))//at 5.5 second
                  {
                  LED_ON;
-                 Ymove(-4000,8); 
-                 }        
+                 //Ymove(-2400,8); 
+                 }       
+           else if(tick == (firstTick+400))//at 8th second
+                {
+                 LED_OFF; 
+                 Xmove(3467,8);   // 30degree clockwise
+                 }    
            kk++;
            lastTick = tick;    
         }
@@ -785,9 +790,58 @@ void main(void)
                        uprintf("///AGC: %d\n",uint);
                     }
                     break;              
-                case 'L': 
+                case 'm': 
                     {     
-                    
+                       LED_ON;
+                       uprintf("Enter Xx or Yy:");
+                       str[0] = getchar1();
+                       putchar1(str[0]);
+                       uprintf(".Enter speed 0~9:");
+                       str[1] = getchar1();
+                       putchar1(str[1]);  
+                       str[1] = str[1]-0x2A;                       
+                       uprintf(".Enter angles in hex:");
+                       str[2] = getchar1();
+                       uprintf("%d GO!\n",str[2]);
+                       
+                       //start tick
+                       TCCR1B=0x0C;
+                       OCR1AH=0x04;       //0x4e2=1250    62.5khz/1250=50hz
+                       OCR1AL=0xE2;
+                       TIMSK1=0x02;
+                       tick=0;             
+                       
+                       if(str[0] == 'X')
+                        {
+                         sint = str[2] * 115;        
+                         Xmove(sint,str[1]);
+                        }
+                       else if(str[0] == 'x')
+                        {
+                         sint = (-1) * str[2] * 115;        
+                         Xmove(sint,str[1]);
+                        }
+                       else if(str[0] == 'Y')
+                        {
+                         sint = str[2] * 80;
+                         Ymove(sint,str[1]);
+                        } 
+                       else if(str[0] == 'y')
+                        {
+                         sint = (-1) * str[2] * 80;
+                         Ymove(sint,str[1]);
+                        }                  
+                        
+                        while((Xsteps>0) ||(Ysteps>0))
+                        ;
+                        uchar = tick; 
+                        
+                        
+                        //stop tick
+                        TCCR1B=0x00;
+                        TIMSK1=0x00;
+                        
+                        uprintf("move %d degree at speed %d use %d ticks\n",str[2],str[1],uchar);
                     }
                     break;   
                 case 'R':   //get register value from stv0288
