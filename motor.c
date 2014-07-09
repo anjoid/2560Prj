@@ -18,16 +18,16 @@ Apr 2
 
 void Ystop(void)
 {
-    TIMSK4 =0;
     TCCR4A=0x0;
     TCCR4B=0x0;
+    TIMSK4 =0;
 }
 
 void Xstop(void)
 {
     TCCR3A=0x0;
     TCCR3B=0x0;  
-    TIMSK4 =0;
+    TIMSK3 =0;
 }
 
 
@@ -35,7 +35,6 @@ void Xstop(void)
 // Timer4 overflow interrupt service routine
 interrupt [TIM4_OVF] void timer4_ovf_isr(void)
 {
-// Place your code here
    if(Ysteps-- == 1)
         {
            Ystop();
@@ -45,8 +44,7 @@ interrupt [TIM4_OVF] void timer4_ovf_isr(void)
 // Timer3 overflow interrupt service routine
 interrupt [TIM3_OVF] void timer3_ovf_isr(void)
 {
-// Place your code here
-   if(Xsteps-- == 0)
+   if(Xsteps-- == 1)
         {
            Xstop();
         }  

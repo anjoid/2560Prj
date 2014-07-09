@@ -28,7 +28,7 @@ Data Stack size         : 2048
 unsigned int tick;
 unsigned int Xsteps;
 unsigned int Ysteps;
-unsigned int AGCdata,last_AGCdata;
+//unsigned int AGCdata,last_AGCdata;
 //unsigned int Xdata,last_Xdata,Ydata,last_Ydata;
 
 void init(void)
@@ -355,39 +355,16 @@ void track(void)
 {  
  unsigned int lastTick,firstTick; 
  unsigned int data[500][3]; 
+ unsigned char pp[500]={0};
  unsigned int kk;
- /*
- generate 50 hz interrupt 
- */
-    // Timer/Counter 1 initialization
-    // Clock source: System Clock
-    // Clock value: 62.500 kHz
-    // Mode: CTC top=OCR1A
-    // OC1A output: Discon.
-    // OC1B output: Discon.
-    // OC1C output: Discon.
-    // Noise Canceler: Off
-    // Input Capture on Falling Edge
-    // Timer1 Overflow Interrupt: Off
-    // Input Capture Interrupt: Off
-    // Compare A Match Interrupt: On
-    // Compare B Match Interrupt: Off
-    // Compare C Match Interrupt: Off
-//    TCCR1A=0x00;
+     /*
+     generate 50 hz interrupt 
+     */              
     TCCR1B=0x0C;
-//    TCNT1H=0x00;
-//    TCNT1L=0x00;
-//    ICR1H=0x00;
-//    ICR1L=0x00;
-    OCR1AH=0x04;       //0x4e2=1250    62.5khz/1250=50hz
-    OCR1AL=0xE2;
-//    OCR1BH=0x00;
-//    OCR1BL=0x00;
-//    OCR1CH=0x00;
-//    OCR1CL=0x00;          
+    OCR1AH=0x04;      //0x4e2=1250    62.5khz/1250=50hz
+    OCR1AL=0xE2;       
+    TIMSK1=0x02;      // Timer/Counter 1 Interrupt(s) initialization
     
-    // Timer/Counter 1 Interrupt(s) initialization
-    TIMSK1=0x02;
     tick=5;
     //AGCdata= Xdata =Ydata =0;  
     kk = 0;
@@ -397,10 +374,20 @@ void track(void)
         {
            while(lastTick == tick)
                 ;           
-           data[kk][0] = AGC_ORG;
-           data[kk][1] = GYROX;
-           data[kk][2] = GYROY;     
-           
+           data[kk][0] = AGC_ORG;                     //AGC
+           data[kk][1] = GYROX;                       //X gyro
+           data[kk][2] = GYROY;                       //Y gyro
+           //pp[kk] = (Xsteps>0) | (Ysteps>0);
+//           if(Xsteps>1)
+//            pp[kk] |= 0xf0;
+//           else
+//            pp[kk] &= 0x0f;
+//           if(Ysteps>1)
+//            pp[kk] |= 0x0f;
+//           else
+//            pp[kk] &= 0xf0;
+            pp[kk] = TIMSK3;     //pulse state
+             
            if(tick == (firstTick+50))     //at 1st second
                 {
                  LED_OFF;
@@ -440,7 +427,7 @@ void track(void)
     LED_ON;         
     for(kk=0;kk<500;kk++)
         {
-            uprintf("AXY %d : %d %d %d\n",kk,data[kk][0],data[kk][1],data[kk][2]);                
+            uprintf("AXY %d : %d %d %d\n",pp[kk],data[kk][0],data[kk][1],data[kk][2]);                
         }
     
 //    for(cnt=0;cnt<5;cnt++)        
@@ -610,7 +597,8 @@ void main(void)
     unsigned int uint;
     signed int sint;       
     unsigned char uchar;    
-    
+    unsigned int adc[3];
+    unsigned int adcbuf[3];
     
     LNB_frequence =10750;//11300;     
     
@@ -642,8 +630,7 @@ void main(void)
     putchar1('C'); 
     
     while (1)
-          {
-           // Place your code here     
+          {  
             LED_OFF; 
             switch (getchar1()) 
             {
@@ -688,14 +675,6 @@ void main(void)
                                uint = GYROY;
                                uprintf(" %d\n",uint);      
                          }  
-//                        Xcycle(uchar);
-//                       	uint = 1000;
-//                       	while(uint--)
-//                        	{
-//                        		delay_ms(5);
-//                        		uprintf("gyro1:%d gyro2:%d AGC:%d\n",GYRO1,GYRO2,AGC_ORG); 
-//                    		}
-//                    	Xstop();	
                     }
                     break;   
                 case 'B': 
@@ -729,32 +708,13 @@ void main(void)
                                 delay_ms(10);
                                 uprintf("gyroX/gyroY: %d %d \n",GYROX,GYROY);   
                             }
-//                        LED_ON;
-//                        uprintf("tuner initiation..."); 
-//                        tuner(TunerFreq,symbol_rate);                         
-//                        uprintf("lock = %x...done!\n",tunerTest(0));
-//                        for(uchar=0;uchar<25;uchar++)
-//                            {
-//                               //putchar1('A');
-//                                uprintf("%d:",uchar);
-//                                for(sint=0;sint<25;sint++)
-//                                    {
-//                                        //putchar1('B');
-//                                        Ymove(100,10);
-//                                        uprintf("%d ",GetAGC);   
-//                                        delay_ms(300);       
-//                                    }    
-//                                Ymove(-1500,13);  
-//                                Xmove(100,10);
-//                                delay_ms(1600);  
-//                                putchar1('\n');
-//                            }
                     }
                     break;   
-                    case 'F': 
+                case 'F': 
                     { 
                       maxAGC();                   
-                    }
+                    }  
+                    break;
                 case 'M': //motor control commands in 2 bytes 
                     {
                        LED_ON;
@@ -776,11 +736,11 @@ void main(void)
                        else if(uchar == '1')
                          Ymove(1220,13);   
                        else if(uchar == '2')
-                         Ymove(-1220,5);   
+                         Ymove(-1220,8);   
                        else if(uchar == '3')
-                         Xmove(1220,13);   
+                         Xmove(1220,8);   
                        else if(uchar == '4')
-                         Xmove(-1220,5);   
+                         Xmove(-1220,8);   
                        else 
                          {
                             Xstop();
@@ -863,7 +823,101 @@ void main(void)
                      LED_ON; 
                      track();                   
                     }
-                    break;    
+                    break;  
+                case 'k': 
+                    { 
+                     LED_ON; 
+                     /*
+                     generate 10 hz interrupt 
+                     */              
+                     TCCR1B=0x0C;
+                     OCR1AH=0x18;      //0x186A=6250    62.5khz/6250=10hz
+                     OCR1AL=0x6A;       
+                     TIMSK1=0x02;      // Timer/Counter 1 Interrupt(s) initialization
+                     tick=0;    
+                    
+                    uint = tick;
+                    do
+                        {
+                           while(uint == tick)
+                                ; 
+                           adc[0] = AGC_ORG;
+                           adc[1] = GYROX;
+                           adc[2] = GYROY;  
+                           uprintf("AGC/X/Y: %d %d %d  ",adc[0],adc[1],adc[2]);
+                           
+                           if(uint == 0)
+                                adcbuf[0] = adc[0];     //at first time,set the highest agc as present value   
+                                    
+                           if( adc[0] < (adcbuf[0]-3) )  //agc turn weak obviously
+                            {
+                                    uprintf("Weak, ");
+                                   
+                                   if(adc[1]<507)
+                                    {
+                                         uprintf("RightMoving, 600 ");
+                                    }                                   
+                                   else if(adc[1]>517)
+                                   {
+                                         uprintf("LeftMoving, 400 ");
+                                   }
+                                   else
+                                         uprintf(" M 500 ");
+                                   if(adc[2]>517)
+                                    {
+                                        uprintf("Downwards 400 ");
+                                    }                                   
+                                   else if(adc[2]<507)
+                                   {
+                                       uprintf("upwards 600 ");
+                                   }  
+                                   else
+                                         uprintf("M 500 ");
+                            }          
+                           else if( adc[0] > (adcbuf[0]) )   //if agc higher than present highest value, update it smoothly
+                            {
+                                 adcbuf[0] = (adc[0] + adcbuf[0])/2;  
+                                 uprintf("new highest agc: %d ",adcbuf[0]);
+                            } 
+                           //adc[3] = (adc[0]+adc[3])/2;  //adc[3] save the smoothed agc value   (agc+last_agc)/2
+                           if(tick > 20000)
+                                tick = 1;   //avoid tick overflow
+                           uint = tick;  
+                           putchar1('\n');
+                        }
+                    while(UDR1!='x');    
+
+
+
+                    } 
+                    break;       
+                case 't': 
+                    { 
+                     LED_ON; 
+//                     /*
+//                     generate 10 hz interrupt 
+//                     */              
+//                        TCCR1B=0x0C;
+//                        OCR1AH=0x18;      //0x186A=6250    62.5khz/6250=10hz
+//                        OCR1AL=0x6A;       
+//                        TIMSK1=0x02;      // Timer/Counter 1 Interrupt(s) initialization
+//                        tick=0;  
+                     for(uint=0;uint<25;uint++)
+                        {
+                         for(uchar=0;uchar<30;uchar++)
+                                {
+                                    Xmove(115,14);              //1 degree right
+                                    delay_ms(700);
+                                    uprintf("%d ",AGC_ORG);
+                                } 
+                         Xmove(-3480,8);        //30 degrees 
+                         putchar1('\n');   
+                         Ymove(80,10);    //0.5 degree up
+                         delay_ms(2000);  
+                        } 
+                     uprintf("DONE!\n");                      
+                    }
+                    break;
                 case 'T':     //set tuner 
                     {  
                      LED_ON; 
